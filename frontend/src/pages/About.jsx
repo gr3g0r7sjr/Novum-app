@@ -1,7 +1,7 @@
 
 export const About = () => {
     return (
-        <section>
+        <section className = "bg-orange-primary">
             <div>
                 <h1>Sobre Nosotros</h1>
             </div>

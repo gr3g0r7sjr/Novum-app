@@ -5,6 +5,9 @@ export const NavHeader = () => {
     
     return (
         <div>
+            <figure>
+                <img src="../assets/" alt="" />
+            </figure>
             <nav>
                 
             </nav>
