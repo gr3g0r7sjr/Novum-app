@@ -1,1 +1,14 @@
 @import "tailwindcss";
+
+
+@theme {
+  --font-display: "Satoshi", "sans-serif";
+  --breakpoint-xs: 20rem;
+  --color-orange-primary: #ff8500;
+  --color-blue-secundary: #003091;
+}
+
+body{
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+}
