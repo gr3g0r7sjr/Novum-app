@@ -1,11 +1,11 @@
 import './styles/App.css'
-import { Layout } from './components/Layout/Layout'
+import { About } from './pages/About.jsx'
 
 function App() {
 
   return (
     <>
-      <Layout />
+      <About />
     </>
   )
 }
