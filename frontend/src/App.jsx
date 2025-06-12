@@ -1,13 +1,11 @@
-import { useState } from 'react'
 import './styles/App.css'
+import { Layout } from './components/Layout/Layout'
 
 function App() {
 
   return (
     <>
-      <main className='bg-amber-400'>
-        <h1>Bienvenido a nuestro proyecto</h1>
-      </main>
+      <Layout />
     </>
   )
 }
