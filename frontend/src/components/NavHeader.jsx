@@ -6,7 +6,7 @@ export const NavHeader = () => {
     return (
         <div>
             <figure>
-                <img src="/frontend/public/novum-logo.png" alt="" />
+                <img src="../assets/novum-logo.png" alt="" />
             </figure>
             <nav>
                 <ul>
