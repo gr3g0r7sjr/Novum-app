@@ -6,12 +6,12 @@ export const NavHeader = () => {
     const imageNavBg = bgNav; 
     
     return (
-        <section className = "flex w-full p-5 items-center justify-between" style={{ backgroundImage: `url('${imageNavBg}')` }}>
-            <figure className="w-3xs">
+        <section className = "flex w-full py-2.5 px-5 items-center justify-between" style={{ backgroundImage: `url('${imageNavBg}')` }}>
+            <figure className="w-44">
                 <img src={novumLogo} alt="Logo de Novumideas" />
             </figure>
-            <nav className="w-5/6">
-                <ul className="flex justify-between">
+            <nav className="w-auto">
+                <ul className="flex justify-between gap-7 text-slate-50">
                     <li>
                         <a href="">Vacantes</a>
                     </li>
