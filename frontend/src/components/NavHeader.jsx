@@ -7,7 +7,7 @@ export const NavHeader = () => {
     
     return (
         <section className = "flex w-full py-2.5 px-5 items-center justify-between" style={{ backgroundImage: `url('${imageNavBg}')` }}>
-            <figure className="w-44">
+            <figure className="w-32">
                 <img src={novumLogo} alt="Logo de Novumideas" />
             </figure>
             <nav className="w-auto">
