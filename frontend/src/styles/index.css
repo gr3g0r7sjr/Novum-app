@@ -1,19 +1,12 @@
 :root {
-<<<<<<< HEAD
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-=======
   line-height: 1.5;
   font-weight: 400;
   margin: 0;
   box-sizing: border-box;
   padding: 0;
->>>>>>> f99256bbc7ba6e39f3bbf4f206d96a8941b49b2d
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,15 +14,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-<<<<<<< HEAD
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
 
 body {
   margin: 0;
@@ -75,5 +59,3 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-=======
->>>>>>> f99256bbc7ba6e39f3bbf4f206d96a8941b49b2d
