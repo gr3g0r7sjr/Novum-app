@@ -2,7 +2,7 @@ import novumLogo from '../assets/novum-logo.png'
 import bgNav from '../assets/bg-home.jpg'; 
 
 
-export const NavHeader = () => {
+export const NavHeader = ({links}) => {
     const imageNavBg = bgNav; 
     
     return (
@@ -13,18 +13,14 @@ export const NavHeader = () => {
                 </figure>
                 <nav className="w-auto">
                     <ul className="flex justify-between gap-7 text-slate-50">
-                        <li>
-                            <a href="">Vacantes</a>
-                        </li>
-                        <li>
-                            <a href="">Nosotros</a>
-                        </li>
-                        <li>
-                            <a href="">Contacto</a>
-                        </li>
-                        <li>
-                            <a href="">LogIn</a>
-                        </li>
+                        {links.map((link) => (
+                            <li key={link.path}>
+                                <NavLink to={link.path} className={({isActive}) => isActive ? 'font-bold text-blue-300 transition-colors duration-300' 
+                                            : 'hover:text-blue-200 transition-colors duration-300'}>
+                                                {link.name}
+                                </NavLink>
+                            </li>
+                        ))}
                     </ul>
                 </nav>
             </div>
