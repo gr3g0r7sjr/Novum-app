@@ -1,10 +1,12 @@
 import novumLogo from '../assets/novum-logo.png'
+import bgNav from '../assets/bg-home.jpg'; 
 
 
 export const NavHeader = () => {
+    const imageNavBg = bgNav; 
     
     return (
-        <section className = "flex w-full p-5 items-center justify-between">
+        <section className = "flex w-full p-5 items-center justify-between" style={{ backgroundImage: `url('${imageNavBg}')` }}>
             <figure className="w-3xs">
                 <img src={novumLogo} alt="Logo de Novumideas" />
             </figure>
