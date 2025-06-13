@@ -1,15 +1,15 @@
-import { useState } from 'react'
+import novumLogo from '../assets/novum-logo.png'
 
 
 export const NavHeader = () => {
     
     return (
-        <div>
-            <figure>
-                <img src="../assets/novum-logo.png" alt="" />
+        <section className = "flex w-full p-5 items-center justify-between">
+            <figure className="w-3xs">
+                <img src={novumLogo} alt="Logo de Novumideas" />
             </figure>
-            <nav>
-                <ul>
+            <nav className="w-5/6">
+                <ul className="flex justify-between">
                     <li>
                         <a href="">Vacantes</a>
                     </li>
@@ -24,7 +24,7 @@ export const NavHeader = () => {
                     </li>
                 </ul>
             </nav>
-        </div>
+        </section>
     )
 }
 
