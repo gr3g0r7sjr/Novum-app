@@ -1,11 +1,12 @@
 import {NavHeader} from '../components/NavHeader.jsx'
-export const HomeVacantes = () => {
+
+export const Home = () => {
     return (
-        <section>
-            <NavHeader />
-            <div>
-                <h1>Vacantes Disponibles</h1>
-            </div>
-        </section>
+            <section>
+                <NavHeader/>
+                <div>
+                    <h1>Vacantes Disponibles</h1>
+                </div>
+            </section>
     )
 }
