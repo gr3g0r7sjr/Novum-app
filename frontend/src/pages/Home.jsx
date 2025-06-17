@@ -1,3 +1,4 @@
+import React from 'react';
 import {NavHeader} from '../components/NavHeader.jsx'
 
 export const Home = () => {

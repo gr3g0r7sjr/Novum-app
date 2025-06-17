@@ -7,21 +7,19 @@ export const NavHeader = ({ routesGroups }) => {
     const location = useLocation();
     const currentPath = location.pathname;
 
-    let routesToDisplay = []; // Renombrado para mayor claridad
+    let routesToDisplay = []; 
 
-    // *** ¡AQUÍ ESTÁN LAS COMPROBACIONES CLAVE! ***
-    // 1. Asegúrate de que routesGroups sea un objeto antes de acceder a sus propiedades.
+    
     if (typeof routesGroups === 'object' && routesGroups !== null) {
         if (currentPath.startsWith("/admin")) {
-            // 2. Asegúrate de que routesGroups.admin exista y sea un array.
+            
             if (Array.isArray(routesGroups.admin)) {
                 routesToDisplay = routesGroups.admin;
             } else {
                 console.error("NavHeader Error: routesGroups.admin no es un array o es undefined.");
             }
         } else {
-            // 3. Asegúrate de que routesGroups.main exista y sea un array.
-            // Esta es la línea 17 que te está dando problemas.
+            
             if (Array.isArray(routesGroups.main)) {
                 routesToDisplay = routesGroups.main;
             } else {
@@ -32,7 +30,7 @@ export const NavHeader = ({ routesGroups }) => {
         console.error("NavHeader Error: routesGroups no es un objeto válido o es undefined/null.");
     }
 
-    // Validación final para asegurarse de que tenemos un array válido para renderizar.
+    
     if (!Array.isArray(routesToDisplay) || routesToDisplay.length === 0) {
         return <p>No se han proporcionado rutas válidas para la navegación.</p>;
     }
