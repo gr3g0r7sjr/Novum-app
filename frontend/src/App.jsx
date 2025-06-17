@@ -5,7 +5,7 @@ import { NavHeader } from './components/NavHeader.jsx'; // Asegúrate de la ruta
 import { Home } from './pages/Home.jsx';
 import { About } from './pages/About.jsx';
 import { Contact } from './pages/Contact.jsx';
-import {LoginForm} from './components/Auth/LoginForm.jsx' // ¡Asumiendo que tienes una página de administración!
+import { LoginAdmin } from './components/Auth/LoginAdmin.jsx' // ¡Asumiendo que tienes una página de administración!
 
 // Definición de diferentes GRUPOS de rutas de navegación
 const navRouteGroups = {
@@ -34,7 +34,7 @@ function App() {
             <Route path="/contacto" element={<Contact />} />
             {/* Ruta para el área de administración. El '/*' permite rutas anidadas. */}
             {/* <Route path="/admin/*" element={<AdminDashboard />} /> */}
-            <Route path='/login' element={<LoginForm />} />
+            <Route path='/login' element={<LoginAdmin />} />
             <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
           </Routes>
         </section>

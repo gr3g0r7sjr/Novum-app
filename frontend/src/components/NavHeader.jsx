@@ -2,6 +2,7 @@ import React from 'react';
 import novumLogo from '../assets/novum-logo.png';
 import bgNav from '../assets/bg-home.jpg';
 import { NavLink, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const NavHeader = ({ routesGroups }) => {
     const location = useLocation();
@@ -17,9 +18,10 @@ export const NavHeader = ({ routesGroups }) => {
                 routesToDisplay = routesGroups.admin;
             } else {
                 console.error("NavHeader Error: routesGroups.admin no es un array o es undefined.");
+                routesToDisplay = []
             }
         } else {
-            
+
             if (Array.isArray(routesGroups.main)) {
                 routesToDisplay = routesGroups.main;
             } else {
@@ -30,10 +32,9 @@ export const NavHeader = ({ routesGroups }) => {
         console.error("NavHeader Error: routesGroups no es un objeto válido o es undefined/null.");
     }
 
-    
-    if (!Array.isArray(routesToDisplay) || routesToDisplay.length === 0) {
-        return <p>No se han proporcionado rutas válidas para la navegación.</p>;
-    }
+    // if (!Array.isArray(routesToDisplay) || routesToDisplay.length === 0) {
+    //     return <p>No se han proporcionado rutas válidas para la navegación.</p>;
+    // }
 
     const imageNavBg = bgNav;
 
