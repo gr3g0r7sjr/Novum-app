@@ -21,8 +21,6 @@ const navRouteGroups = {
         { path: '/admin/settings', name: 'Configuración' },
       ],*/}
 
-  // Puedes añadir más grupos según tu necesidad, ej: 'loggedInUser', 'guestUser'
-
 function App() {
   return (
       <>

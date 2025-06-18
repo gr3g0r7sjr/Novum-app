@@ -10,17 +10,12 @@ export const NavHeader = memo(({ routesGroups }) => {
   const currentPath = location.pathname
 
   const routesToDisplay = useMemo(() => {
-    // Primera comprobación: routesGroups debe ser un objeto válido.
+    
     if (typeof routesGroups !== "object" || routesGroups === null) {
       console.error("NavHeader Error: routesGroups no es un objeto válido o es undefined/null.");
       return []; // Devuelve un array vacío para evitar errores al mapear
     }
 
-    // Lógica para determinar qué grupo de rutas mostrar
-    // ¡Asegúrate de que tus rutas de administrador estén descomentadas si las necesitas!
-    // Aquí puedes implementar la lógica para mostrar rutas 'admin' si el usuario está en /admin
-    // Por ahora, solo usaremos 'main' como lo tenías.
-    // Si descomentas la lógica de admin, asegúrate de que routesGroups.admin exista
     /*
     if (currentPath.startsWith("/admin")) {
       if (Array.isArray(routesGroups.admin)) {
