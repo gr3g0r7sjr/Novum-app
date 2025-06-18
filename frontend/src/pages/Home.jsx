@@ -4,7 +4,7 @@ import {NavHeader} from '../components/NavHeader.jsx'
 export const Home = () => {
     return (
             <section>
-                <div>
+                <div className = "container">
                     <h1>Vacantes Disponibles</h1>
                     <p>Ecuentra tu proxima oportunidad profesional con nosotros</p>
                 </div>

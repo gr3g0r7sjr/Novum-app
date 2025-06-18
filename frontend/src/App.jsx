@@ -21,6 +21,7 @@ const navRouteGroups = {
         { path: '/admin/settings', name: 'Configuración' },
       ],*/}
 
+
 function App() {
   return (
       <>
