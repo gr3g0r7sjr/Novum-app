@@ -14,13 +14,13 @@ const navRouteGroups = {
     { path: '/nosotros', name: 'Nosotros' },
     { path: '/contacto', name: 'Contacto' },
     { path: '/login', name: 'Login'}
-  ],
-  admin: [ // Rutas para el panel de administración
-    { path: '/admin', name: 'Dashboard Admin' },
-    { path: '/admin/users', name: 'Gestionar Usuarios' },
-    { path: '/admin/settings', name: 'Configuración' },
-  ],
-};
+  ]};
+      {/*admin: [ // Rutas para el panel de administración
+        { path: '/admin', name: 'Dashboard Admin' },
+        { path: '/admin/users', name: 'Gestionar Usuarios' },
+        { path: '/admin/settings', name: 'Configuración' },
+      ],*/}
+
   // Puedes añadir más grupos según tu necesidad, ej: 'loggedInUser', 'guestUser'
 
 function App() {
