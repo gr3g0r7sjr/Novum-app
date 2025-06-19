@@ -20,7 +20,7 @@ export const LoginAdmin = () => {
 
     function handleChange(e){
         const {email, value} = e.target; 
-        setFormData({[email]: value, ...formData
+        setFormData({[email]: value
         }); 
     }
 
