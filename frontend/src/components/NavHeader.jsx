@@ -63,7 +63,7 @@ export const NavHeader = memo(({ routesGroups }) => {
                     className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}
                     style={({ isActive }) => ({
                       textDecoration: "none",
-                      color: isActive ? "white" : "#B0B0B0",
+                      color: isActive ? "white" : "#fafaf9",
                       fontWeight: isActive ? "bold" : "normal",
                     })}
                   >
