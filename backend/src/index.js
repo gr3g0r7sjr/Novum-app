@@ -1,0 +1,10 @@
+import express from 'express'
+
+const app = express()
+
+app.listen('/', (req, res) => {
+    res.send('Hola')
+})
+
+app.listen(3000)
+console.log('Server on port', 3000)
