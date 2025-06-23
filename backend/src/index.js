@@ -1,12 +1,23 @@
 import express from 'express'
 import {config} from 'dotenv'
 import pg from 'pg'
+import cors from 'cors'
+import {FRONTEND_URL, DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, DB_PORT} from '../config.js'
 
 config()
 
 const app = express()
+
+app.use(cors({
+    origin: FRONTEND_URL
+}
+))
 const pool = new pg.Pool({
-    connectionString: process.env.DATABASE_URL, 
+    host: DB_HOST, 
+    database: DB_DATABASE, 
+    user:DB_USER, 
+    password: DB_PASSWORD, 
+    port: DB_PORT
 })
 
 app.get('/', (req, res) => {
