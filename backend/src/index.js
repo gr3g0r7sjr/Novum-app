@@ -1,4 +1,4 @@
-import {FRONTEND_URL, DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, DB_PORT} from './src/config/config.js'; 
+import {FRONTEND_URL, DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, DB_PORT} from '/config/config.js'; 
 const express = require('express');
 const cors = require('cors');
 
@@ -6,7 +6,7 @@ const app = express()
 
 const port = DB_PORT; 
 
-const authRoutes = require('./src/routes/authRoutes.js')
+const authRoutes = require('/routes/authRoutes.js')
 
 app.use(cors({
     origin: FRONTEND_URL,
