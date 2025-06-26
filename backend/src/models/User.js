@@ -1,7 +1,7 @@
 import pool from '../config/config';
 import bcrypt from 'bcryptjs';
 
-const Usuario = {
+export const Usuario = {
     findByEmail: async (email) => {
         try {
             const result = await pool.query('SELECT id, email, password_hash FROM users WHERE email = $1', [email]
@@ -24,4 +24,3 @@ const Usuario = {
     }
 }
 
-module.exports = Usuario; 
