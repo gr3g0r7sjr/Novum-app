@@ -1,4 +1,4 @@
-import pool from '../config/config.js';
+import pool from '../db.js';
 import bcrypt from 'bcryptjs';
 
 export const Usuario = {
