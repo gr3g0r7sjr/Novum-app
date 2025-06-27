@@ -28,9 +28,7 @@ node_modules/
 # Archivos de entorno (variables de entorno)
 # Es CRÍTICO NO SUBIR ESTOS ARCHIVOS A TU REPOSITORIO
 backend/.env
-backend/config.js
 frontend/.env
-config.js
 # Salida de compilación del frontend (React)
 frontend/build/ # Para Create React App
 frontend/dist/  # Para Vite (si usaste Vite)
