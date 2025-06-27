@@ -7,7 +7,7 @@ const app = express()
 
 const port = process.env.PORT || 3000;
 
-import authRoutes from './routes/authRoutes';
+import {authRoutes} from './routes/authRoutes';
 
 app.use(cors({
     origin: FRONTEND_URL,
