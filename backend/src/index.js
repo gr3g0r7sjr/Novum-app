@@ -1,4 +1,4 @@
-import {FRONTEND_URL, DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, DB_PORT} from './config/config'; 
+import {FRONTEND_URL, DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, DB_PORT} from './config/config.js'; 
 const express = require('express');
 const cors = require('cors');
 
