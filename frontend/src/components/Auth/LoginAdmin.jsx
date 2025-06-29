@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import styles from './LoginAdmin.module.scss';
-import axios, { AxiosHeaders } from 'axios';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 
 export const LoginAdmin = () => {
