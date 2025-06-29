@@ -1,5 +1,5 @@
 -- Tabla de usuarios (postulantes y administradores)
-CREATE TABLE users (
+CREATE TABLE usuarios (
     id SERIAL PRIMARY KEY,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE users (
 );
 
 -- Tabla de candidatos (perfil extendido)
-CREATE TABLE candidates (
+CREATE TABLE candidatos (
     id SERIAL PRIMARY KEY,
     user_id INT NOT NULL UNIQUE,
     tipo_documento VARCHAR(20),
