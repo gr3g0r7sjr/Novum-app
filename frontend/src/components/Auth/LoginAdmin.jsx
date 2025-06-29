@@ -40,7 +40,7 @@ export const LoginAdmin = () => {
             password: password
         }
         try {
-            const response  = await axios.post('https://novum-app.onrender.com/login', {
+            const response  = await axios.post('https://novum-app.onrender.com/login', credenciales, {
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -54,7 +54,7 @@ export const LoginAdmin = () => {
             }
         }catch (error) {
             const errorMessage = error.response
-                ? error.response.data.message || 'Error desconocido del servidor.' // Mensaje del backend
+                ? error.response.data.message || 'Error desconocido del servidor.'
                 : error.message; 
             console.error('Error al iniciar sesión:', error);
             setEstadoLogin(`Error al iniciar sesión: ${errorMessage}`);
