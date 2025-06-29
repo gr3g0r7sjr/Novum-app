@@ -40,7 +40,7 @@ export const LoginAdmin = () => {
             password: password
         }
         try {
-            const response  = await axios.post('https://novum-app.onrender.com/login', credenciales, {
+            const response  = await axios.post('https://novum-app.onrender.com/api/login', credenciales, {
             headers: {
                 'Content-Type': 'application/json'
             },
