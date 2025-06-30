@@ -117,4 +117,4 @@ CREATE INDEX idx_postulacion_historial_postulacion ON postulacion_historial(post
 -- Datos iniciales (opcional)
 -- Insertar un usuario administrador
 INSERT INTO users (email, password_hash, role) 
-VALUES ('admin@empresa.com', 'hashed_password', 'admin');
+VALUES ('admin@empresa.com', 'python123', 'admin');
