@@ -1,7 +1,10 @@
-import express from 'express'; 
-const router = express.Router(); 
-import { authController } from '../controllers/authController.js';
+// backend/src/routes/authRoutes.js
+import { Router } from 'express';
 
-router.post('/login', authController.login)
+const router = Router();
 
-export default router; 
+// Aquí irían tus rutas de autenticación, por ejemplo:
+// router.post('/login', (req, res) => res.send('Login endpoint'));
+// router.post('/register', (req, res) => res.send('Register endpoint'));
+
+export default router;
