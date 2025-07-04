@@ -4,7 +4,7 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom'; // Asegúrate de importar Link
 import { NavHeader } from './components/NavHeader.jsx';
 import { Home } from './pages/Home.jsx';
-import { About } = './pages/About.jsx';
+import { About } from './pages/About.jsx'; // <--- ¡Aquí está la corrección!
 import { Contact } from './pages/Contact.jsx';
 import { LoginAdmin } from './components/Auth/LoginAdmin.jsx';
 import VacantesPage from './pages/VacantesPage.jsx';
