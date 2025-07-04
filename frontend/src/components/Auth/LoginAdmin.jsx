@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import styles from './LoginAdmin.module.scss';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; 
 
 export const LoginAdmin = () => {
@@ -40,11 +39,18 @@ export const LoginAdmin = () => {
             password: password
         }
         try {
-            const response  = await axios.post('https://novum-app.onrender.com/api/login', credenciales, {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            }); 
+            const response  = await fetch('https://novum-app.onrender.com/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.strigify(credenciales)
+            });
+
+            if(!response.ok){
+                const errorData = await response.json(); 
+                throw new Error(errorData.message || 'Error en la peticion de inicio de sesion')
+            }
             if(response.data.success){
                 setEstadoLogin('Inicio de sesion exitoso!')
                 navigate('/frontend/src/pages/Admin.jsx')
