@@ -1,8 +1,11 @@
-import {config} from 'dotenv'
+import 'dotenv/config.js'
 import pg from 'pg'
 import {DB_HOST, DB_DATABASE, DB_USER, DB_PASSWORD, DB_PORT} from './config/config.js'
 const {Pool} = pg
-config()
+
+const sslConfig = DB_HOST === 'localhost' ? false : {
+    rejectUnauthorized: false
+}
 
 const pool = new Pool({
     host: DB_HOST, 
@@ -10,9 +13,7 @@ const pool = new Pool({
     user:DB_USER, 
     password: DB_PASSWORD, 
     port: DB_PORT,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    ssl: sslConfig
 })
 
 
