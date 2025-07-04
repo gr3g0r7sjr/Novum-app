@@ -1,25 +1,29 @@
 // frontend/src/App.jsx
 import './styles/App.css'
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import { NavHeader } from './components/NavHeader.jsx'; // Asegúrate de que esta ruta sea correcta
-import { Home } from './pages/Home.jsx'; // Mantener Home por si la usas en otra ruta
-import { About } from './pages/About.jsx';
+import { Routes, Route, Link } from 'react-router-dom'; // Asegúrate de importar Link
+import { NavHeader } from './components/NavHeader.jsx';
+import { Home } from './pages/Home.jsx';
+import { About } = './pages/About.jsx';
 import { Contact } from './pages/Contact.jsx';
-import { LoginAdmin } from './components/Auth/LoginAdmin.jsx'
-
-// Importamos la nueva página de Vacantes
+import { LoginAdmin } from './components/Auth/LoginAdmin.jsx';
 import VacantesPage from './pages/VacantesPage.jsx';
+
+// Importa el nuevo componente del formulario
+import CrearVacantePage from './pages/CrearVacantePage.jsx'; 
+
 
 // Definición de diferentes GRUPOS de rutas de navegación
 const navRouteGroups = {
   main: [ // Rutas para la navegación principal (no admin)
-    { path: '/', name: 'Vacantes' }, // El path '/' ahora apunta a Vacantes
+    { path: '/', name: 'Vacantes' },
+    { path: '/crear-vacante', name: 'Crear Vacante' }, // Nueva ruta para el formulario
     { path: '/nosotros', name: 'Nosotros' },
     { path: '/contacto', name: 'Contacto' },
     { path: '/login', name: 'Login'}
   ]
 };
+
 
 function App() {
   return (
@@ -27,10 +31,10 @@ function App() {
       <NavHeader routesGroups={navRouteGroups} />
       <section>
         <Routes>
-          {/* Ruta principal ahora para las vacantes */}
           <Route path="/" element={<VacantesPage />} /> 
-          {/* Si quieres mantener la Home original en otra ruta, por ejemplo /home */}
           <Route path="/home-original" element={<Home />} /> 
+          {/* Nueva ruta para el formulario de crear vacante */}
+          <Route path="/crear-vacante" element={<CrearVacantePage />} />
           <Route path="/nosotros" element={<About />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path='/login' element={<LoginAdmin />} />
