@@ -31,9 +31,7 @@ function App() {
       <NavHeader routesGroups={navRouteGroups} />
       <section>
         <Routes>
-          <Route path="/" element={<VacantesPage />} /> 
-          <Route path="/home-original" element={<Home />} /> 
-          {/* Nueva ruta para el formulario de crear vacante */}
+          <Route path="/" element={<Home />} /> 
           <Route path="/crear-vacante" element={<CrearVacantePage />} />
           <Route path="/nosotros" element={<About />} />
           <Route path="/contacto" element={<Contact />} />

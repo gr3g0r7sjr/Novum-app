@@ -1,4 +1,4 @@
-// frontend/src/pages/CrearVacantePage.jsx
+/*// frontend/src/pages/CrearVacantePage.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Para redirigir después de crear
@@ -37,7 +37,7 @@ const CrearVacantePage = () => {
             }
         };
         fetchServiciosInteres();
-        */
+        
         // Por ahora, para la prueba, puedes simular algunos:
         setServiciosInteres([
             { id_interes: 1, nombre_interes: 'Desarrollo Web' },
@@ -233,3 +233,5 @@ const CrearVacantePage = () => {
 };
 
 export default CrearVacantePage;
+
+*/
