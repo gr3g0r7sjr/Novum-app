@@ -12,14 +12,14 @@ export const authController = {
         }
 
         try {
-            const result = await pool.query('SELECT id, email, password FROM users WHERE email = $1', [email]);
+            const result = await pool.query('SELECT id, email, password_hash FROM usuarios WHERE email = $1', [email]);
             const user = result.rows[0];
 
             if(!user){
                 return res.status(401).json({success: false, message: 'Credenciales inválidas.'})
             }
 
-            const passwordMatch = await bcrypt.compare(password, user.password); 
+            const passwordMatch = await bcrypt.compare(password, user.password_hash); 
 
             if(!passwordMatch){
                 return res.status(401).json({ success: false, message: 'Credenciales inválidas.' })
