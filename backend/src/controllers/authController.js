@@ -1,4 +1,3 @@
-//import { Usuario } from '../models/User.js'; 
 import pool from '../db.js';
 import bcrypt from 'bcryptjs';
 
