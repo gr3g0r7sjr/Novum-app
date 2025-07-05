@@ -5,7 +5,11 @@ import { useNavigate } from 'react-router-dom';
 export const LoginAdmin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [estadoLogin, setEstadoLogin] = useState('')
+    const [estadoLogin, setEstadoLogin] = useState('');
+    const isLocalhost = window.location.hostname === 'localhost';
+    const API_URL = isLocalhost
+    ? 'http://localhost:3000/api/login'
+    : 'https://novum-app.onrender.com/api/login';
 
     const navigate = useNavigate(); 
 
@@ -38,19 +42,22 @@ export const LoginAdmin = () => {
             password: password
         }
         try {
-            const response  = await fetch('https://novum-app.onrender.com/api/login', {
+            const response  = await fetch(API_URL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.strigify(credenciales)
+                body: JSON.stringify(credenciales)
             });
 
             if(!response.ok){
                 const errorData = await response.json(); 
                 throw new Error(errorData.message || 'Error en la peticion de inicio de sesion')
             }
-            if(response.data.success){
+
+            const responseData = await response.json()
+
+            if(responseData.success){
                 setEstadoLogin('Inicio de sesion exitoso!')
                 navigate('/frontend/src/pages/Admin.jsx')
             }
