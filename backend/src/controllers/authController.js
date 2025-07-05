@@ -1,16 +1,19 @@
-import { Usuario } from '../models/User.js'; 
+//import { Usuario } from '../models/User.js'; 
+import pool from '../db.js';
 import bcrypt from 'bcryptjs';
 
 export const authController = {
     login: async (req, res) => {
-        const {email, password} = req.body; 
+        const email = req.body.email; 
+        const password = req.body.password; 
 
         if(!email || !password){
             return res.status(400).json({success: false, message: 'Correo y contraseña son obligatorios'})
         }
 
         try {
-            const user = await Usuario.findByEmail(email); 
+            const result = await pool.query('SELECT id, email, password FROM users WHERE email = $1', [email]);
+            const user = result.rows[0];
 
             if(!user){
                 return res.status(401).json({success: false, message: 'Credenciales inválidas.'})
