@@ -13,7 +13,7 @@ export const NavHeader = memo(({ routesGroups }) => {
     
     if (typeof routesGroups !== "object" || routesGroups === null) {
       console.error("NavHeader Error: routesGroups no es un objeto válido o es undefined/null.");
-      return []; // Devuelve un array vacío para evitar errores al mapear
+      return []; 
     }
 
     

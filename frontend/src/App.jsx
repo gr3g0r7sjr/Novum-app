@@ -7,7 +7,7 @@ import { Home } from './pages/Home.jsx';
 import { About } from './pages/About.jsx'; // <--- ¡Aquí está la corrección!
 import { Contact } from './pages/Contact.jsx';
 import { LoginAdmin } from './components/Auth/LoginAdmin.jsx';
-import { AdminPage } from './pages/Admin.jsx';
+import { AdminDashboard } from './pages/Admin.jsx';
 
 // Definición de diferentes GRUPOS de rutas de navegación
 const navRouteGroups = {
@@ -18,10 +18,10 @@ const navRouteGroups = {
     { path: '/login', name: 'Login'}
   ],
   admin: [
-    {path: '/', name : 'Dashboard'},
-    {path: '/curriculus', name:'Curriculus'},
-    {path: '/crearVacante', name: 'Crear Vacante'},
-    {path: '/candidatos', name:'Candidatos'},
+    {path: '/admin/dashboard', name : 'Dashboard'},
+    {path: '/admin/curriculus', name:'Curriculus'},
+    {path: '/admin/crearVacante', name: 'Crear Vacante'},
+    {path: '/admin/candidatos', name:'Candidatos'},
   ]
 };
 
@@ -36,7 +36,7 @@ function App() {
           <Route path="/nosotros" element={<About />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path='/login' element={<LoginAdmin />} />
-          <Route path='/pages/Admin.jsx' element={<AdminPage/>} />
+          <Route path='/admin/Admin.jsx' element={<AdminDashboard/>} />
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
       </section>
