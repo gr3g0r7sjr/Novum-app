@@ -43,7 +43,9 @@ export const NavHeader = memo(({ routesGroups }) => {
     >
       <div className="flex w-full items-center justify-between px-5">
         <figure className="w-32">
+          <a href="../">
           <img src={novumLogo || "/placeholder.svg"} alt="Logo de Novumideas" />
+          </a>
         </figure>
         <nav className="w-auto">
           <ul className="flex justify-between gap-7 text-slate-50">

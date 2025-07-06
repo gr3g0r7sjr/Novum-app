@@ -36,7 +36,7 @@ function App() {
           <Route path="/nosotros" element={<About />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path='/login' element={<LoginAdmin />} />
-          <Route path='/admin/Admin.jsx' element={<AdminDashboard/>} />
+          <Route path='/admin' element={<AdminDashboard/>} />
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
       </section>
