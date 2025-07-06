@@ -16,7 +16,7 @@ export const NavHeader = memo(({ routesGroups }) => {
       return []; // Devuelve un array vacío para evitar errores al mapear
     }
 
-    /*
+    
     if (currentPath.startsWith("/admin")) {
       if (Array.isArray(routesGroups.admin)) {
         return routesGroups.admin;
@@ -24,23 +24,15 @@ export const NavHeader = memo(({ routesGroups }) => {
         console.error("NavHeader Error: routesGroups.admin no es un array o es undefined.");
         return [];
       }
-    } else {
-      // ... el resto de la lógica para 'main'
-    }
-    */
-
-    // Como tu lógica de admin está comentada, siempre devolvemos 'main'.
-    // Aseguramos que 'main' sea un array o devolvemos un array vacío.
+    } 
+    
     if (Array.isArray(routesGroups.main)) {
       return routesGroups.main
     } else {
       console.error("NavHeader Error: routesGroups.main no es un array o es undefined.")
-      // Si routesGroups.main no es un array, pero esperas un solo objeto,
-      // esto lo envolvería en un array. Si no, debería ser un array vacío.
-      // Para seguridad al mapear, preferiblemente [] si no es un array esperado.
       return Array.isArray(routesGroups.main) ? routesGroups.main : [];
     }
-  }, [routesGroups, currentPath]) // <--- ¡IMPORTANTE: AHORA DEPENDE DE routesGroups Y currentPath!
+  }, [routesGroups, currentPath])
 
   const imageNavBg = bgNav
 
