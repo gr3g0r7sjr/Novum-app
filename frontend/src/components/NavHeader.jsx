@@ -4,7 +4,7 @@ import novumLogo from "../assets/novum-logo.png"
 import bgNav from "../assets/bg-home.jpg"
 
 export const NavHeader = memo(({ routesGroups }) => {
-  console.log("NavHeader renderizado:", new Date().toISOString()) // Para depurar
+  //console.log("NavHeader renderizado:", new Date().toISOString()) // Para depurar
 
   const location = useLocation()
   const currentPath = location.pathname
