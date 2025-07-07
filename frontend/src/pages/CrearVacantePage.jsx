@@ -1,4 +1,4 @@
-/*// frontend/src/pages/CrearVacantePage.jsx
+// frontend/src/pages/CrearVacantePage.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Para redirigir después de crear
@@ -22,23 +22,22 @@ const CrearVacantePage = () => {
     const [error, setError] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
 
-    // Opcional: Cargar los servicios de interés para un select (si tienes una API para ellos)
-    // Por ahora, asumiremos que sabes los IDs o los añadirás manualmente.
-    // Si necesitas una API para obtener estos, avísame.
+    // Cargar los servicios de interés para el select (simulado por ahora)
     useEffect(() => {
-        // Ejemplo de cómo cargar servicios de interés si tuvieras un endpoint:
+        // Aquí iría la llamada a tu API si tuvieras un endpoint para servicios de interés
+        // Ejemplo:
         /*
         const fetchServiciosInteres = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/servicios-interes'); // Ajusta esta URL
+                const response = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/api/servicios-interes`);
                 setServiciosInteres(response.data);
             } catch (err) {
                 console.error('Error al cargar servicios de interés:', err);
             }
         };
         fetchServiciosInteres();
-        
-        // Por ahora, para la prueba, puedes simular algunos:
+        */
+        // Datos simulados para que el select funcione mientras no tengas el endpoint de servicios
         setServiciosInteres([
             { id_interes: 1, nombre_interes: 'Desarrollo Web' },
             { id_interes: 2, nombre_interes: 'Marketing Digital' },
@@ -67,28 +66,30 @@ const CrearVacantePage = () => {
             // Convertir salario a número si no es nulo o vacío
             const dataToSend = {
                 ...formData,
-                salario: formData.salario === '' ? null : parseFloat(formData.salario)
+                salario: formData.salario === '' ? null : parseFloat(formData.salario),
+                creado_por_usuario_id: 1 // Hardcodeado para pruebas, en real vendría del usuario autenticado
             };
 
-            const response = await axios.post('http://localhost:3000/api/vacantes', dataToSend);
+            // Realiza la petición POST a tu API de vacantes
+            // ¡IMPORTANTE! Usa la variable de entorno para la URL del backend
+            const response = await axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/api/vacantes`, dataToSend);
+
             setSuccessMessage('Vacante creada exitosamente!');
             console.log('Vacante creada:', response.data);
 
-            // Opcional: Limpiar el formulario o redirigir
+            // Limpiar el formulario
             setFormData({
-                titulo_cargo: '',
-                area: '',
-                descripcion_corta: '',
-                responsabilidades: '',
-                requisitos: '',
-                beneficios: '',
-                salario: '',
-                id_servicio_interes: ''
+                titulo_cargo: '', area: '', descripcion_corta: '',
+                responsabilidades: '', requisitos: '', beneficios: '',
+                salario: '', id_servicio_interes: ''
             });
-            navigate('/'); // Redirige a la página principal de vacantes
+
+            // Redirige a la página principal de vacantes (donde se listan)
+            navigate('/'); 
+
         } catch (err) {
             console.error('Error al crear la vacante:', err.response ? err.response.data : err.message);
-            setError(err.response?.data?.message || 'Error al crear la vacante. Verifica los datos.');
+            setError(err.response?.data?.message || 'Error al crear la vacante. Verifica los datos o el servidor.');
         } finally {
             setLoading(false);
         }
@@ -114,11 +115,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="titulo_cargo" className="block text-gray-700 text-sm font-bold mb-2">Título del Cargo:</label>
                     <input
-                        type="text"
-                        id="titulo_cargo"
-                        name="titulo_cargo"
-                        value={formData.titulo_cargo}
-                        onChange={handleChange}
+                        type="text" id="titulo_cargo" name="titulo_cargo"
+                        value={formData.titulo_cargo} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         required
                     />
@@ -127,11 +125,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="area" className="block text-gray-700 text-sm font-bold mb-2">Área:</label>
                     <input
-                        type="text"
-                        id="area"
-                        name="area"
-                        value={formData.area}
-                        onChange={handleChange}
+                        type="text" id="area" name="area"
+                        value={formData.area} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         required
                     />
@@ -140,10 +135,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="descripcion_corta" className="block text-gray-700 text-sm font-bold mb-2">Descripción Corta:</label>
                     <textarea
-                        id="descripcion_corta"
-                        name="descripcion_corta"
-                        value={formData.descripcion_corta}
-                        onChange={handleChange}
+                        id="descripcion_corta" name="descripcion_corta"
+                        value={formData.descripcion_corta} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
                         required
                     ></textarea>
@@ -152,10 +145,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="responsabilidades" className="block text-gray-700 text-sm font-bold mb-2">Responsabilidades:</label>
                     <textarea
-                        id="responsabilidades"
-                        name="responsabilidades"
-                        value={formData.responsabilidades}
-                        onChange={handleChange}
+                        id="responsabilidades" name="responsabilidades"
+                        value={formData.responsabilidades} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
                     ></textarea>
                 </div>
@@ -163,10 +154,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="requisitos" className="block text-gray-700 text-sm font-bold mb-2">Requisitos:</label>
                     <textarea
-                        id="requisitos"
-                        name="requisitos"
-                        value={formData.requisitos}
-                        onChange={handleChange}
+                        id="requisitos" name="requisitos"
+                        value={formData.requisitos} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
                         required
                     ></textarea>
@@ -175,10 +164,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="beneficios" className="block text-gray-700 text-sm font-bold mb-2">Beneficios:</label>
                     <textarea
-                        id="beneficios"
-                        name="beneficios"
-                        value={formData.beneficios}
-                        onChange={handleChange}
+                        id="beneficios" name="beneficios"
+                        value={formData.beneficios} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
                     ></textarea>
                 </div>
@@ -186,11 +173,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="salario" className="block text-gray-700 text-sm font-bold mb-2">Salario (opcional, numérico):</label>
                     <input
-                        type="number" // Usa type="number" para salarios
-                        id="salario"
-                        name="salario"
-                        value={formData.salario}
-                        onChange={handleChange}
+                        type="number" id="salario" name="salario"
+                        value={formData.salario} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                         step="0.01" // Permite decimales
                     />
@@ -199,10 +183,8 @@ const CrearVacantePage = () => {
                 <div>
                     <label htmlFor="id_servicio_interes" className="block text-gray-700 text-sm font-bold mb-2">Servicio de Interés:</label>
                     <select
-                        id="id_servicio_interes"
-                        name="id_servicio_interes"
-                        value={formData.id_servicio_interes}
-                        onChange={handleChange}
+                        id="id_servicio_interes" name="id_servicio_interes"
+                        value={formData.id_servicio_interes} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     >
                         <option value="">Selecciona un servicio</option>
@@ -216,7 +198,6 @@ const CrearVacantePage = () => {
                         (Si no tienes servicios de interés, puedes dejarlo en blanco o codificar un ID válido directamente en el código por ahora. El backend usa `creado_por_usuario_id = 1` por defecto.)
                     </p>
                 </div>
-
 
                 <div className="flex items-center justify-between">
                     <button
@@ -233,5 +214,3 @@ const CrearVacantePage = () => {
 };
 
 export default CrearVacantePage;
-
-*/
