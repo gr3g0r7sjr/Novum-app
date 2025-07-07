@@ -1,6 +1,6 @@
 // frontend/src/pages/VacantesPage.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Importa Axios
+import axios from 'axios';
 
 const VacantesPage = () => {
     const [vacantes, setVacantes] = useState([]);
@@ -10,31 +10,41 @@ const VacantesPage = () => {
     useEffect(() => {
         const fetchVacantes = async () => {
             try {
-                // Realiza la petición GET a tu API de vacantes
-                // Asegúrate de que tu backend esté corriendo en http://localhost:3000
-                const response = await axios.get('http://localhost:3000/api/vacantes');
+                // Usar la variable de entorno para la URL del backend
+                const response = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/api/vacantes`);
                 setVacantes(response.data);
             } catch (err) {
                 console.error('Error al obtener las vacantes:', err);
-                setError('No se pudieron cargar las vacantes. Inténtalo de nuevo más tarde.');
+                setError(err.response?.data?.message || 'No se pudieron cargar las vacantes. Inténtalo de nuevo más tarde.');
             } finally {
                 setLoading(false);
             }
         };
-
         fetchVacantes();
-    }, []); // El array vacío asegura que se ejecuta una sola vez al montar el componente
+    }, []);
 
     if (loading) {
-        return <div className="text-center py-8">Cargando vacantes...</div>;
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-xl text-gray-700">Cargando vacantes...</p>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="text-center py-8 text-red-500">{error}</div>;
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-xl text-red-500">{error}</p>
+            </div>
+        );
     }
 
     if (vacantes.length === 0) {
-        return <div className="text-center py-8">No hay vacantes disponibles en este momento.</div>;
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <p className="text-xl text-gray-700">No hay vacantes disponibles en este momento.</p>
+            </div>
+        );
     }
 
     return (
