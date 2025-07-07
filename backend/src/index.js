@@ -11,7 +11,7 @@ import authRoutes from './routes/authRoutes.js';
 
 app.use(cors({
     origin: [FRONTEND_URL,
-    'http://localhost:5173', 'http://localhost:3000'],
+    'http://localhost:5174', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization']
