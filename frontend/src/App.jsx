@@ -36,7 +36,10 @@ function App() {
           <Route path="/nosotros" element={<About />} />
           <Route path="/contacto" element={<Contact />} />
           <Route path='/login' element={<LoginAdmin />} />
-          <Route path='/admin' element={<AdminDashboard/>} />
+          <Route path='/admin/dashboard' element={<AdminDashboard/>} />
+          <Route path='/admin/curriculus' element={<AdminDashboard/>} />
+          <Route path='/admin/crearVacante' element={<AdminDashboard/>} />
+          <Route path='/admin/candidatos' element={<AdminDashboard/>} />
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
       </section>

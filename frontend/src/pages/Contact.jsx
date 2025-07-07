@@ -1,9 +1,13 @@
+import styles from '../styles/Contact.module.scss'; 
 
 
 export const Contact = () => {
     return(
         <>
-            <h1>Pagina de contacto</h1>
+            <div>
+            <h1>Contactanos</h1>
+            <p>Estamos aqui para ayudarte</p>
+            </div>
         </>
     )
 }

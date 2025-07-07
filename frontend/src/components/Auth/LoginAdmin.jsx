@@ -59,7 +59,7 @@ export const LoginAdmin = () => {
 
             if(responseData.success){
                 setEstadoLogin('Inicio de sesion exitoso!')
-                navigate('/admin')
+                navigate('/admin/dashboard')
             }
             else{
                 setEstadoLogin(`Error de inicio de sesion: ${response.data.message}`)
