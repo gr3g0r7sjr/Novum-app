@@ -14,7 +14,7 @@ Determinar las soluciones tecnológicas más adecuadas para optimizar dicho proc
 
 Diseñar una aplicación web con módulos específicos para la recepción de vacantes, captación y evaluación de candidatos, garantizando la centralización y optimización de la información.
 
-🛠️ Tecnologías Utilizadas
+🛠️ <h2>Tecnologías Utilizadas</h2>
 Frontend: React.js
 
 Backend: Node.js con Express
@@ -23,10 +23,10 @@ Base de datos: PostgreSQL
 
 Estilos: Sass (Syntactically Awesome Stylesheets) y Tailwind
 
-🌐 Tipo de Aplicación
+🌐 <h3>Tipo de Aplicación</h3>
 Aplicación Web de tipo administrativo, orientada a la gestión de procesos internos de recursos humanos.
 
-🧩 Módulos Principales
+🧩 <h2>Módulos Principales</h2>
 📥 Recepción de vacantes
 
 🧑‍💼 Gestión de postulaciones y candidatos
