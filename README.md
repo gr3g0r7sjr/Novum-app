@@ -23,7 +23,7 @@ Base de datos: PostgreSQL
 
 Estilos: Sass (Syntactically Awesome Stylesheets) y Tailwind
 
-🌐 <h3>Tipo de Aplicación</h3>
+🌐 <h2>Tipo de Aplicación</h2>
 Aplicación Web de tipo administrativo, orientada a la gestión de procesos internos de recursos humanos.
 
 🧩 <h2>Módulos Principales</h2>
@@ -36,6 +36,7 @@ Aplicación Web de tipo administrativo, orientada a la gestión de procesos inte
 📁 Centralización de la base de datos de talento humano
 
 👥 Autores
-Gregory Subero
-
-Richard Sosa
+<li>
+  <ul>Gregory Subero</ul>
+  <ul>Richard Sosa</u>
+</li>
