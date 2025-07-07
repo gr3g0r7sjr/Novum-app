@@ -37,6 +37,6 @@ Aplicación Web de tipo administrativo, orientada a la gestión de procesos inte
 
 👥 Autores
 <ul>
-  <li>Gregory Subero</li>
-  <li>Richard Sosa</li>
+  <li>Gregory Subero suberog010@gmail.com</li>
+  <li>Richard Sosa richardsosa2209@gmail.com</li>
 </ul>
