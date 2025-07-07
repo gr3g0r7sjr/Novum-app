@@ -36,5 +36,7 @@ Aplicación Web de tipo administrativo, orientada a la gestión de procesos inte
 📁 Centralización de la base de datos de talento humano
 
 👥 Autores
-<li><ul>Gregory Subero</ul></li>
-<li><ul>Richard Sosa</u></li>
+<ul>
+  <li>Gregory Subero</li>
+  <li>Richard Sosa</li>
+</ul>
