@@ -1,12 +1,42 @@
-# React + Vite
+📝 <h1>Descripción del Proyecto</h1>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto consiste en el desarrollo de una aplicación web de gestión de recursos humanos destinada a optimizar los procesos de captación y selección de personal en Novumideas C.A., ubicada en la Torre Orinoco, Av. La Guairita, Caracas, Distrito Capital.
 
-Currently, two official plugins are available:
+La plataforma permite centralizar la información del proceso de selección en una única interfaz digital, facilitando la recepción de currículos, el reclutamiento y la evaluación de candidatos, con el fin de mejorar la eficiencia y eficacia en la gestión del talento humano.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🎯 <h2>Objetivo General</h2>
+Desarrollar una aplicación web de gestión de recursos humanos que permita optimizar los procesos de captación y selección de personal en Novumideas C.A., centralizando la información en una única plataforma y mejorando la eficiencia en la gestión del talento humano.
 
-## Expanding the ESLint configuration
+✅ <h2>Objetivos Específicos</h2>
+Identificar las necesidades y problemáticas actuales en el proceso de captación y selección de personal de Novumideas C.A.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Determinar las soluciones tecnológicas más adecuadas para optimizar dicho proceso.
+
+Diseñar una aplicación web con módulos específicos para la recepción de vacantes, captación y evaluación de candidatos, garantizando la centralización y optimización de la información.
+
+🛠️ <h2>Tecnologías Utilizadas</h2>
+Frontend: React.js
+
+Backend: Node.js con Express
+
+Base de datos: PostgreSQL
+
+Estilos: Sass (Syntactically Awesome Stylesheets) y Tailwind
+
+🌐 <h2>Tipo de Aplicación</h2>
+Aplicación Web de tipo administrativo, orientada a la gestión de procesos internos de recursos humanos.
+
+🧩 <h2>Módulos Principales</h2>
+📥 Recepción de vacantes
+
+🧑‍💼 Gestión de postulaciones y candidatos
+
+📊 Evaluación del proceso de captación y selección
+
+📁 Centralización de la base de datos de talento humano
+
+👥 Autores
+<ul>
+  <li>Gregory Subero suberog010@gmail.com</li>
+  <li>Richard Sosa richardsosa2209@gmail.com</li>
+</ul>
