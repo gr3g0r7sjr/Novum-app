@@ -33,7 +33,6 @@ function App() {
   return (
     <>
       <NavHeader routesGroups={navRouteGroups} />
-      <section>
         <Routes>
           {/* Ruta principal para las vacantes públicas */}
           <Route path="/" element={<VacantesPage />} /> 
@@ -53,7 +52,6 @@ function App() {
           {/* Ruta 404 para cualquier otra ruta no definida */}
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
-      </section>
     </>
   )
 }

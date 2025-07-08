@@ -3,8 +3,6 @@ import styles from '../LoginContacto/LoginContacto.module.scss';
 
 export const LoginContacto = () => {
     return (
-        
-        <section>
             <div>
                 <form className={styles.formContainer}  action="">
                     <div>
@@ -20,6 +18,5 @@ export const LoginContacto = () => {
                     <button type="submit">Enviar mensaje</button>
                 </form>
             </div>
-        </section>
     )
 }
