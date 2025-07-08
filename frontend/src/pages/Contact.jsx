@@ -37,7 +37,7 @@ export const Contact = () => {
     ]
     return(
             <section className={styles.containerContact}>
-                <div>
+                <div className={styles.titles}>
                     <h1>Contáctanos</h1>
                     <p>Estamos aqui para ayudarte</p>
                 </div>

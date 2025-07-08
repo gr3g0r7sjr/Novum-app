@@ -1,7 +1,7 @@
 .containerContact{
     width: 100%;
     height: auto;
-    padding: 3rem 8rem;
+    padding: 1.5rem 8rem;
 }
 
 .containerForm{
@@ -18,4 +18,8 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 1.5rem;
+}
+
+.titles{
+    padding: 1.5rem 0rem;
 }
