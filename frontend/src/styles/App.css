@@ -3,7 +3,6 @@
 
 @theme {
   --font-display: "Satoshi", "sans-serif";
-  --breakpoint-xs: 20rem;
   --color-orange-primary: #ff8500;
   --color-blue-secundary: #003091;
 }

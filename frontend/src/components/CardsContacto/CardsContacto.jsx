@@ -8,11 +8,13 @@ export const CardsContacto = (props) => {
         <div>
             <div className={styles.cardContainer}>
                 <figure className="">
-                    <img src={imageUrl} alt="" />
+                    {imageUrl}
                 </figure>
-                <h4 className={styles.font}>{titulo}</h4>
-                <p>{parrafo}</p>
-                <p>{parrafo2}</p>
+                <div>
+                    <h4 className={styles.font}>{titulo}</h4>
+                    <p>{parrafo}</p>
+                    <p>{parrafo2}</p>
+                </div>
             </div>
         </div>
     )

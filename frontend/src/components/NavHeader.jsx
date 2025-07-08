@@ -38,7 +38,7 @@ export const NavHeader = memo(({ routesGroups }) => {
 
   return (
     <section
-      className="flex w-full py-2.5 px-10 items-center justify-center"
+      className="flex w-full py-2.5 px-10 items-center justify-center box-border"
       style={{ backgroundImage: `url('${imageNavBg}')` }}
     >
       <div className="flex w-full items-center justify-between px-5">
@@ -48,7 +48,7 @@ export const NavHeader = memo(({ routesGroups }) => {
           </a>
         </figure>
         <nav className="w-auto">
-          <ul className="flex justify-between gap-7 text-slate-50">
+          <ul className="flex justify-between text-slate-50">
             {routesToDisplay.length > 0 ? (
               routesToDisplay.map((route, index) => (
                 <li key={`${route.path}-${index}`}>

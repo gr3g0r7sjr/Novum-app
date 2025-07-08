@@ -1,9 +1,9 @@
-:root {
+:root, body {
   line-height: 1.5;
   font-weight: 400;
   margin: 0;
-  box-sizing: border-box;
   padding: 0;
+  width: 100%;
   
   color: oklch(14.5% 0 0); 
 
@@ -15,11 +15,14 @@
 
 
 body {
-  margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
 }
+
+#root{
+  min-width: 100%;
+}
+
 
 h1 {
   font-size: 3.2em;
