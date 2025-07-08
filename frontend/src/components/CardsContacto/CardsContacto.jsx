@@ -1,4 +1,4 @@
-import styles from '../cardsContacto/cardsContacto.module.scss'; 
+import styles from './cardsContacto.module.scss'; 
 
 export const CardsContacto = (props) => {
 

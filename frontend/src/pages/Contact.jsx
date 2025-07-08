@@ -1,6 +1,6 @@
 import styles from '../styles/Contact.module.scss';
 import { LoginContacto } from '../components/LoginContacto/LoginContacto.jsx';
-import { CardsContacto } from '../components/cardsContacto/cardsContacto.jsx';
+import { CardsContacto } from '../components/CardsContacto/CardsContacto.jsx';
 
 
 export const Contact = () => {

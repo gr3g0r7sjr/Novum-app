@@ -1,21 +1,33 @@
-// frontend/src/pages/VacantesPage.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 const VacantesPage = () => {
     const [vacantes, setVacantes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const isLocalhost = window.location.hostname === 'localhost';
+    const API_URL = isLocalhost
+        ? 'http://localhost:3000/api/vacantes'
+        : 'https://novum-app.onrender.com/api/vacantes';
+
     useEffect(() => {
         const fetchVacantes = async () => {
             try {
-                // Usar la variable de entorno para la URL del backend
-                const response = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/api/vacantes`);
-                setVacantes(response.data);
+                const response = await fetch(API_URL, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener las vacantes');
+                }
+
+                const data = await response.json(); 
+                setVacantes(data);                 
             } catch (err) {
                 console.error('Error al obtener las vacantes:', err);
-                setError(err.response?.data?.message || 'No se pudieron cargar las vacantes. Inténtalo de nuevo más tarde.');
+                setError(err.message || 'No se pudieron cargar las vacantes.');
             } finally {
                 setLoading(false);
             }
@@ -54,7 +66,7 @@ const VacantesPage = () => {
                 {vacantes.map((vacante) => (
                     <div key={vacante.id_vacante} className="bg-white rounded-lg shadow-md p-6">
                         <h2 className="text-xl font-semibold mb-2">{vacante.titulo_cargo}</h2>
-                        <p className="text-gray-700 mb-2">**Área:** {vacante.area}</p>
+                        <p className="text-gray-700 mb-2"><strong>Área:</strong> {vacante.area}</p>
                         <p className="text-gray-600 text-sm mb-4">{vacante.descripcion_corta}</p>
                         <div className="text-right">
                             <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
