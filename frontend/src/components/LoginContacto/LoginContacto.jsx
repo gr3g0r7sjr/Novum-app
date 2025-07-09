@@ -4,7 +4,7 @@ export const LoginContacto = () => {
     return (
             <div>
                 <form className={styles.formContainer}  action="">
-                    <div>
+                    <div className={styles.titleContainer}>
                         <h2 className={styles.titleForm}>Envianos un mensaje</h2>
                         <p>Completa el formulario y te responderemos a la brevedad posible</p>
                     </div>

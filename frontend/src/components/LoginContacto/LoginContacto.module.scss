@@ -59,3 +59,15 @@ $color-white: #e7e5e4;
     width: 100%;
     padding: .3rem 0rem;
 }
+
+
+@media (min-width:320px) and (max-width:375px){
+    .titleContainer{
+        text-align: center;
+
+        p{
+            text-align: justify;
+        }
+    }
+}
+
