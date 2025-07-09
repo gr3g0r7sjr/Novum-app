@@ -53,11 +53,11 @@ export const NavHeader = memo(({ routesGroups }) => {
         </button>
 
         {/* Menú de escritorio */}
-        <nav className="hidden md:flex w-80">
+        <nav className="hidden md:flex w-auto">
           <ul className="flex justify-between text-slate-50 w-full">
             {routesToDisplay.length > 0 ? (
               routesToDisplay.map((route, index) => (
-                <li key={`${route.path}-${index}`}>
+                <li key={`${route.path}-${index}`} className= "pl-2">
                   <NavLink
                     to={route.path}
                     className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}
