@@ -11,6 +11,9 @@ $color-white: #e7e5e4;
     align-items: center;
     flex-direction: column;
     padding-top: 5rem;
+    @media (min-width:320px) and (max-width: 640px){
+        padding: 5rem 1rem;
+    }
 }
 
 .formContainer{

@@ -2,19 +2,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
+
+    @media (min-width: 320px) and (max-width: 644px) {
+        flex-direction: column;
+        width: 100%;
+        padding: 1rem;
+    }
 }
 
 .containerContact{
     width: 70%;
     height: auto;
     padding: 1.5rem 8rem;
+
+    @media (min-width: 320px) and (max-width: 644px) {
+        width: 100%;
+        padding: 1rem; 
+    }
 }
 
 .containerForm{
     width: 100%;
     display: grid;
     grid-template-columns: 57.5% 40%;
-    gap: 2.5%;
+    gap: 1rem;
+
+    @media (min-width: 320px) and (max-width: 644px) {
+        grid-template-columns: 100%;
+    }
 }
 
 .cardsContainer{
@@ -28,4 +44,8 @@
 
 .titles{
     padding: 1.5rem 0rem;
+
+    h1{
+        font-size: 2rem;
+    }
 }
