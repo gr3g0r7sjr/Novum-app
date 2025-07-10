@@ -1,13 +1,12 @@
 import styles from '../styles/Contact.module.scss';
 import { LoginContacto } from '../components/LoginContacto/LoginContacto.jsx';
 import { CardsContacto } from '../components/CardsContacto/CardsContacto.jsx';
-import { CardsPreguntas } from '../components/CardsPreguntas/CardasPreguntas.jsx';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 
 export const Contact = () => {
 
-    const cardsData = [
+    const cardsDataInfo = [
         {
             id:1,
             titulo: 'Teléfono',
@@ -73,7 +72,7 @@ export const Contact = () => {
                     <LoginContacto />
                         <div className={styles.cardsContainer}>
                             {
-                            cardsData.map(card => (
+                            cardsDataInfo.map(card => (
                                 <CardsContacto
                                     key = {card.id}
                                     titulo={card.titulo}
