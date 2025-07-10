@@ -1,7 +1,7 @@
 import styles from '../styles/Contact.module.scss';
-import { LoginContacto } from '../components/LoginContacto/LoginContacto.jsx';
+import { FormContacto } from '../components/FormContacto/FormContacto.jsx';
 import { CardsContacto } from '../components/CardsContacto/CardsContacto.jsx';
-import { CardsPreguntas } from '../components/CardsPreguntas/CardasPreguntas.jsx';
+import { CardsPreguntas } from '../components/CardsPreguntas/CardsPreguntas.jsx';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 
@@ -70,7 +70,7 @@ export const Contact = () => {
                     <p>Estamos aqui para ayudarte</p>
                 </div>
                     <div className={styles.containerForm}>
-                    <LoginContacto />
+                    <FormContacto />
                         <div className={styles.cardsContainer}>
                             {
                             cardsData.map(card => (
@@ -80,11 +80,26 @@ export const Contact = () => {
                                     imageUrl={card.imageUrl}
                                     parrafo={card.parrafo}
                                     parrafo2={card.parrafo2}
-                                    />
+                                />
                                 ))
                                 }
                         </div>
                 </div>
+                {/* Preguntas Frecuentes */}
+                <section className={styles.cardsPreguntas}>
+                    <h2>Preguntas Frecuentes</h2>
+                    <div className={styles.cardsPreguntasContainer}>
+                        {
+                            cardsPreguntas.map(card => (
+                                <CardsPreguntas 
+                                    key= {card.id}
+                                    titulo={card.titulo}
+                                    texto={card.texto}
+                                />
+                            ))
+                        }
+                    </div>
+                </section>
             </section>
         </div>
     )

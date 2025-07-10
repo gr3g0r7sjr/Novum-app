@@ -1,6 +1,6 @@
-import styles from '../LoginContacto/LoginContacto.module.scss'; 
+import styles from './FormContacto.module.scss'; 
 
-export const LoginContacto = () => {
+export const FormContacto = () => {
     return (
             <div>
                 <form className={styles.formContainer}  action="">
