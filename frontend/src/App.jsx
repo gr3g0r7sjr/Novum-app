@@ -6,7 +6,8 @@ import { Home } from './pages/Home.jsx'; // Mantén Home si la usas en otra ruta
 import { About } from './pages/About.jsx';
 import { Contact } from './pages/Contact.jsx';
 import { LoginAdmin } from './components/Auth/LoginAdmin.jsx';
-import { AdminDashboard } from './pages/Admin.jsx'; // Asume que existe
+import { AdminDashboard } from './pages/Admin.jsx';
+import { Footer } from './components/Footer/Footer.jsx';
 
 // Importa los nuevos componentes de página
 import VacantesPage from './pages/VacantesPage.jsx';
@@ -52,6 +53,7 @@ function App() {
           {/* Ruta 404 para cualquier otra ruta no definida */}
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
+        <Footer routesGroups = {navRouteGroups.main} />
     </>
   )
 }
