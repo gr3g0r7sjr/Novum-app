@@ -1,0 +1,31 @@
+.containerFooter{
+    background-image: linear-gradient(180deg, #ff8500, #0042A1);
+    display: grid;
+}
+
+.footer{
+    width: 100%;
+    padding: 10px 10px;
+    display: grid;
+    grid-template-rows: auto auto;
+    color: white;
+
+    @media (min-width: 320px) and (max-width:425px){
+        grid-template-rows: auto;
+    }
+}
+
+.containerTerminos{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color:white;
+
+    @media (min-width: 320px) and (max-width:425px){
+        flex-direction: column; 
+    }
+}
+
+.politicas{
+    display: flex;
+}

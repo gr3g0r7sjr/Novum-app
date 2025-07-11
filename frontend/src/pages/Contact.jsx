@@ -7,7 +7,7 @@ import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 export const Contact = () => {
 
-    const cardsData = [
+    const cardsDataInfo = [
         {
             id:1,
             titulo: 'Teléfono',
@@ -73,7 +73,7 @@ export const Contact = () => {
                     <FormContacto />
                         <div className={styles.cardsContainer}>
                             {
-                            cardsData.map(card => (
+                            cardsDataInfo.map(card => (
                                 <CardsContacto
                                     key = {card.id}
                                     titulo={card.titulo}

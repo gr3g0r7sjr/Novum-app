@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const VacantesPage = () => {
+export const VacantesPage = () => {
     const [vacantes, setVacantes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -53,7 +53,7 @@ const VacantesPage = () => {
 
     if (vacantes.length === 0) {
         return (
-            <div className="flex justify-center items-center h-screen">
+            <div className="flex justify-center items-center">
                 <p className="text-xl text-gray-700">No hay vacantes disponibles en este momento.</p>
             </div>
         );
@@ -79,5 +79,3 @@ const VacantesPage = () => {
         </div>
     );
 };
-
-export default VacantesPage;
