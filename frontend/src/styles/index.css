@@ -21,6 +21,10 @@ body {
 
 #root{
   min-width: 100%;
+  display: grid;
+  grid-template-rows: 10% 70% 20%;
+  grid-auto-flow: column;
+  height: 100vh;
 }
 
 

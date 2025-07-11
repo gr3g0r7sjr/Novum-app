@@ -8,9 +8,9 @@ import { Contact } from './pages/Contact.jsx';
 import { LoginAdmin } from './components/Auth/LoginAdmin.jsx';
 import { AdminDashboard } from './pages/Admin.jsx';
 import { Footer } from './components/Footer/Footer.jsx';
+import { VacantesPage } from './pages/VacantesPage.jsx';
 
 // Importa los nuevos componentes de página
-import VacantesPage from './pages/VacantesPage.jsx';
 import CrearVacantePage from './pages/CrearVacantePage.jsx';
 
 // Definición de diferentes GRUPOS de rutas de navegación

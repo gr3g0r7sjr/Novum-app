@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const VacantesPage = () => {
+export const VacantesPage = () => {
     const [vacantes, setVacantes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -79,5 +79,3 @@ const VacantesPage = () => {
         </div>
     );
 };
-
-export default VacantesPage;
