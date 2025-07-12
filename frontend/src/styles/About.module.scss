@@ -46,3 +46,9 @@ $color-white: #e7e5e4;
         flex-wrap: wrap;
     }
 }
+
+.containerMision{
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
