@@ -22,6 +22,9 @@ $color-white: #e7e5e4;
         font-weight: bold;
 
     }
+    p{
+        text-align: justify;
+    }
 }
 
 .containerCardAbout{
@@ -31,6 +34,10 @@ $color-white: #e7e5e4;
     gap: 1rem;
     padding: 2rem 0rem;
     width: 100%;
+
+    div{
+        width: 100%;
+    }
 
     @media (min-width:320px) and (max-width:420px){
         flex-wrap: wrap;

@@ -9,4 +9,14 @@ $color-white: #e7e5e4;
     border-radius: 7px;
     border-left: 5px solid $color-blue-secundary;
     padding: 2rem 2rem;
+
+    h3{
+        font-size: 2rem;
+        font-weight: bold;
+        color: $color-orange-primary;
+    }
+    p{
+        font-size: 0.875rem;
+    }
 }
+
