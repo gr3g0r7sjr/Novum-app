@@ -1,0 +1,38 @@
+$color-orange-primary: oklch(73.951% 0.18279 55.117);
+$color-blue-secundary: oklch(35.678% 0.16635 262.12); 
+$color-gray-400 : oklch(70.7% 0.022 261.325);
+$color-gray-500 :oklch(55.1% 0.027 264.364);
+$color-white: #e7e5e4; 
+
+
+.containerAbout{
+    padding: 5rem;
+    width: 70%;
+
+    @media (min-width:320px) and (max-width:420px){
+        width: auto;
+        padding: 1.5rem 1rem;
+    }
+}
+
+.titlesAbout{
+
+    h1{
+        font-size: 2rem;
+        font-weight: bold;
+
+    }
+}
+
+.containerCardAbout{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 0rem;
+    width: 100%;
+
+    @media (min-width:320px) and (max-width:420px){
+        flex-wrap: wrap;
+    }
+}
