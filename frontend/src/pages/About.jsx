@@ -24,7 +24,8 @@ export const About = () => {
 
     return (
         <section className = {styles.containerAbout}>
-            <div className={styles.titlesAbout}>
+            <div>
+                <div className={styles.titlesAbout}>
                 <h1>Sobre Nosotros</h1>
                 <p>Es más que una empresa; es la materialización de ideas de software, la búsqueda constante <br /> de la excelencia y la convicción de que cualquier proyecto, por ambisioso que sea, es viable y alcanzable</p>
             </div>
@@ -41,6 +42,7 @@ export const About = () => {
                     }
                 </div>
             </section>
+            </div>
         </section>
     )
 }

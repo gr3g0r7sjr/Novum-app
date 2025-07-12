@@ -7,9 +7,12 @@ $color-white: #e7e5e4;
 
 .containerAbout{
     padding: 5rem;
-    width: 70%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-    @media (min-width:320px) and (max-width:420px){
+    @media (min-width:320px) and (max-width:425px){
         width: auto;
         padding: 1.5rem 1rem;
     }
@@ -39,7 +42,7 @@ $color-white: #e7e5e4;
         width: 100%;
     }
 
-    @media (min-width:320px) and (max-width:420px){
+    @media (min-width:320px) and (max-width:425px){
         flex-wrap: wrap;
     }
 }
