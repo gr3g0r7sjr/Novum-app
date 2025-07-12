@@ -1,120 +1,153 @@
--- Tabla de usuarios (postulantes y administradores)
-CREATE TABLE usuarios (
-    id SERIAL PRIMARY KEY,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash TEXT NOT NULL,
-    role VARCHAR(20) DEFAULT 'postulante' CHECK (role IN ('postulante', 'admin')),
-    created_at TIMESTAMP DEFAULT NOW()
+-- Creación de la base de datos
+CREATE DATABASE novum_app_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'Spanish_Venezuela.1252';
+
+-- Establecer el cliente en UTF8
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = 'on';
+SELECT pg_catalog.set_config('search_path', '', false);
+
+-- Creación de la tabla 'candidatos'
+CREATE TABLE public.candidatos (
+    id_candidato integer NOT NULL,
+    nombre character varying(100) NOT NULL,
+    apellido character varying(100) NOT NULL,
+    correo_electronico character varying(255) NOT NULL,
+    numero_telefono character varying(50),
+    direccion text,
+    educacion text,
+    experiencia_laboral text,
+    cursos_certificaciones text,
+    habilidades text,
+    servicio_interes integer,
+    vehiculo character varying(20),
+    fecha_expiracion_datos date,
+    fecha_postulacion_inicial timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT chk_vehiculo_valido CHECK (((vehiculo)::text = ANY ((ARRAY['sÂ¡'::character varying, 'no'::character varying])::text[])))
 );
 
--- Tabla de candidatos (perfil extendido)
-CREATE TABLE candidatos (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL UNIQUE,
-    tipo_documento VARCHAR(20),
-    identificacion VARCHAR(20) UNIQUE,
-    nombres VARCHAR(100) NOT NULL,
-    apellidos VARCHAR(100) NOT NULL,
-    fecha_nacimiento DATE,
-    edad INT CHECK (edad >= 18),
-    nacionalidad VARCHAR(50),
-    genero VARCHAR(10) CHECK (genero IN ('masculino', 'femenino', 'otro')),
-    estado_civil VARCHAR(20),
-    servicio_interes VARCHAR(100),
-    nivel_educativo VARCHAR(100),
-    profesion VARCHAR(100),
-    especialidad VARCHAR(100),
-    tiempo_graduado VARCHAR(50),
-    disponibilidad VARCHAR(50),
-    ultima_experiencia TEXT,
-    telefono VARCHAR(20),
-    direccion_detallada TEXT,
-    -- Campos para guardar el archivo PDF del CV
-    cv_file BYTEA,
-    cv_filename VARCHAR(255),
-    cv_mimetype VARCHAR(100),
-    created_at TIMESTAMP DEFAULT NOW(),
-    
-    -- Relación con users
-    CONSTRAINT fk_user
-        FOREIGN KEY (user_id) 
-        REFERENCES users(id)
-        ON DELETE CASCADE
+-- Creación de la secuencia para 'candidatos_id_candidato'
+CREATE SEQUENCE public.candidatos_id_candidato_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.candidatos_id_candidato_seq OWNED BY public.candidatos.id_candidato;
+
+-- Creación de la tabla 'intereses_empresa'
+CREATE TABLE public.intereses_empresa (
+    id_interes integer NOT NULL,
+    nombre_interes character varying(100) NOT NULL
 );
 
--- Tabla de vacantes
-CREATE TABLE vacantes (
-    id SERIAL PRIMARY KEY,
-    titulo_cargo VARCHAR(100) NOT NULL,
-    area VARCHAR(100),
-    descripcion_corta TEXT,
-    responsabilidades TEXT,
-    requisitos TEXT,
-    beneficios TEXT,
-    sueldo VARCHAR(50),
-    fecha_publicacion DATE DEFAULT CURRENT_DATE,
-    estado VARCHAR(20) DEFAULT 'abierta' CHECK (estado IN ('abierta', 'cerrada')),
-    created_by INT,
-    created_at TIMESTAMP DEFAULT NOW(),
-    
-    -- Relación con users (admin que creó la vacante)
-    CONSTRAINT fk_created_by
-        FOREIGN KEY (created_by) 
-        REFERENCES users(id)
-        ON DELETE SET NULL
+-- Creación de la secuencia para 'intereses_empresa_id_interes'
+CREATE SEQUENCE public.intereses_empresa_id_interes_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.intereses_empresa_id_interes_seq OWNED BY public.intereses_empresa.id_interes;
+
+-- Creación de la tabla 'postulaciones'
+CREATE TABLE public.postulaciones (
+    id_postulacion integer NOT NULL,
+    id_candidato integer NOT NULL,
+    id_vacante integer NOT NULL,
+    fecha_postulacion timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    estado_postulacion character varying(50) DEFAULT 'recibida'::character varying NOT NULL
 );
 
--- Tabla de postulaciones (registro de aplicación por candidato)
-CREATE TABLE postulaciones (
-    id SERIAL PRIMARY KEY,
-    candidato_id INT NOT NULL,
-    vacante_id INT NOT NULL,
-    fecha_postulacion TIMESTAMP DEFAULT NOW(),
-    estatus VARCHAR(20) DEFAULT 'pendiente' 
-        CHECK (estatus IN ('pendiente', 'rechazado', 'entrevistado', 'seleccionado', 'contratado')),
-    
-    -- Relación con candidates
-    CONSTRAINT fk_candidato
-        FOREIGN KEY (candidato_id) 
-        REFERENCES candidates(id)
-        ON DELETE CASCADE,
-    
-    -- Relación con vacantes
-    CONSTRAINT fk_vacante
-        FOREIGN KEY (vacante_id) 
-        REFERENCES vacantes(id)
-        ON DELETE CASCADE,
-    
-    -- Restricción para evitar postulaciones duplicadas
-    CONSTRAINT unique_postulacion
-        UNIQUE (candidato_id, vacante_id)
+-- Creación de la secuencia para 'postulaciones_id_postulacion'
+CREATE SEQUENCE public.postulaciones_id_postulacion_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.postulaciones_id_postulacion_seq OWNED BY public.postulaciones.id_postulacion;
+
+-- Creación de la tabla 'usuarios'
+CREATE TABLE public.usuarios (
+    id_usuario integer NOT NULL,
+    correo_electronico character varying(255) NOT NULL,
+    contrasena_hash text NOT NULL,
+    rol character varying(50) DEFAULT 'recursos_humanos'::character varying NOT NULL,
+    fecha_creacion timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
--- Historial de cambios de estatus en las postulaciones
-CREATE TABLE postulacion_historial (
-    id SERIAL PRIMARY KEY,
-    postulacion_id INT NOT NULL,
-    estatus_anterior VARCHAR(20),
-    estatus_nuevo VARCHAR(20) NOT NULL,
-    comentario_rrhh TEXT,
-    fecha_cambio TIMESTAMP DEFAULT NOW(),
-    
-    -- Relación con postulaciones
-    CONSTRAINT fk_postulacion
-        FOREIGN KEY (postulacion_id) 
-        REFERENCES postulaciones(id)
-        ON DELETE CASCADE
+-- Creación de la secuencia para 'usuarios_id_usuario'
+CREATE SEQUENCE public.usuarios_id_usuario_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.usuarios_id_usuario_seq OWNED BY public.usuarios.id_usuario;
+
+-- Creación de la tabla 'vacantes'
+CREATE TABLE public.vacantes (
+    id_vacante integer NOT NULL,
+    titulo_cargo character varying(255) NOT NULL,
+    area character varying(100) NOT NULL,
+    descripcion_corta text NOT NULL,
+    responsabilidades text,
+    requisitos text NOT NULL,
+    beneficios text,
+    salario character varying(100),
+    fecha_publicacion timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
+    estado character varying(50) DEFAULT 'activa'::character varying NOT NULL,
+    creado_por_usuario_id integer NOT NULL,
+    id_servicio_interes integer,
+    fecha_creacion timestamp with time zone DEFAULT CURRENT_TIMESTAMP
 );
 
--- Índices para mejorar el rendimiento
-CREATE INDEX idx_candidates_user_id ON candidates(user_id);
-CREATE INDEX idx_vacantes_estado ON vacantes(estado);
-CREATE INDEX idx_postulaciones_candidato ON postulaciones(candidato_id);
-CREATE INDEX idx_postulaciones_vacante ON postulaciones(vacante_id);
-CREATE INDEX idx_postulaciones_estatus ON postulaciones(estatus);
-CREATE INDEX idx_postulacion_historial_postulacion ON postulacion_historial(postulacion_id);
+-- Creación de la secuencia para 'vacantes_id_vacante'
+CREATE SEQUENCE public.vacantes_id_vacante_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+ALTER SEQUENCE public.vacantes_id_vacante_seq OWNED BY public.vacantes.id_vacante;
 
--- Datos iniciales (opcional)
--- Insertar un usuario administrador
+-- Asignación de valores por defecto para IDs usando las secuencias
+ALTER TABLE ONLY public.candidatos ALTER COLUMN id_candidato SET DEFAULT nextval('public.candidatos_id_candidato_seq'::regclass);
+ALTER TABLE ONLY public.intereses_empresa ALTER COLUMN id_interes SET DEFAULT nextval('public.intereses_empresa_id_interes_seq'::regclass);
+ALTER TABLE ONLY public.postulaciones ALTER COLUMN id_postulacion SET DEFAULT nextval('public.postulaciones_id_postulacion_seq'::regclass);
+ALTER TABLE ONLY public.usuarios ALTER COLUMN id_usuario SET DEFAULT nextval('public.usuarios_id_usuario_seq'::regclass);
+ALTER TABLE ONLY public.vacantes ALTER COLUMN id_vacante SET DEFAULT nextval('public.vacantes_id_vacante_seq'::regclass);
+
+-- Definición de claves primarias
+ALTER TABLE ONLY public.candidatos ADD CONSTRAINT candidatos_pkey PRIMARY KEY (id_candidato);
+ALTER TABLE ONLY public.intereses_empresa ADD CONSTRAINT intereses_empresa_pkey PRIMARY KEY (id_interes);
+ALTER TABLE ONLY public.postulaciones ADD CONSTRAINT postulaciones_pkey PRIMARY KEY (id_postulacion);
+ALTER TABLE ONLY public.usuarios ADD CONSTRAINT usuarios_pkey PRIMARY KEY (id_usuario);
+ALTER TABLE ONLY public.vacantes ADD CONSTRAINT vacantes_pkey PRIMARY KEY (id_vacante);
+
+-- Definición de índices únicos
+ALTER TABLE ONLY public.intereses_empresa ADD CONSTRAINT intereses_empresa_nombre_interes_key UNIQUE (nombre_interes);
+ALTER TABLE ONLY public.postulaciones ADD CONSTRAINT postulaciones_id_candidato_id_vacante_key UNIQUE (id_candidato, id_vacante);
+ALTER TABLE ONLY public.usuarios ADD CONSTRAINT usuarios_correo_electronico_key UNIQUE (correo_electronico);
+
+-- Definición de claves foráneas
+ALTER TABLE ONLY public.candidatos ADD CONSTRAINT candidatos_servicio_interes_fkey FOREIGN KEY (servicio_interes) REFERENCES public.intereses_empresa(id_interes) ON DELETE SET NULL;
+ALTER TABLE ONLY public.postulaciones ADD CONSTRAINT postulaciones_id_candidato_fkey FOREIGN KEY (id_candidato) REFERENCES public.candidatos(id_candidato) ON DELETE CASCADE;
+ALTER TABLE ONLY public.postulaciones ADD CONSTRAINT postulaciones_id_vacante_fkey FOREIGN KEY (id_vacante) REFERENCES public.vacantes(id_vacante) ON DELETE CASCADE;
+ALTER TABLE ONLY public.vacantes ADD CONSTRAINT vacantes_creado_por_usuario_id_fkey FOREIGN KEY (creado_por_usuario_id) REFERENCES public.usuarios(id_usuario) ON DELETE RESTRICT;
+ALTER TABLE ONLY public.vacantes ADD CONSTRAINT vacantes_id_servicio_interes_fkey FOREIGN KEY (id_servicio_interes) REFERENCES public.intereses_empresa(id_interes) ON DELETE SET NULL;
+
+-- Asignación de valores de secuencia (ejemplo, puedes ajustarlos si ya tienes datos)
+SELECT pg_catalog.setval('public.candidatos_id_candidato_seq', 1, false);
+SELECT pg_catalog.setval('public.intereses_empresa_id_interes_seq', 1, false);
+SELECT pg_catalog.setval('public.postulaciones_id_postulacion_seq', 1, false);
+SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 2, true);
+SELECT pg_catalog.setval('public.vacantes_id_vacante_seq', 1, false);
+
 INSERT INTO users (email, password_hash, role) 
 VALUES ('admin@empresa.com', 'python123', 'admin');
