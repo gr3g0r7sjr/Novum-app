@@ -41,36 +41,36 @@ export const About = () => {
 
     return (
         <section className = {styles.containerAbout}>
-            <div>
+            <div className={styles.container}>
                 <div className={styles.titlesAbout}>
-                <h1>Sobre Nosotros</h1>
-                <p>Es más que una empresa; es la materialización de ideas de software, la búsqueda constante <br /> de la excelencia y la convicción de que cualquier proyecto, por ambisioso que sea, es viable y alcanzable</p>
-            </div>
-            <section className={styles.containerInfo}>
-                <div className={styles.containerCardAbout}>
-                    {
-                    cards.map(card => (
-                        <CardsAboutUs 
-                            key = {card.id}
-                            numero = {card.numero}
-                            texto = {card.texto}
-                        />
-                    ))
-                    }
+                    <h1>Sobre Nosotros</h1>
+                    <p>Es más que una empresa; es la materialización de ideas de software, la búsqueda constante <br /> de la excelencia y la convicción de que cualquier proyecto, por ambisioso que sea, es viable y alcanzable</p>
                 </div>
-                <div className={styles.containerMision}>
-                    {
-                        cardsMisionVision.map(card => (
-                            <CardsMisionVision
-                                key={card.id}
-                                icono = {card.icono}
-                                titulo = {card.titulo}
+                <section className={styles.containerInfo}>
+                    <div className={styles.containerCardAbout}>
+                        {
+                        cards.map(card => (
+                            <CardsAboutUs 
+                                key = {card.id}
+                                numero = {card.numero}
                                 texto = {card.texto}
                             />
                         ))
-                    }
-                </div>
-            </section>
+                        }
+                    </div>
+                    <div className={styles.containerMision}>
+                        {
+                            cardsMisionVision.map(card => (
+                                <CardsMisionVision
+                                    key={card.id}
+                                    icono = {card.icono}
+                                    titulo = {card.titulo}
+                                    texto = {card.texto}
+                                />
+                            ))
+                        }
+                    </div>
+                </section>
             </div>
         </section>
     )

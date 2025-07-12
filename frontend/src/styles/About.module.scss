@@ -12,6 +12,10 @@ $color-white: #e7e5e4;
     justify-content: center;
     align-items: center;
 
+    .containerCardAbout{
+        width: 100%;
+    }
+
     @media (min-width:320px) and (max-width:425px){
         width: auto;
         padding: 1.5rem 1rem;
