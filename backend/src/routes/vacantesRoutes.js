@@ -4,7 +4,7 @@ import { obtenerVacantes, crearVacante } from '../controllers/vacantesController
 
 const router = Router();
 
-router.get('/', obtenerVacantes);
-router.post('/', crearVacante);
+router.get('/vacantes', obtenerVacantes);
+router.post('/vacantes', crearVacante);
 
 export default router;
