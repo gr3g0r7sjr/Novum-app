@@ -57,6 +57,10 @@ $color-white: #e7e5e4;
     gap: 1rem;
     max-width: 48rem;
 
+    > :first-child{
+        border-top: 5px solid $color-orange-primary;
+    }
+
     @media (min-width:320px) and (max-width:425px){
         grid-template-columns: 1fr;
     }
