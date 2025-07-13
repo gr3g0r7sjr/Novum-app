@@ -13,11 +13,20 @@ $color-white: #e7e5e4;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 5px;
 
     .mision{
         display: flex;
         align-items: center;
         gap: 5px;
+        text-align: justify;
+        
+        p{
+            text-align: justify;
+        }
+    }
+
+    .vision p{
         text-align: justify;
     }
     
