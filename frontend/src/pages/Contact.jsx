@@ -19,7 +19,7 @@ export const Contact = () => {
             id:2,
             titulo: 'Correo Electrónico',
             imageUrl : <Mail color='#ff8500' />,
-            parrafo : 'contacto@novumideas.com', 
+            parrafo : 'info@novumideas.com', 
             parrafo2 : 'rrhh@novumideas.com'
         },
         {
@@ -69,7 +69,7 @@ export const Contact = () => {
                     <h1>Contáctanos</h1>
                     <p>Estamos aqui para ayudarte</p>
                 </div>
-                    <div className={styles.containerForm}>
+                <div className={styles.containerForm}>
                     <FormContacto />
                         <div className={styles.cardsContainer}>
                             {

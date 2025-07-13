@@ -10,17 +10,21 @@ $color-white: #e7e5e4;
 .cardContainer{
     outline: none;
     width: 100%;
-    padding: .3rem 0rem;
     border: 1px solid $color-gray-400;
     border-radius: 7px;
     padding-left: 5px;
     border-left: 5px solid $color-blue-secundary;
-    padding: 1rem 1rem;
+    padding: 1rem .5rem;
     display: grid;
     background-color: white;
-    grid-template-columns: 10% 90%;
+    grid-template-columns: 15% 85%;
     justify-content: center;
     align-items: center;
+
+    @media (min-width: 320px) and (max-width: 768px) {
+        padding: .5rem;
+        font-size: .875rem;
+    }
 }
 
 .font{

@@ -2,7 +2,7 @@ import styles from './FormContacto.module.scss';
 
 export const FormContacto = () => {
     return (
-            <div>
+            <div className='h-full'>
                 <form className={styles.formContainer}  action="">
                     <div className={styles.titleContainer}>
                         <h2 className={styles.titleForm}>Envianos un mensaje</h2>
