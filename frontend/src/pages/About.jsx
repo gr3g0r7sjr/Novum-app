@@ -58,17 +58,19 @@ export const About = () => {
                         ))
                         }
                     </div>
-                    <div className={styles.containerMision}>
-                        {
-                            cardsMisionVision.map(card => (
-                                <CardsMisionVision
-                                    key={card.id}
-                                    icono = {card.icono}
-                                    titulo = {card.titulo}
-                                    texto = {card.texto}
-                                />
-                            ))
-                        }
+                    <div className='flex justify-center items-center'>
+                        <div className={styles.containerMision}>
+                            {
+                                cardsMisionVision.map(card => (
+                                    <CardsMisionVision
+                                        key={card.id}
+                                        icono = {card.icono}
+                                        titulo = {card.titulo}
+                                        texto = {card.texto}
+                                    />
+                                ))
+                            }
+                        </div>
                     </div>
                 </section>
             </div>

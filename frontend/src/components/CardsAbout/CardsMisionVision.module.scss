@@ -9,10 +9,16 @@ $color-white: #e7e5e4;
     border: 1px solid #bebebeb2;
     border-radius: 7px;
     border-top: 5px solid $color-blue-secundary;
-    padding: .5rem .5rem;
+    padding: 1rem .5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .mision{
         display: flex;
+        align-items: center;
+        gap: 5px;
+        text-align: justify;
     }
     
 }

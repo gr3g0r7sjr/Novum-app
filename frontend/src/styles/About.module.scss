@@ -52,7 +52,12 @@ $color-white: #e7e5e4;
 }
 
 .containerMision{
-    display: flex;
+    display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    max-width: 48rem;
+
+    @media (min-width:320px) and (max-width:425px){
+        grid-template-columns: 1fr;
+    }
 }
