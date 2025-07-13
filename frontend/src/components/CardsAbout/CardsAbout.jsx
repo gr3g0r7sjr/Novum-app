@@ -6,7 +6,6 @@ export const CardsAboutUs = (props) => {
     return(
         <div className={styles.cards}>
             <h3>{numero}+</h3>
-            <span></span>
             <p>{texto}</p>
         </div>
     )
