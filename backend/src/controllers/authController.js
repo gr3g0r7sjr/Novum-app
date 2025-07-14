@@ -11,7 +11,7 @@ export const authController = {
         }
 
         try {
-            const result = await pool.query('SELECT id, email, password_hash FROM usuarios WHERE email = $1', [email]);
+            const result = await pool.query('SELECT id_usuario, email, password_hash FROM usuarios WHERE email = $1', [email]);
             const user = result.rows[0];
 
             if(!user){

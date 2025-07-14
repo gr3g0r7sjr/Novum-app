@@ -1,10 +1,10 @@
 // backend/src/routes/vacantesRoutes.js
 import { Router } from 'express';
-import { obtenerVacantes, crearVacante } from '../controllers/vacantesController.js'; // Subimos un nivel para entrar a controllers
+import { vacantesController } from '../controllers/vacantesController.js'; // Subimos un nivel para entrar a controllers
 
 const router = Router();
 
-router.get('/vacantes', obtenerVacantes);
-router.post('/vacantes', crearVacante);
+router.get('/vacantes', vacantesController.obtener);
+router.post('/vacantes', vacantesController.crear);
 
 export default router;

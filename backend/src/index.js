@@ -8,6 +8,7 @@ const app = express()
 const port = process.env.PORT || 3000;
 
 import authRoutes from './routes/authRoutes.js';
+import vacantesRoutes from './routes/vacantesRoutes.js';
 
 app.use(cors({
     origin: [FRONTEND_URL,
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}))
 
 app.use('/api', authRoutes)
+app.use('/api', vacantesRoutes)
 
 app.get('/', (req, res) => {
     res.send('Hola, el servidor esta corriendo y funcionando en express. Accede a /api/login para autenticar.')
