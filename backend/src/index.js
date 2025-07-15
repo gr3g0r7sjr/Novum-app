@@ -2,6 +2,7 @@
 import 'dotenv/config'; // Carga las variables de entorno desde .env
 import {FRONTEND_URL, JWT_SECRET } from './config/config.js'; // Importa variables de configuración
 import express from 'express';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import jwt from 'jsonwebtoken'; 
 
