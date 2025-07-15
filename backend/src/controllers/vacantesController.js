@@ -2,7 +2,49 @@ import pool from '../db.js';
 
 export const vacantesController = {
     obtener: async (req, res) => {
-        res.send('Hola esta ruta sirve')
+        try {
+            // Consulta SQL para obtener todas las vacantes activas
+            // Incluye JOINs para obtener información relacionada como el correo del usuario creador
+            // y el nombre del servicio de interés, si existen.
+            const query = `
+                SELECT
+                    v.id_vacante,
+                    v.titulo_cargo,
+                    v.area,
+                    v.descripcion_corta,
+                    v.responsabilidades,
+                    v.requisitos,
+                    v.beneficios,
+                    v.salario,
+                    v.fecha_publicacion,
+                    v.estado,
+                    v.creado_por_usuario_id,
+                    u.correo_electronico AS creado_por_correo,
+                    v.id_servicio_interes,
+                    ie.nombre_interes AS nombre_servicio_interes
+                FROM
+                    vacantes v
+                JOIN
+                    usuarios u ON v.creado_por_usuario_id = u.id_usuario
+                LEFT JOIN
+                    intereses_empresa ie ON v.id_servicio_interes = ie.id_interes
+                WHERE
+                    v.estado = 'activa' -- Solo queremos las vacantes que están activas
+                ORDER BY
+                    v.fecha_publicacion DESC; -- Ordena las vacantes por fecha de publicación descendente
+            `;
+
+            // Ejecuta la consulta en la base de datos
+            const result = await pool.query(query);
+
+            // Envía las filas obtenidas como respuesta JSON con un estado 200 OK
+            res.status(200).json(result.rows);
+        } catch (error) {
+            // Captura y registra cualquier error que ocurra durante la consulta
+            console.error('Error al obtener vacantes:', error);
+            // Envía una respuesta de error 500 al cliente
+            res.status(500).json({ message: 'Error interno del servidor al obtener vacantes.' });
+        }
     },
 
     crear: async (req, res) => {
@@ -145,37 +187,4 @@ export const vacantesController = {
     }
 }
 } 
-/** const query = `
-            SELECT
-                v.id_vacante,
-                v.titulo_cargo,
-                v.area,
-                v.descripcion_corta,
-                v.responsabilidades,
-                v.requisitos,
-                v.beneficios,
-                v.salario,
-                v.fecha_publicacion,
-                v.estado,
-                v.creado_por_usuario_id,
-                u.correo_electronico AS creado_por_correo,
-                v.id_servicio_interes,
-                ie.nombre_interes AS nombre_servicio_interes
-            FROM
-                vacantes v
-            JOIN
-                usuarios u ON v.creado_por_usuario_id = u.id_usuario
-            LEFT JOIN
-                intereses_empresa ie ON v.id_servicio_interes = ie.id_interes
-            WHERE
-                v.estado = 'activa'
-            ORDER BY
-                v.fecha_publicacion DESC;
-        `;
-        const result = await pool.query(query);
-        res.status(200).json(result.rows);
-    } catch (error) {
-        console.error('Error al obtener vacantes:', error);
-        res.status(500).json({ message: 'Error interno del servidor al obtener vacantes.' });
-    }
-*/
+
