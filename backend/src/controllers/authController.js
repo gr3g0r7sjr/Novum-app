@@ -1,40 +1,32 @@
-import pool from '../db.js';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken'; 
-import { JWT_SECRET } from '../config/config.js'
+import pool from '../db.js'; // Importa tu pool de DB (asegúrate de que la ruta sea correcta)
+import bcrypt from 'bcryptjs'; // Importa bcrypt para comparar contraseñas
+import jwt from 'jsonwebtoken'; // Importa jsonwebtoken para crear el JWT
+import { JWT_SECRET } from '../config/config.js'; // Importa tu clave secreta JWT desde config
 
 export const authController = {
     login: async (req, res) => {
-        // Desestructurar email y password del cuerpo de la petición
         const { email, password } = req.body; 
 
-        // 1. Validar que se recibieron email y password
         if (!email || !password) {
             return res.status(400).json({ success: false, message: 'Correo y contraseña son obligatorios.' });
         }
 
         try {
-            
             const userQuery = 'SELECT id_usuario, email, password_hash, rol FROM usuarios WHERE email = $1';
             const result = await pool.query(userQuery, [email]);
 
             const user = result.rows[0];
 
-            // 3. Verificar si el usuario existe
             if (!user) {
                 return res.status(401).json({ success: false, message: 'Credenciales inválidas.' });
             }
 
-            // 4. Comparar la contraseña proporcionada con el hash almacenado
-            // Usa user.password_hash que es el nombre de tu columna en la DB
             const passwordMatch = await bcrypt.compare(password, user.password_hash); 
 
             if (!passwordMatch) {
                 return res.status(401).json({ success: false, message: 'Credenciales inválidas.' });
             }
 
-            // 5. Si las credenciales son válidas, crear el JWT
-            // El payload del token contendrá la información del usuario que necesitas para futuras solicitudes
             const token = jwt.sign(
                 { 
                     id: user.id_usuario, // Usamos id_usuario de la DB
@@ -65,5 +57,59 @@ export const authController = {
                 error: error.message
             });
         }
+    },
+
+    // Puedes añadir otras funciones del controlador aquí, como register, logout, etc.
+    register: async (req, res) => {
+        const { email, password, rol } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: 'Email y contraseña son obligatorios.' });
+        }
+
+        try {
+            // Verificar si el usuario ya existe (usando correo_electronico como en tu DDL)
+            const checkUserQuery = 'SELECT id_usuario FROM usuarios WHERE email = $1';
+            const existingUser = await pool.query(checkUserQuery, [email]);
+
+            if (existingUser.rows.length > 0) {
+                return res.status(409).json({ success: false, message: 'El correo electrónico ya está registrado.' });
+            }
+
+            // Hashear la contraseña antes de guardarla
+            const hashedPassword = await bcrypt.hash(password, 10); // 10 es el saltRounds
+
+            // Insertar el nuevo usuario en la base de datos (usando correo_electronico y contrasena_hash como en tu DDL)
+            const insertUserQuery = `
+                INSERT INTO usuarios (email, password_hash, rol)
+                VALUES ($1, $2, $3)
+                RETURNING id_usuario, email, rol;
+            `;
+            const newUserResult = await pool.query(insertUserQuery, [email, hashedPassword, rol || 'admin']); // Rol por defecto
+
+            const newUser = newUserResult.rows[0];
+
+            // Generar un token para el usuario recién registrado (opcional)
+            const token = jwt.sign(
+                { id: newUser.id_usuario, email: newUser.correo_electronico, rol: newUser.rol },
+                JWT_SECRET,
+                { expiresIn: '1h' }
+            );
+
+            res.status(201).json({
+                success: true,
+                message: 'Usuario registrado exitosamente',
+                token: token,
+                user: {
+                    id: newUser.id_usuario,
+                    email: newUser.correo_electronico,
+                    rol: newUser.rol
+                }
+            });
+
+        } catch (error) {
+            console.error('Error en el registro:', error);
+            res.status(500).json({ success: false, message: 'Error interno del servidor durante el registro.' });
+        }
     }
-}
+};
