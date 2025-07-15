@@ -1,95 +1,219 @@
-// frontend/src/pages/CrearVacantePage.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Para redirigir después de crear
+import { useNavigate } from 'react-router-dom';
 
 const CrearVacantePage = () => {
-    const navigate = useNavigate(); // Hook para navegación
+    const navigate = useNavigate();
 
-    // Estado inicial para los campos del formulario
     const [formData, setFormData] = useState({
         titulo_cargo: '',
         area: '',
         descripcion_corta: '',
         responsabilidades: '',
-        requisitos: '',
+        requisitos: [],
         beneficios: '',
-        salario: '', // Tipo string para el input, se convertirá a numérico al enviar
-        id_servicio_interes: '' // Asumimos un select para esto o input numérico
+        salario: '',
+        id_servicio_interes: ''
     });
+
     const [serviciosInteres, setServiciosInteres] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadingServicios, setLoadingServicios] = useState(true);
     const [error, setError] = useState(null);
+    const [errorServicios, setErrorServicios] = useState(null);
     const [successMessage, setSuccessMessage] = useState(null);
+    const [formErrors, setFormErrors] = useState({});
 
-    // Cargar los servicios de interés para el select (simulado por ahora)
-    useEffect(() => {
-        // Aquí iría la llamada a tu API si tuvieras un endpoint para servicios de interés
-        // Ejemplo:
-        /*
-        const fetchServiciosInteres = async () => {
-            try {
-                const response = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/api/servicios-interes`);
-                setServiciosInteres(response.data);
-            } catch (err) {
-                console.error('Error al cargar servicios de interés:', err);
-            }
-        };
-        fetchServiciosInteres();
-        */
-        // Datos simulados para que el select funcione mientras no tengas el endpoint de servicios
-        setServiciosInteres([
-            { id_interes: 1, nombre_interes: 'Desarrollo Web' },
-            { id_interes: 2, nombre_interes: 'Marketing Digital' },
-            { id_interes: 3, nombre_interes: 'Recursos Humanos' },
-        ]);
-    }, []);
+    const isLocalhost = window.location.hostname === 'localhost';
+    const API_BASE_URL = isLocalhost
+        ? 'http://localhost:3000/api'
+        : 'https://novum-app.onrender.com/api';
 
-
-    // Manejador de cambios para todos los inputs
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+    // Función para obtener el token JWT del localStorage
+    const getAuthToken = () => {
+        const token = localStorage.getItem('jwt_token');
+        console.log('DEBUG: Token de localStorage en getAuthToken():', token); // <-- DEBUG
+        return token;
     };
 
-    // Manejador para el envío del formulario
+    // Función para manejar la redirección al login y limpiar la sesión
+    const handleUnauthorized = () => {
+        console.log('DEBUG: Sesión no autorizada/expirada. Limpiando token y redirigiendo.'); // <-- DEBUG
+        localStorage.removeItem('jwt_token');
+        localStorage.removeItem('user_info');
+        setError('Sesión expirada o no autorizada. Por favor, inicia sesión de nuevo.');
+        setTimeout(() => navigate('/login'), 1500);
+    };
+
+    // Cargar los servicios de interés al montar el componente
+    useEffect(() => {
+        console.log('DEBUG: useEffect para cargar servicios se está ejecutando.'); // <-- DEBUG
+        const fetchServiciosInteres = async () => {
+            setLoadingServicios(true);
+            setErrorServicios(null);
+            try {
+                const token = getAuthToken(); // Intenta obtener el token
+                
+                if (!token) {
+                    console.log('DEBUG: No se encontró token al intentar cargar servicios.'); // <-- DEBUG
+                    setErrorServicios('No autenticado. Por favor, inicia sesión para cargar servicios.');
+                    setLoadingServicios(false);
+                    return;
+                }
+
+                console.log('DEBUG: Token encontrado para cargar servicios. Intentando fetch...'); // <-- DEBUG
+                const response = await fetch(`${API_BASE_URL}/vacantes`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                });
+
+                if (!response.ok) {
+                    console.log('DEBUG: Respuesta no OK al cargar servicios. Status:', response.status); // <-- DEBUG
+                    if (response.status === 401 || response.status === 403) {
+                        handleUnauthorized();
+                        return;
+                    }
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Error al cargar los servicios de interés.');
+                }
+
+                const data = await response.json();
+                setServiciosInteres(data);
+                console.log('DEBUG: Servicios cargados exitosamente.'); // <-- DEBUG
+            } catch (err) {
+                console.error('DEBUG: Error en fetchServiciosInteres:', err); // <-- DEBUG
+                setErrorServicios(err.message || 'No se pudieron cargar los servicios de interés.');
+                setServiciosInteres([]);
+            } finally {
+                setLoadingServicios(false);
+            }
+        };
+
+        fetchServiciosInteres();
+    }, [navigate]);
+
+    const validateForm = () => {
+        const errors = {};
+        if (!formData.titulo_cargo.trim()) {
+            errors.titulo_cargo = 'El título del cargo es obligatorio.';
+        } else if (formData.titulo_cargo.trim().length < 3) {
+            errors.titulo_cargo = 'El título del cargo debe tener al menos 3 caracteres.';
+        }
+
+        if (!formData.area.trim()) {
+            errors.area = 'El área es obligatoria.';
+        }
+
+        if (!formData.descripcion_corta.trim()) {
+            errors.descripcion_corta = 'La descripción corta es obligatoria.';
+        } else if (formData.descripcion_corta.trim().length < 10) {
+            errors.descripcion_corta = 'La descripción corta debe tener al menos 10 caracteres.';
+        }
+
+        if (!formData.requisitos.trim()) {
+            errors.requisitos = 'Los requisitos son obligatorios.';
+        } else if (formData.requisitos.trim().length < 10) {
+            errors.requisitos = 'Los requisitos deben tener al menos 10 caracteres.';
+        }
+
+        if (formData.salario !== '' && isNaN(parseFloat(formData.salario))) {
+            errors.salario = 'El salario debe ser un número válido.';
+        } else if (formData.salario !== '' && parseFloat(formData.salario) < 0) {
+            errors.salario = 'El salario no puede ser negativo.';
+        }
+
+        setFormErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+        if (formErrors[name]) {
+            setFormErrors(prevErrors => ({ ...prevErrors, [name]: undefined }));
+        }
+    };
+
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Previene el comportamiento por defecto del formulario
+        e.preventDefault();
+
+        const isValid = validateForm();
+        if (!isValid) {
+            setError('Por favor, corrige los errores en el formulario.');
+            return;
+        }
+
         setLoading(true);
         setError(null);
         setSuccessMessage(null);
 
         try {
-            // Convertir salario a número si no es nulo o vacío
+            const token = getAuthToken();
+            if (!token) {
+                console.log('DEBUG: No se encontró token al intentar crear vacante.'); // <-- DEBUG
+                setError('No autenticado. Por favor, inicia sesión.');
+                setLoading(false);
+                return;
+            }
+
+            const responsabilidadesArray = formData.responsabilidades.split('\n').map(item => item.trim()).filter(item => item !== '');
+            const requisitosArray = formData.requisitos.split('\n').map(item => item.trim()).filter(item => item !== '');
+            const beneficiosArray = formData.beneficios.split('\n').map(item => item.trim()).filter(item => item !== '');
+
             const dataToSend = {
                 ...formData,
+                responsabilidades: responsabilidadesArray,
+                requisitos: requisitosArray,
+                beneficios: beneficiosArray,
                 salario: formData.salario === '' ? null : parseFloat(formData.salario),
-                creado_por_usuario_id: 1 // Hardcodeado para pruebas, en real vendría del usuario autenticado
             };
 
-            // Realiza la petición POST a tu API de vacantes
-            // ¡IMPORTANTE! Usa la variable de entorno para la URL del backend
-            const response = await axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/api/vacantes`, dataToSend);
+            console.log('DEBUG: Token encontrado para crear vacante. Intentando fetch...'); // <-- DEBUG
+            const response = await fetch(`${API_BASE_URL}/vacantes`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(dataToSend),
+            });
 
+            if (!response.ok) {
+                console.log('DEBUG: Respuesta no OK al crear vacante. Status:', response.status); // <-- DEBUG
+                if (response.status === 401 || response.status === 403) {
+                    handleUnauthorized();
+                    return;
+                }
+                const errorData = await response.json();
+                if (errorData.errors) {
+                    setFormErrors(errorData.errors);
+                    setError(errorData.message || 'Error de validación en el servidor. Por favor, revisa los campos.');
+                } else {
+                    throw new Error(errorData.message || 'Error desconocido al crear la vacante.');
+                }
+                return;
+            }
+
+            const responseData = await response.json();
             setSuccessMessage('Vacante creada exitosamente!');
-            console.log('Vacante creada:', response.data);
+            console.log('DEBUG: Vacante creada exitosamente:', responseData); // <-- DEBUG
 
-            // Limpiar el formulario
             setFormData({
                 titulo_cargo: '', area: '', descripcion_corta: '',
                 responsabilidades: '', requisitos: '', beneficios: '',
                 salario: '', id_servicio_interes: ''
             });
-
-            // Redirige a la página principal de vacantes (donde se listan)
-            navigate('/'); 
+            setFormErrors({});
+            navigate('/vacantes');
 
         } catch (err) {
-            console.error('Error al crear la vacante:', err.response ? err.response.data : err.message);
-            setError(err.response?.data?.message || 'Error al crear la vacante. Verifica los datos o el servidor.');
+            console.error('DEBUG: Error en handleSubmit:', err); // <-- DEBUG
+            setError(err.message || 'Error al crear la vacante. Verifica los datos o el servidor.');
         } finally {
             setLoading(false);
         }
@@ -111,15 +235,24 @@ const CrearVacantePage = () => {
                 </div>
             )}
 
+            {loadingServicios ? (
+                <p className="text-center text-gray-600">Cargando servicios de interés...</p>
+            ) : errorServicios ? (
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                    <span className="block sm:inline">{errorServicios}</span>
+                </div>
+            ) : null}
+
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label htmlFor="titulo_cargo" className="block text-gray-700 text-sm font-bold mb-2">Título del Cargo:</label>
                     <input
                         type="text" id="titulo_cargo" name="titulo_cargo"
                         value={formData.titulo_cargo} onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formErrors.titulo_cargo ? 'border-red-500' : ''}`}
                         required
                     />
+                    {formErrors.titulo_cargo && <p className="text-red-500 text-xs italic mt-1">{formErrors.titulo_cargo}</p>}
                 </div>
 
                 <div>
@@ -127,9 +260,10 @@ const CrearVacantePage = () => {
                     <input
                         type="text" id="area" name="area"
                         value={formData.area} onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formErrors.area ? 'border-red-500' : ''}`}
                         required
                     />
+                    {formErrors.area && <p className="text-red-500 text-xs italic mt-1">{formErrors.area}</p>}
                 </div>
 
                 <div>
@@ -137,9 +271,10 @@ const CrearVacantePage = () => {
                     <textarea
                         id="descripcion_corta" name="descripcion_corta"
                         value={formData.descripcion_corta} onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20 ${formErrors.descripcion_corta ? 'border-red-500' : ''}`}
                         required
                     ></textarea>
+                    {formErrors.descripcion_corta && <p className="text-red-500 text-xs italic mt-1">{formErrors.descripcion_corta}</p>}
                 </div>
 
                 <div>
@@ -148,6 +283,7 @@ const CrearVacantePage = () => {
                         id="responsabilidades" name="responsabilidades"
                         value={formData.responsabilidades} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
+                        placeholder="Escribe cada responsabilidad en una nueva línea."
                     ></textarea>
                 </div>
 
@@ -156,9 +292,11 @@ const CrearVacantePage = () => {
                     <textarea
                         id="requisitos" name="requisitos"
                         value={formData.requisitos} onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20 ${formErrors.requisitos ? 'border-red-500' : ''}`}
                         required
+                        placeholder="Escribe cada requisito en una nueva línea."
                     ></textarea>
+                    {formErrors.requisitos && <p className="text-red-500 text-xs italic mt-1">{formErrors.requisitos}</p>}
                 </div>
 
                 <div>
@@ -167,6 +305,7 @@ const CrearVacantePage = () => {
                         id="beneficios" name="beneficios"
                         value={formData.beneficios} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-20"
+                        placeholder="Escribe cada beneficio en una nueva línea."
                     ></textarea>
                 </div>
 
@@ -175,9 +314,10 @@ const CrearVacantePage = () => {
                     <input
                         type="number" id="salario" name="salario"
                         value={formData.salario} onChange={handleChange}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        step="0.01" // Permite decimales
+                        className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formErrors.salario ? 'border-red-500' : ''}`}
+                        step="0.01"
                     />
+                    {formErrors.salario && <p className="text-red-500 text-xs italic mt-1">{formErrors.salario}</p>}
                 </div>
 
                 <div>
@@ -186,16 +326,17 @@ const CrearVacantePage = () => {
                         id="id_servicio_interes" name="id_servicio_interes"
                         value={formData.id_servicio_interes} onChange={handleChange}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        disabled={loadingServicios}
                     >
                         <option value="">Selecciona un servicio</option>
-                        {serviciosInteres.map(servicio => (
+                        {!loadingServicios && !errorServicios && serviciosInteres.map(servicio => (
                             <option key={servicio.id_interes} value={servicio.id_interes}>
                                 {servicio.nombre_interes}
                             </option>
                         ))}
                     </select>
                     <p className="text-gray-500 text-xs mt-1">
-                        (Si no tienes servicios de interés, puedes dejarlo en blanco o codificar un ID válido directamente en el código por ahora. El backend usa `creado_por_usuario_id = 1` por defecto.)
+                        (Si no tienes servicios de interés, puedes dejarlo en blanco o codificar un ID válido directamente en el código por ahora. El backend usa `creado_por_usuario_id` del token.)
                     </p>
                 </div>
 
