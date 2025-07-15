@@ -9,7 +9,7 @@ const CrearVacantePage = () => {
         area: '',
         descripcion_corta: '',
         responsabilidades: '',
-        requisitos: [],
+        requisitos: '',
         beneficios: '',
         salario: '',
         id_servicio_interes: ''
