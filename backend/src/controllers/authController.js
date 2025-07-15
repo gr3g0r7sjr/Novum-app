@@ -111,5 +111,6 @@ export const authController = {
             console.error('Error en el registro:', error);
             res.status(500).json({ success: false, message: 'Error interno del servidor durante el registro.' });
         }
-    }
+    }, 
+    
 };

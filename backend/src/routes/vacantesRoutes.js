@@ -5,5 +5,6 @@ const router = Router();
 
 router.get('/', vacantesController.obtener);
 router.post('/', vacantesController.crear);
+router.get('/servicios-interes', vacantesController.obtenerServiciosInteres);
 
 export default router;
