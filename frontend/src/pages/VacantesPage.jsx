@@ -34,7 +34,7 @@ export const VacantesPage = () => {
             }
         };
         fetchVacantes();
-    }, []);
+    }, [API_URL]);
 
     if (loading) {
         return (
