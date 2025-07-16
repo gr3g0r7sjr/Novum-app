@@ -14,6 +14,7 @@ export const VacantesPage = () => {
         const fetchVacantes = async () => {
             try {
                 const response = await fetch(API_URL, {
+                    method:'GET',
                     headers: {
                         'Content-Type': 'application/json'
                     }

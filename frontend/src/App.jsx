@@ -11,7 +11,7 @@ import { Footer } from './components/Footer/Footer.jsx';
 import { VacantesPage } from './pages/VacantesPage.jsx';
 
 // Importa los nuevos componentes de página
-import CrearVacantePage from './pages/CrearVacantePage.jsx';
+import {CrearVacantePage} from './pages/CrearVacantePage.jsx';
 
 // Definición de diferentes GRUPOS de rutas de navegación
 const navRouteGroups = {
@@ -23,9 +23,10 @@ const navRouteGroups = {
   ],
   admin: [ // Rutas para el panel de administración
     {path: '/admin/dashboard', name : 'Dashboard'},
-    {path: '/admin/curriculus', name:'Curriculus'},
+    {path: '/admin/vacantes', name:'Vacantes'},
     {path: '/admin/crearVacante', name: 'Crear Vacante'}, // Enlace al formulario de creación
     {path: '/admin/candidatos', name:'Candidatos'},
+    {}
   ]
 };
 

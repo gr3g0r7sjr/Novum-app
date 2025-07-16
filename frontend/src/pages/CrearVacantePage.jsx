@@ -1,7 +1,8 @@
+// frontend/src/pages/CrearVacantePage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const CrearVacantePage = () => {
+export const CrearVacantePage = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -31,7 +32,7 @@ const CrearVacantePage = () => {
     // Función para obtener el token JWT del localStorage
     const getAuthToken = () => {
         const token = localStorage.getItem('jwt_token');
-        console.log('DEBUG: Token de localStorage en getAuthToken():', token); // <-- DEBUG
+        console.log('DEBUG: Token de localStorage en getAuthToken():', token ? 'Encontrado' : 'NULO'); // <-- DEBUG
         return token;
     };
 
@@ -61,7 +62,8 @@ const CrearVacantePage = () => {
                 }
 
                 console.log('DEBUG: Token encontrado para cargar servicios. Intentando fetch...'); // <-- DEBUG
-                const response = await fetch(`${API_BASE_URL}/vacantes`, {
+                // ¡CORRECCIÓN AQUÍ! Cambiado a `/vacantes/servicios-interes`
+                const response = await fetch(`${API_BASE_URL}/vacantes/servicios-interes`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -353,5 +355,3 @@ const CrearVacantePage = () => {
         </div>
     );
 };
-
-export default CrearVacantePage;
