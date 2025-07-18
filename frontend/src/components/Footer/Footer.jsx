@@ -10,7 +10,7 @@ export const Footer = (enlances) => {
             <section className={styles.footer}>
                 <div>
                     <div>
-                        
+                        {novumLogo}
                     </div>
                     <div>
                         <h3>Siguenos</h3>
