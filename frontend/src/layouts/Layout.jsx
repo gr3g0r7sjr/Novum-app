@@ -24,7 +24,7 @@ export const Layout = ({ children }) => {
     return (
     <div className="flex flex-col min-h-screen"> 
     <NavHeader routesGroups={navRouteGroups} />
-        <main className="flex-grow container mx-auto"> 
+        <main className="flex-grow mx-auto"> 
             {children} 
         </main>
     <Footer routesGroups = {navRouteGroups.main} /> {/* Renderiza el pie de página */}
