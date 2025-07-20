@@ -40,10 +40,22 @@ function App() {
           <Route path='/login' element={<LoginAdmin />} />
 
           {/* Rutas de administración */}
-          <Route path='/admin/dashboard' element={<AdminDashboard/>} />
-          <Route path='/admin/vacantes' element={<VacantesAdmin/>} />
+          <Route path='/admin/dashboard' element={
+            <Layout>
+              <AdminDashboard/>
+            </Layout>
+            } />
+          <Route path='/admin/vacantes' element={
+            <Layout>
+              <VacantesAdmin/> 
+            </Layout>
+            } />
           {/* Ruta para el formulario de creación de vacantes */}
-          <Route path='/admin/crearVacante' element={<CrearVacantePage />} /> 
+          <Route path='/admin/crearVacante' element={
+            <Layout>
+              <CrearVacantePage />
+            </Layout>
+            } /> 
           <Route path='/admin/candidatos' element={<AdminDashboard/>} />
 
           {/* Ruta 404 para cualquier otra ruta no definida */}

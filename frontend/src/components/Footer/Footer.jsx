@@ -1,19 +1,32 @@
 import styles from '../Footer/Footer.module.scss'
 import novumLogo from "../../assets/novum-logo.png"
+import { Linkedin } from 'lucide-react'
 
-export const Footer = (enlances) => {
+export const Footer = () => {
 
-    const {textUrl} = enlances; 
 
     return (
         <footer className={styles.containerFooter}>
             <section className={styles.footer}>
                 <div>
                     <div>
-                        <img src={novumLogo} alt="" />
+                    
                     </div>
                     <div>
                         <h3>Siguenos</h3>
+                        <div>
+                            <ul>
+                                <li>
+                                    <a href=""></a>
+                                </li>
+                                <li>
+                                    <a href=""></a>
+                                </li>
+                                <li>
+                                    <a href=""></a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div className={styles.containerTerminos}>
