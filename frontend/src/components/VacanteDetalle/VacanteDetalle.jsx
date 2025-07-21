@@ -20,7 +20,7 @@ export const VacanteDetalle = () => {
     useEffect(() => {
         const fetchVacantes = async () => {
             try{
-                const response = await fetch(`${API_URL/id}`, {
+                const response = await fetch(`${API_URL}/${id}`, {
                     method:'GET',
                     headers: {
                         'Content-Type': 'application/json'
@@ -29,8 +29,8 @@ export const VacanteDetalle = () => {
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status}`)
                 }
-                const data = response.json(); 
-                setVacante(data)
+                const data = await response.json(); 
+                setVacante(data);
             }catch (err){
                 setError(err.message || 'No se pudo cargar los detalles de la vacante');
             }finally{

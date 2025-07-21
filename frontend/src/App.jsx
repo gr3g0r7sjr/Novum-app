@@ -13,6 +13,7 @@ import {Layout} from './layouts/Layout.jsx'
 // Importa los nuevos componentes de página
 import {CrearVacantePage} from './pages/CrearVacantePage.jsx';
 import { VacantesAdmin } from './pages/VacantesAdmin.jsx';
+import { VacanteDetalle } from './components/VacanteDetalle/VacanteDetalle.jsx';
 
 
 function App() {
@@ -45,7 +46,11 @@ function App() {
 
 
           {/*Rutas para las vacantes*/}
-          <Route></Route>
+          <Route path="/vacantes/:id" element={
+            <Layout>
+              <VacanteDetalle />
+            </Layout>
+          } />
 
 
           {/* Rutas de administración */}
@@ -66,6 +71,8 @@ function App() {
             </Layout>
             } /> 
           <Route path='/admin/candidatos' element={<AdminDashboard/>} />
+
+          
 
           {/* Ruta 404 para cualquier otra ruta no definida */}
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
