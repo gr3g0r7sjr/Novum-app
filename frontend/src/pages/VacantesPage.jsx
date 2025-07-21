@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 export const VacantesPage = () => {
     const [vacantes, setVacantes] = useState([]);
@@ -70,9 +71,9 @@ export const VacantesPage = () => {
                         <p className="text-gray-700 mb-2"><strong>Área:</strong> {vacante.area}</p>
                         <p className="text-gray-600 text-sm mb-4">{vacante.descripcion_corta}</p>
                         <div className="text-right">
-                            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
-                                Ver Detalles
-                            </button>
+                            <Link to={`/vacantes/${vacante.id_vacante}`} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+                                Ver detalles
+                            </Link>
                         </div>
                     </div>
                 ))}

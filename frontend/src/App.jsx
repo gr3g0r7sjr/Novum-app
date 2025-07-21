@@ -37,7 +37,16 @@ function App() {
               <Contact />
             </Layout>
             } />
-          <Route path='/login' element={<LoginAdmin />} />
+          <Route path='/login' element={
+            <Layout>
+              <LoginAdmin />
+            </Layout>
+            } />
+
+
+          {/*Rutas para las vacantes*/}
+          <Route></Route>
+
 
           {/* Rutas de administración */}
           <Route path='/admin/dashboard' element={
