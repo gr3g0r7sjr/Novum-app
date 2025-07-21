@@ -3,9 +3,6 @@ import pool from '../db.js';
 export const vacantesController = {
     obtener: async (req, res) => {
         try {
-            // Consulta SQL para obtener todas las vacantes activas
-            // Incluye JOINs para obtener información relacionada como el correo del usuario creador
-            // y el nombre del servicio de interés, si existen.
             const query = `
                 SELECT
                     v.id_vacante,
@@ -19,7 +16,6 @@ export const vacantesController = {
                     v.fecha_publicacion,
                     v.estado,
                     v.creado_por_usuario_id,
-                    u.correo_electronico AS creado_por_correo,
                     v.id_servicio_interes,
                     ie.nombre_interes AS nombre_servicio_interes
                 FROM
@@ -54,16 +50,9 @@ export const vacantesController = {
             salario, id_servicio_interes
         } = req.body;
 
-        // DEBUG: Verifica qué hay en req.user justo al inicio del controlador
-        console.log('DEBUG CONTROLLER: req.user en el controlador:', req.user);
-        console.log('DEBUG CONTROLLER: req.user.id en el controlador:', req.user ? req.user.id : 'undefined/null');
-
-        // Asegúrate de que creado_por_usuario_id se obtenga de req.user.id
         const creado_por_usuario_id = req.user ? req.user.id : null;
 
         const errors = {};
-
-        // ... (resto de tus validaciones)
 
         // Validación de creado_por_usuario_id (se mantiene para capturar si es null o no numérico)
         if (!creado_por_usuario_id || isNaN(parseInt(creado_por_usuario_id, 10)) || parseInt(creado_por_usuario_id, 10) <= 0) {
@@ -78,8 +67,6 @@ export const vacantesController = {
         }
 
         try {
-            // ... (resto de tu lógica de crear vacante)
-
             const query = `
                 INSERT INTO vacantes (
                     titulo_cargo, area, descripcion_corta, responsabilidades,
@@ -128,6 +115,20 @@ export const vacantesController = {
         } catch (error) {
             console.error('Error al obtener servicios de interés:', error);
             res.status(500).json({ message: 'Error interno del servidor al cargar servicios de interés.' });
+        }
+    },
+    obtenerVacanteId: async (req, res) => {
+        const {id} = req.params
+        try {
+            const result = await pool.query('SELECT * FROM vacantes WHERE id_vacante = $1', [id]);
+            if (result.rows.length > 0) {
+                res.json(result.rows[0]); 
+            } else {
+                res.status(404).json({ message: 'Vacante no encontrada' });
+            }
+        } catch (err) {
+            console.error(`Error al obtener vacante con ID ${id}:`, err);
+            res.status(500).json({ message: 'Error interno del servidor al obtener la vacante.' });
         }
     }
     

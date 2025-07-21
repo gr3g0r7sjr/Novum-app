@@ -12,6 +12,7 @@ import authenticateToken from './middlewares/authMiddleware.js';
 
 import authRoutes from './routes/authRoutes.js'; 
 import vacantesRoutes from './routes/vacantesRoutes.js'; 
+import { vacantesController } from './controllers/vacantesController.js';
 
 const app = express();
 const port = process.env.PORT || 3000; 
@@ -28,16 +29,18 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.use('/api', authRoutes); // authRoutes manejará /login, /register, etc.
+app.use('/api', authRoutes); 
 
-app.use('/api/vacantes', authenticateToken, vacantesRoutes); // <-- MONTAJE CORREGIDO
+app.get('/api/vacantes', vacantesController.obtener)
 
-// Ruta de bienvenida para verificar que el servidor está funcionando
+app.get('/api/vacantes/:id', vacantesController.obtenerVacanteId)
+
+app.use('/api/vacantes', authenticateToken, vacantesRoutes); 
+
 app.get('/', (req, res) => {
-    res.send('Hola, el servidor esta corriendo y funcionando en express. Accede a /api/login para autenticar.');
+    res.send('Hola, el servidor esta corriendo y funcionando en express.');
 });
 
-// Inicia el servidor de Express
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });
