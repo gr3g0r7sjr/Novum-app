@@ -31,9 +31,12 @@ app.use(express.urlencoded({extended:true}));
 
 app.use('/api', authRoutes); 
 
+app.get('/api/vacantes/servicios-interes', authenticateToken, vacantesController.obtenerServiciosInteres);
+
 app.get('/api/vacantes', vacantesController.obtener)
 
 app.get('/api/vacantes/:id', vacantesController.obtenerVacanteId)
+
 
 app.use('/api/vacantes', authenticateToken, vacantesRoutes); 
 

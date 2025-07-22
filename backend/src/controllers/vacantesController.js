@@ -107,7 +107,6 @@ export const vacantesController = {
     },
     obtenerServiciosInteres: async (req, res) => {
         try {
-            // Consulta SQL para obtener todos los servicios de interés
             const query = 'SELECT id_interes, nombre_interes FROM intereses_empresa ORDER BY nombre_interes;';
             const result = await pool.query(query);
 
