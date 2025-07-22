@@ -29,7 +29,8 @@ export const VacanteDetalle = () => {
                 if (!response.ok) {
                     throw new Error(`Error HTTP: ${response.status}`)
                 }
-                const data = await response.json(); 
+                const data = await response.json();
+                console.log("Datos recibidos del backend:", data);
                 setVacante(data);
             }catch (err){
                 setError(err.message || 'No se pudo cargar los detalles de la vacante');

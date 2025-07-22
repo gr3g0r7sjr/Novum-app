@@ -32,7 +32,7 @@ export const CrearVacantePage = () => {
     // Función para obtener el token JWT del localStorage
     const getAuthToken = () => {
         const token = localStorage.getItem('jwt_token');
-        console.log('DEBUG: Token de localStorage en getAuthToken():', token ? 'Encontrado' : 'NULO'); // <-- DEBUG
+        //console.log('DEBUG: Token de localStorage en getAuthToken():', token ? 'Encontrado' : 'NULO'); // <-- DEBUG
         return token;
     };
 
@@ -47,7 +47,7 @@ export const CrearVacantePage = () => {
 
     // Cargar los servicios de interés al montar el componente
     useEffect(() => {
-        console.log('DEBUG: useEffect para cargar servicios se está ejecutando.'); // <-- DEBUG
+        //console.log('DEBUG: useEffect para cargar servicios se está ejecutando.'); // <-- DEBUG
         const fetchServiciosInteres = async () => {
             setLoadingServicios(true);
             setErrorServicios(null);
@@ -55,13 +55,13 @@ export const CrearVacantePage = () => {
                 const token = getAuthToken(); // Intenta obtener el token
                 
                 if (!token) {
-                    console.log('DEBUG: No se encontró token al intentar cargar servicios.'); // <-- DEBUG
+                    //console.log('DEBUG: No se encontró token al intentar cargar servicios.'); // <-- DEBUG
                     setErrorServicios('No autenticado. Por favor, inicia sesión para cargar servicios.');
                     setLoadingServicios(false);
                     return;
                 }
 
-                console.log('DEBUG: Token encontrado para cargar servicios. Intentando fetch...'); // <-- DEBUG
+                //console.log('DEBUG: Token encontrado para cargar servicios. Intentando fetch...'); // <-- DEBUG
                 // ¡CORRECCIÓN AQUÍ! Cambiado a `/vacantes/servicios-interes`
                 const response = await fetch(`${API_BASE_URL}/vacantes/servicios-interes`, {
                     method: 'GET',
@@ -83,7 +83,7 @@ export const CrearVacantePage = () => {
 
                 const data = await response.json();
                 setServiciosInteres(data);
-                console.log('DEBUG: Servicios cargados exitosamente.'); // <-- DEBUG
+                //console.log('DEBUG: Servicios cargados exitosamente.'); // <-- DEBUG
             } catch (err) {
                 console.error('DEBUG: Error en fetchServiciosInteres:', err); // <-- DEBUG
                 setErrorServicios(err.message || 'No se pudieron cargar los servicios de interés.');
@@ -337,9 +337,7 @@ export const CrearVacantePage = () => {
                             </option>
                         ))}
                     </select>
-                    <p className="text-gray-500 text-xs mt-1">
-                        (Si no tienes servicios de interés, puedes dejarlo en blanco o codificar un ID válido directamente en el código por ahora. El backend usa `creado_por_usuario_id` del token.)
-                    </p>
+                    
                 </div>
 
                 <div className="flex items-center justify-between">
