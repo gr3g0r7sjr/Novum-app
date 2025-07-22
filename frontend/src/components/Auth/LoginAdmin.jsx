@@ -78,7 +78,7 @@ export const LoginAdmin = () => {
                     localStorage.setItem('user_info', JSON.stringify(responseData.user));
 
                     setEstadoLogin('Inicio de sesión exitoso!');
-                    console.log('Login exitoso, token guardado:', responseData.token);
+                    //console.log('Login exitoso, token guardado:', responseData.token);
                     // Redirige al dashboard de administración/RRHH
                     navigate('/admin/dashboard'); // Asegúrate de que esta ruta exista en tu React Router
                 } else {
