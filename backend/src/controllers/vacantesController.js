@@ -78,9 +78,9 @@ export const vacantesController = {
                 titulo_cargo.trim(),
                 area.trim(),
                 descripcion_corta.trim(),
-                JSON.stringify(responsabilidades),
-                JSON.stringify(requisitos),
-                JSON.stringify(beneficios),
+                responsabilidades,
+                requisitos,
+                beneficios,
                 salario === '' ? null : parseFloat(String(salario).replace(/[^0-9.-]+/g,"")),
                 parseInt(creado_por_usuario_id, 10), // Asegúrate de que este ID sea válido
                 id_servicio_interes === '' ? null : parseInt(id_servicio_interes, 10)
