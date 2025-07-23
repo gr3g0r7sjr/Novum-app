@@ -43,7 +43,7 @@ CREATE TABLE public.candidatos (
     vehiculo character varying(20),
     fecha_expiracion_datos date,
     fecha_postulacion_inicial timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT chk_vehiculo_valido CHECK (((vehiculo)::text = ANY (ARRAY[('si'::character varying)::text, ('no'::character varying)::text])))
+    CONSTRAINT chk_vehiculo_valido CHECK (vehiculo = ANY (ARRAY['si'::text, 'no'::text]))
 );
 
 
@@ -282,62 +282,33 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id_usuario SET DEFAULT nextval('pu
 
 ALTER TABLE ONLY public.vacantes ALTER COLUMN id_vacante SET DEFAULT nextval('public.vacantes_id_vacante_seq'::regclass);
 
-
 --
--- TOC entry 4946 (class 0 OID 16738)
--- Dependencies: 221
--- Data for Name: candidatos; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Datos para Name: intereses_empresa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.candidatos (id_candidato, nombre, apellido, correo_electronico, numero_telefono, direccion, educacion, experiencia_laboral, cursos_certificaciones, habilidades, servicio_interes, vehiculo, fecha_expiracion_datos, fecha_postulacion_inicial) FROM stdin;
-\.
-
-
---
--- TOC entry 4942 (class 0 OID 16726)
--- Dependencies: 217
--- Data for Name: intereses_empresa; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.intereses_empresa (id_interes, nombre_interes) FROM stdin;
-1	Tecnología 
-2	Marketing
-3	Recursos Humanos
-4	Administración
-\.
-
+INSERT INTO public.intereses_empresa (id_interes, nombre_interes) VALUES
+(1, 'Tecnología'),
+(2, 'Marketing'),
+(3, 'Recursos Humanos'),
+(4, 'Administración');
 
 --
--- TOC entry 4950 (class 0 OID 16755)
--- Dependencies: 225
--- Data for Name: postulaciones; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Datos para Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.postulaciones (id_postulacion, id_candidato, id_vacante, fecha_postulacion, estado_postulacion) FROM stdin;
-\.
-
-
---
--- TOC entry 4944 (class 0 OID 16730)
--- Dependencies: 219
--- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.usuarios (id_usuario, email, password_hash, rol, fecha_creacion) FROM stdin;
-1	gsubero@gmail.com	$2b$10$Nxiu6PpULX/a2JdvsafFq..O.IYobIj5FsxaZuWb2aNP0qDdpACLO	admin	2025-07-13 11:40:02.945656-04
-\.
-
+INSERT INTO public.usuarios (id_usuario, email, password_hash, rol, fecha_creacion) VALUES
+(1, 'gsubero@gmail.com', '$2b$10$Nxiu6PpULX/a2JdvsafFq..O.IYobIj5FsxaZuWb2aNP0qDdpACLO', 'admin', '2025-07-13 11:40:02.945656-04');
 
 --
--- TOC entry 4948 (class 0 OID 16746)
--- Dependencies: 223
--- Data for Name: vacantes; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Datos para Name: vacantes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
-
-COPY public.vacantes (id_vacante, titulo_cargo, area, descripcion_corta, responsabilidades, requisitos, beneficios, salario, fecha_publicacion, estado, creado_por_usuario_id, id_servicio_interes, fecha_creacion) FROM stdin;
-9	Frontend Developer	Tecnologia	Frontend Developer con mas de 3 años	["React","Tailwind"]	["+3 años experiencia","React"]	["20 vacaciones","remoto"]	1.8	2025-07-14 21:08:02.006456-04	activa	1	1	2025-07-14 21:08:02.006456-04
-10	Especialista en Marketing Digital	Marketing	Buscamos un experto en estrategias de marketing online y SEO.	["Desarrollar campañas de marketing","Analizar métricas de rendimiento.","Optimizar contenido para motores de búsqueda."]	["3+ años de experiencia en marketing digital.","Conocimiento en SEO"]	["Plan de carrera.","Bono por rendimiento","Vacaciones 20 dias anuales"]	1800	2025-07-15 15:53:09.544346-04	activa	1	2	2025-07-15 15:53:09.544346-04
-\.
+-- NOTA: Los campos responsabilidades, requisitos y beneficios son TEXT.
+-- Asegúrate de que el formato de array JSON sea lo que deseas almacenar como texto plano.
+-- Si necesitas un tipo de dato ARRAY en PostgreSQL, las columnas deberían ser TEXT[].
+--
+INSERT INTO public.vacantes (id_vacante, titulo_cargo, area, descripcion_corta, responsabilidades, requisitos, beneficios, salario, fecha_publicacion, estado, creado_por_usuario_id, id_servicio_interes, fecha_creacion) VALUES
+(9, 'Frontend Developer', 'Tecnologia', 'Frontend Developer con mas de 3 años', '["React","Tailwind"]', '["+3 años experiencia","React"]', '["20 vacaciones","remoto"]', '1.8', '2025-07-14 21:08:02.006456-04', 'activa', 1, 1, '2025-07-14 21:08:02.006456-04'),
+(10, 'Especialista en Marketing Digital', 'Marketing', 'Buscamos un experto en estrategias de marketing online y SEO.', '["Desarrollar campañas de marketing","Analizar métricas de rendimiento.","Optimizar contenido para motores de búsqueda."]', '["3+ años de experiencia en marketing digital.","Conocimiento en SEO"]', '["Plan de carrera.","Bono por rendimiento","Vacaciones 20 dias anuales"]', '1800', '2025-07-15 15:53:09.544346-04', 'activa', 1, 2, '2025-07-15 15:53:09.544346-04');
 
 
 --
@@ -507,4 +478,3 @@ ALTER TABLE ONLY public.vacantes
 --
 -- PostgreSQL database dump complete
 --
-
