@@ -1,10 +1,3 @@
-
-
 export const CardsVacantes = () => {
-
-    return(
-        <div>
-            
-        </div>
-    )
-}
+  return <div></div>;
+};

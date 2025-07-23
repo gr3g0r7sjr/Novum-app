@@ -1,18 +1,20 @@
-import { memo, useMemo, useState } from "react"
-import { NavLink, useLocation } from "react-router-dom"
-import novumLogo from "../assets/novum-logo.png"
-import bgNav from "../assets/bg-home.jpg"
-import { Menu, X } from "lucide-react"
+import { memo, useMemo, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import novumLogo from "../assets/novum-logo.png";
+import bgNav from "../assets/bg-home.jpg";
+import { Menu, X } from "lucide-react";
 
 export const NavHeader = memo(({ routesGroups }) => {
-  const location = useLocation()
-  const currentPath = location.pathname
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const routesToDisplay = useMemo(() => {
     if (typeof routesGroups !== "object" || routesGroups === null) {
-      console.error("NavHeader Error: routesGroups no es un objeto válido o es undefined/null.");
+      console.error(
+        "NavHeader Error: routesGroups no es un objeto válido o es undefined/null.",
+      );
       return [];
     }
 
@@ -20,20 +22,24 @@ export const NavHeader = memo(({ routesGroups }) => {
       if (Array.isArray(routesGroups.admin)) {
         return routesGroups.admin;
       } else {
-        console.error("NavHeader Error: routesGroups.admin no es un array o es undefined.");
+        console.error(
+          "NavHeader Error: routesGroups.admin no es un array o es undefined.",
+        );
         return [];
       }
     }
 
     if (Array.isArray(routesGroups.main)) {
-      return routesGroups.main
+      return routesGroups.main;
     } else {
-      console.error("NavHeader Error: routesGroups.main no es un array o es undefined.")
-      return []
+      console.error(
+        "NavHeader Error: routesGroups.main no es un array o es undefined.",
+      );
+      return [];
     }
-  }, [routesGroups, currentPath])
+  }, [routesGroups, currentPath]);
 
-  const imageNavBg = bgNav
+  const imageNavBg = bgNav;
 
   return (
     <section
@@ -43,12 +49,18 @@ export const NavHeader = memo(({ routesGroups }) => {
       <div className="flex w-full items-center justify-between">
         <figure className="w-32">
           <a href="../">
-            <img src={novumLogo || "/placeholder.svg"} alt="Logo de Novumideas" />
+            <img
+              src={novumLogo || "/placeholder.svg"}
+              alt="Logo de Novumideas"
+            />
           </a>
         </figure>
 
         {/* Botón hamburguesa solo en móviles */}
-        <button className="md:hidden text-white" onClick={() => setMenuOpen(!menuOpen)}>
+        <button
+          className="md:hidden text-white"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
           {menuOpen ? <X size={28} /> : <Menu size={28} />}
         </button>
 
@@ -57,10 +69,12 @@ export const NavHeader = memo(({ routesGroups }) => {
           <ul className="flex justify-between text-slate-50 w-full">
             {routesToDisplay.length > 0 ? (
               routesToDisplay.map((route, index) => (
-                <li key={`${route.path}-${index}`} className= "pl-2">
+                <li key={`${route.path}-${index}`} className="pl-2">
                   <NavLink
                     to={route.path}
-                    className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active-link" : "nav-link"
+                    }
                     style={({ isActive }) => ({
                       textDecoration: "none",
                       color: isActive ? "white" : "#fafaf9",
@@ -88,7 +102,9 @@ export const NavHeader = memo(({ routesGroups }) => {
                   <NavLink
                     to={route.path}
                     onClick={() => setMenuOpen(false)} // Cierra el menú al hacer clic
-                    className={({ isActive }) => (isActive ? "nav-link active-link" : "nav-link")}
+                    className={({ isActive }) =>
+                      isActive ? "nav-link active-link" : "nav-link"
+                    }
                     style={({ isActive }) => ({
                       display: "block",
                       textDecoration: "none",
@@ -109,7 +125,7 @@ export const NavHeader = memo(({ routesGroups }) => {
         </nav>
       )}
     </section>
-  )
-})
+  );
+});
 
-NavHeader.displayName = "NavHeader"
+NavHeader.displayName = "NavHeader";
