@@ -1,5 +1,5 @@
 // backend/controllers/postulacionesController.js
-import pool from '../config/db.js'; // Importa el pool de conexiones con la extensión .js
+import pool from '../db.js'; // Importa el pool de conexiones con la extensión .js
 
 /**
  * @description: Permite a un candidato postularse a una vacante.
