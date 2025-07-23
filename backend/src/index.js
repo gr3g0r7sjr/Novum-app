@@ -1,13 +1,9 @@
 import 'dotenv/config'; 
 import {FRONTEND_URL, JWT_SECRET } from './config/config.js'; 
 import express from 'express';
-import dotenv from 'dotenv';
 import cors from 'cors';
-import jwt from 'jsonwebtoken'; 
 
 import authenticateToken from './middlewares/authMiddleware.js'; 
-
-
 import authRoutes from './routes/authRoutes.js'; 
 import vacantesRoutes from './routes/vacantesRoutes.js'; 
 import postulacionesRoutes from './routes/postulacionesRoutes.js';
@@ -30,13 +26,17 @@ app.use('/api', authRoutes);
 
 app.get('/api/vacantes/servicios-interes', authenticateToken, vacantesController.obtenerServiciosInteres);
 
-app.get('/api/vacantes', vacantesController.obtener)
 
-app.get('/api/vacantes/:id', vacantesController.obtenerVacanteId)
+app.post('/api/vacantes/:id/postulaciones', vacantesController.crear);
+
+app.get('/api/vacantes', vacantesController.obtener);
+
+app.get('/api/vacantes/:id', vacantesController.obtenerVacanteId); 
+
+app.use('/api/postulaciones', postulacionesRoutes);
 
 app.use('/api/vacantes', authenticateToken, vacantesRoutes); 
 
-app.use('/api/postulaciones', postulacionesRoutes);
 
 app.get('/', (req, res) => {
     res.send('Hola, el servidor esta corriendo y funcionando en express.');
