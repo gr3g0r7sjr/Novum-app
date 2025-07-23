@@ -14,7 +14,7 @@ import {Layout} from './layouts/Layout.jsx'
 import {CrearVacantePage} from './pages/CrearVacantePage.jsx';
 import { VacantesAdmin } from './pages/VacantesAdmin.jsx';
 import { VacanteDetalle } from './components/VacanteDetalle/VacanteDetalle.jsx';
-
+import ApplyVacantes from './components/ApplyVacantes/ApplyVacantes';
 
 function App() {
   return (
@@ -75,6 +75,15 @@ function App() {
               <AdminDashboard/>
             </Layout>
             } />
+          {/* Nueva ruta para el formulario de postulación de candidatos          */}
+          {/* El :idVacante en la URL permite capturar el ID de la vacante        */}
+          {/* a la que el candidato se está postulando.                           */}
+          {/* =================================================================== */}
+          <Route path="/vacantes/:idVacante/postular" element={
+            <Layout>
+              <ApplyVacantes/>
+            </Layout>
+            } />  
           {/* Ruta 404 para cualquier otra ruta no definida */}
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
