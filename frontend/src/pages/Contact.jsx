@@ -1,7 +1,7 @@
 import styles from '../styles/Contact.module.scss';
-import { FormContacto } from '../components/FormContacto/FormContacto.jsx';
-import { CardsContacto } from '../components/CardsContacto/CardsContacto.jsx';
-import { CardsPreguntas } from '../components/CardsPreguntas/CardsPreguntas.jsx';
+import { FormContacto } from '../components/FormContacto/FormContacto';
+import { CardsContacto } from '../components/CardsContacto/CardsContacto';
+import { CardsPreguntas } from '../components/CardsPreguntas/CardsPreguntas';
 import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 
 
