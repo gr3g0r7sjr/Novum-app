@@ -75,11 +75,7 @@ function App() {
               <AdminDashboard/>
             </Layout>
             } />
-          {/* Nueva ruta para el formulario de postulación de candidatos          */}
-          {/* El :idVacante en la URL permite capturar el ID de la vacante        */}
-          {/* a la que el candidato se está postulando.                           */}
-          {/* =================================================================== */}
-          <Route path="/vacantes/:idVacante/postular" element={
+          <Route path="/vacantes/:id/postulaciones" element={
             <Layout>
               <ApplyVacantes/>
             </Layout>

@@ -53,7 +53,7 @@ export const VacanteDetalle = () => {
                     <Briefcase />
                     <h1>{vacante.titulo_cargo}</h1>
                 </div>
-                <Link className={styles.button}>Aplicar Ahora</Link>
+                <Link className={styles.button} to={`/vacantes/${vacante.id_vacante}/postulaciones`}>Aplicar Ahora</Link>
             </div>
             <div>
                 <h2 className={styles.titles}>Descripción</h2>
