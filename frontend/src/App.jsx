@@ -70,10 +70,11 @@ function App() {
               <CrearVacantePage />
             </Layout>
             } /> 
-          <Route path='/admin/candidatos' element={<AdminDashboard/>} />
-
-          
-
+          <Route path='/admin/candidatos' element={
+            <Layout>
+              <AdminDashboard/>
+            </Layout>
+            } />
           {/* Ruta 404 para cualquier otra ruta no definida */}
           <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
         </Routes>
