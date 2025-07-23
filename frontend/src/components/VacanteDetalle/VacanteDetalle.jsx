@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Briefcase } from 'lucide-react';
+import styles from './VacanteDetalle.module.scss'
 
 
 export const VacanteDetalle = () => {
@@ -46,29 +47,47 @@ export const VacanteDetalle = () => {
     if (!vacante) return <div>Vacante no encontrada.</div>;
 
     return (
-        <section>
-            <div>
+        <section className={styles.containerDetalle}>
+            <div className={styles.containerTitle}>
                 <div>
                     <Briefcase />
                     <h1>{vacante.titulo_cargo}</h1>
                 </div>
-                <Link>Aplicar Ahora</Link>
+                <Link className={styles.button}>Aplicar Ahora</Link>
             </div>
             <div>
-                <h2>Descripción</h2>
+                <h2 className={styles.titles}>Descripción</h2>
                 {vacante.descripcion_corta}
             </div>
             <div>
-                <h2>Responsabilidades</h2>
-                {vacante.responsabilidades}
+                <h2 className={styles.titles}>Responsabilidades</h2>
+                <ul className={styles.list}>
+                    {vacante.responsabilidades.map((responsabilidad, index) => (
+                        <li key={index} className={styles.text}>
+                            {responsabilidad}
+                        </li>
+                    ))}
+                </ul>
             </div>
             <div>
-                <h2>Requisitos</h2>
-                {vacante.requisitos}
+                <h2 className={styles.titles}>Requisitos</h2>
+                <ul className={styles.list}>
+                    {vacante.requisitos.map((requisito, index) => (
+                        <li key={index} className={styles.text}>
+                            {requisito}
+                        </li>
+                    ))}
+                </ul>
             </div>
             <div>
-                <h2>Beneficios</h2>
-                {vacante.beneficios}
+                <h2 className={styles.titles}>Beneficios</h2>
+                <ul className={styles.list}>
+                    {vacante.beneficios.map((beneficio, index) => (
+                        <li key={index} className={styles.text}>
+                            {beneficio}
+                        </li>
+                    ))}
+                </ul>
             </div>
         </section>
     )

@@ -32,7 +32,7 @@ export const CrearVacantePage = () => {
     // Función para obtener el token JWT del localStorage
     const getAuthToken = () => {
         const token = localStorage.getItem('jwt_token');
-        //console.log('DEBUG: Token de localStorage en getAuthToken():', token ? 'Encontrado' : 'NULO'); // <-- DEBUG
+        console.log('DEBUG: Token de localStorage en getAuthToken():', token ? 'Encontrado' : 'NULO'); // <-- DEBUG
         return token;
     };
 
@@ -61,7 +61,7 @@ export const CrearVacantePage = () => {
                     return;
                 }
 
-                //console.log('DEBUG: Token encontrado para cargar servicios. Intentando fetch...'); // <-- DEBUG
+                console.log('DEBUG: Token encontrado para cargar servicios. Intentando fetch...'); // <-- DEBUG
                 // ¡CORRECCIÓN AQUÍ! Cambiado a `/vacantes/servicios-interes`
                 const response = await fetch(`${API_BASE_URL}/vacantes/servicios-interes`, {
                     method: 'GET',
