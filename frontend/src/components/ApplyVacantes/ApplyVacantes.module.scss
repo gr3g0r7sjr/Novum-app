@@ -1,19 +1,5 @@
-/* client/src/components/ApplyVacantes/ApplyVacantes.module.scss */
-
-// Estilos generales para el contenedor del formulario.
-// Aunque Tailwind maneja gran parte del layout, puedes usar SCSS para
-// propiedades que prefieras centralizar o para efectos más complejos.
 .container {
-  // Ejemplo de un estilo básico que podría complementar Tailwind
-  // background-color: #f8f8f8; // Un gris muy claro
-  // padding: 2rem; // Espaciado interno
-  // border-radius: 0.75rem; // Bordes redondeados
-  // box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Sombra suave
-
-  // Puedes definir variables aquí si las usas consistentemente en tu SCSS
-  // $primary-color: #3B82F6; // Azul de Tailwind
-  // $text-color: #374151; // Gris oscuro de Tailwind
-
+  width: 100%;
   // Estilos para los fieldsets (agrupadores de campos)
   fieldset {
     border-color: #d1d5db; // Color de borde gris de Tailwind
@@ -24,7 +10,7 @@
     margin-bottom: 1.5rem; // Espacio entre fieldsets
   }
 
-  // Estilos para la leyenda de los fieldsets
+
   legend {
     font-size: 1.25rem; // Tamaño de fuente grande
     font-weight: 600; // Semibold
@@ -32,7 +18,7 @@
     padding: 0 0.5rem; // Espaciado horizontal
   }
 
-  // Estilos para etiquetas de formulario
+
   label {
     font-size: 0.875rem; // Pequeño
     font-weight: 500; // Mediano

@@ -169,7 +169,7 @@ const ApplyVacantes = () => {
 
   return (
     <div
-      className={`${styles.container} min-h-screen bg-gray-100 py-10 flex flex-col items-center justify-center`}
+      className={`${styles.container} min-h-screen bg-gray-100 flex flex-col items-center justify-center`}
     >
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
