@@ -10,7 +10,11 @@ $color-white: #e7e5e4;
     justify-content: space-around;
     gap: .8rem;
     padding: 2rem;
-    width: 100%;
+    width: 80vw;
+
+    @media (min-width:320px) and (max-width:425px) {
+        width: 100%;
+    }
 }
 
 
