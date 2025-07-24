@@ -96,10 +96,10 @@ export const LoginAdmin = () => {
       }
     } catch (error) {
       // Captura errores de red, errores lanzados por `throw new Error`, etc.
-      console.error("Error al iniciar sesión:", error);
+      //console.error("Error al iniciar sesión:", error);
       // Muestra el mensaje de error al usuario
       setEstadoLogin(
-        `Error al iniciar sesión: ${error.message || "No se pudo conectar con el servidor."}`,
+        `Usuario o clave: ${error.message || "No se pudo conectar con el servidor."}`,
       );
     } finally {
       setLoading(false); // Desactiva el estado de carga
