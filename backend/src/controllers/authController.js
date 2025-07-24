@@ -8,12 +8,10 @@ export const authController = {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Correo y contraseña son obligatorios.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Correo y contraseña son obligatorios.",
+      });
     }
 
     try {
@@ -44,7 +42,7 @@ export const authController = {
           rol: user.rol, // Incluimos el rol del usuario (asumiendo que se selecciona en la query)
         },
         JWT_SECRET, // Tu clave secreta para firmar el token
-        { expiresIn: "1h" }, // El token expira en 1 hora (puedes ajustar esto)
+        { expiresIn: "1h" } // El token expira en 1 hora (puedes ajustar esto)
       );
 
       // 6. Enviar el token y la información básica del usuario en la respuesta
@@ -72,13 +70,23 @@ export const authController = {
   register: async (req, res) => {
     const { email, password, rol } = req.body;
 
+    // Expresión regular para validar el formato de correo electrónico
+    // Esta regex es bastante estándar y cubre la mayoría de los formatos válidos.
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!email || !password) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Email y contraseña son obligatorios.",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Email y contraseña son obligatorios.",
+      });
+    }
+
+    // Validación de formato de correo electrónico con regex
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        success: false,
+        message: "El formato del correo electrónico es inválido.",
+      });
     }
 
     try {
@@ -87,12 +95,10 @@ export const authController = {
       const existingUser = await pool.query(checkUserQuery, [email]);
 
       if (existingUser.rows.length > 0) {
-        return res
-          .status(409)
-          .json({
-            success: false,
-            message: "El correo electrónico ya está registrado.",
-          });
+        return res.status(409).json({
+          success: false,
+          message: "El correo electrónico ya está registrado.",
+        });
       }
 
       // Hashear la contraseña antes de guardarla
@@ -100,10 +106,10 @@ export const authController = {
 
       // Insertar el nuevo usuario en la base de datos (usando correo_electronico y contrasena_hash como en tu DDL)
       const insertUserQuery = `
-                INSERT INTO usuarios (email, password_hash, rol)
-                VALUES ($1, $2, $3)
-                RETURNING id_usuario, email, rol;
-            `;
+                  INSERT INTO usuarios (email, password_hash, rol)
+                  VALUES ($1, $2, $3)
+                  RETURNING id_usuario, email, rol;
+              `;
       const newUserResult = await pool.query(insertUserQuery, [
         email,
         hashedPassword,
@@ -116,11 +122,11 @@ export const authController = {
       const token = jwt.sign(
         {
           id: newUser.id_usuario,
-          email: newUser.correo_electronico,
+          email: newUser.email,
           rol: newUser.rol,
         },
         JWT_SECRET,
-        { expiresIn: "1h" },
+        { expiresIn: "1h" }
       );
 
       res.status(201).json({
@@ -129,18 +135,16 @@ export const authController = {
         token: token,
         user: {
           id: newUser.id_usuario,
-          email: newUser.correo_electronico,
+          email: newUser.email,
           rol: newUser.rol,
         },
       });
     } catch (error) {
       console.error("Error en el registro:", error);
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Error interno del servidor durante el registro.",
-        });
+      res.status(500).json({
+        success: false,
+        message: "Error interno del servidor durante el registro.",
+      });
     }
   },
 };
