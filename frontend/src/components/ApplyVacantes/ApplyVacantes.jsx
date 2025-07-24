@@ -113,14 +113,11 @@ const ApplyVacantes = () => {
     console.log("Datos del Candidato a enviar:", dataToSend);
 
     try {
-      // --- 4. URL del Endpoint de Postulación Correcta ---
-      // Asumiendo que tu ruta POST en el backend es /api/postulaciones/aplicar
-      const response = await fetch(`${API_BASE_URL}/postulaciones/aplicar`, {
+
+      const response = await fetch(`${API_BASE_URL}/vacantes/${idVacante}/postulaciones`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Si la ruta /api/postulaciones/aplicar requiere autenticación, añade el token aquí:
-          // 'Authorization': `Bearer ${localStorage.getItem('jwt_token')}`
         },
         body: JSON.stringify(dataToSend),
       });
@@ -130,9 +127,7 @@ const ApplyVacantes = () => {
         throw new Error(errorData.message || "Error al enviar la postulación");
       }
 
-      const result = await response.json();
       setSuccessMessage("¡Postulación enviada con éxito!");
-      console.log("Postulación exitosa:", result);
 
       // Opcional: Limpiar el formulario después de una postulación exitosa
       setFormData({
@@ -151,7 +146,7 @@ const ApplyVacantes = () => {
       });
 
       // Redirigir después de un breve retraso para que el usuario vea el mensaje de éxito
-      setTimeout(() => navigate("/vacantes"), 2000);
+      setTimeout(() => navigate("/"), 2000);
     } catch (err) {
       console.error("Error al postular:", err);
       setSubmissionError(`Error al enviar la postulación: ${err.message}`);
@@ -257,7 +252,7 @@ const ApplyVacantes = () => {
                   htmlFor="numero_telefono"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Número de Teléfono
+                  Número de Teléfono(04129722981)
                 </label>
                 <input
                   type="text"
@@ -265,6 +260,8 @@ const ApplyVacantes = () => {
                   name="numero_telefono"
                   value={formData.numero_telefono}
                   onChange={handleChange}
+                  maxLength={11}
+                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 />
               </div>
@@ -281,6 +278,7 @@ const ApplyVacantes = () => {
                   rows="3"
                   value={formData.direccion}
                   onChange={handleChange}
+                  required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 ></textarea>
               </div>
@@ -320,6 +318,7 @@ const ApplyVacantes = () => {
                 name="experiencia_laboral"
                 rows="6"
                 value={formData.experiencia_laboral}
+                required
                 onChange={handleChange}
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               ></textarea>
@@ -337,6 +336,7 @@ const ApplyVacantes = () => {
                 rows="4"
                 value={formData.cursos_certificaciones}
                 onChange={handleChange}
+                required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               ></textarea>
             </div>
@@ -353,6 +353,7 @@ const ApplyVacantes = () => {
                 rows="3"
                 value={formData.habilidades}
                 onChange={handleChange}
+                required
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
               ></textarea>
             </div>
@@ -395,8 +396,8 @@ const ApplyVacantes = () => {
                   <input
                     type="radio"
                     name="vehiculo"
-                    value="s¡"
-                    checked={formData.vehiculo === "s¡"}
+                    value="si"
+                    checked={formData.vehiculo === "si"}
                     onChange={handleChange}
                     className="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out"
                   />
