@@ -258,7 +258,7 @@ export const CrearVacantePage = () => {
         id_servicio_interes: "",
       });
       setFormErrors({});
-      navigate("/vacantes");
+      navigate("/admin/vacantes");
     } catch (err) {
       console.error("DEBUG: Error en handleSubmit:", err); // <-- DEBUG
       setError(
