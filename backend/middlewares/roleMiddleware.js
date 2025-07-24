@@ -11,12 +11,21 @@ export const checkRole = (requiredRole) => {
 
     // Verificamos si la información del usuario y su rol existen.
     if (!user || !user.rol) {
-      return res.status(403).json({ message: 'Acceso denegado. No se proporcionó información de rol.' });
+      return res
+        .status(403)
+        .json({
+          message: "Acceso denegado. No se proporcionó información de rol.",
+        });
     }
 
     // Comparamos el rol del usuario con el rol requerido.
     if (user.rol !== requiredRole) {
-      return res.status(403).json({ message: 'Acceso denegado. No tienes los permisos necesarios para esta acción.' });
+      return res
+        .status(403)
+        .json({
+          message:
+            "Acceso denegado. No tienes los permisos necesarios para esta acción.",
+        });
     }
 
     // Si el usuario tiene el rol correcto, continuamos con la siguiente función en la cadena.
