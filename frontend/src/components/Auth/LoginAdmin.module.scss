@@ -51,7 +51,13 @@ $color-white: #e7e5e4;
     svg{
         padding-left: .50rem;
         width: 7%;
+
+        @media (min-width:320px) and (max-width:768px) {
+        width: auto;
     }
+    }
+
+    
 }
 
 .form{
