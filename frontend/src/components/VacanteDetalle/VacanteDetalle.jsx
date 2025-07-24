@@ -4,11 +4,14 @@ import { Link } from "react-router-dom";
 import { Briefcase } from "lucide-react";
 import styles from "./VacanteDetalle.module.scss";
 
+const MOBILE_BREAK= 768
+
 export const VacanteDetalle = () => {
   const { id } = useParams();
   const [vacante, setVacante] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < MOBILE_BREAK)
 
   const isLocalhost = window.location.hostname === "localhost";
   const API_URL = isLocalhost
@@ -37,6 +40,12 @@ export const VacanteDetalle = () => {
       }
     };
     fetchVacantes();
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAK)
+    }; 
+
+    window.addEventListener('resize', handleResize); 
   }, [id, API_URL]);
 
   if (loading) return <div>Cargando detalles de la vacante...</div>;
@@ -46,8 +55,10 @@ export const VacanteDetalle = () => {
   return (
     <section className={styles.containerDetalle}>
       <div className={styles.containerTitle}>
-        <div>
-          <Briefcase />
+        <div className={styles.title_icon}>
+          {!isMobile && (
+              <Briefcase />
+          )}
           <h1>{vacante.titulo_cargo}</h1>
         </div>
         <Link

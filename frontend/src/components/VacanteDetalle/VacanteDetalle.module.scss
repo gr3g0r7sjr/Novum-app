@@ -12,7 +12,7 @@ $color-white: #e7e5e4;
     padding: 2rem;
     width: 80vw;
 
-    @media (min-width:320px) and (max-width:425px) {
+    @media (min-width:320px) and (max-width:820px) {
         width: 100%;
     }
 }
@@ -23,39 +23,43 @@ $color-white: #e7e5e4;
     justify-content: space-between;
     align-items: center;
 
-    div{
-        display: flex;
-        align-items: center;
+    @media (min-width:320px) and (max-width:768px) {
+        flex-wrap: wrap;
+        gap: .5rem;
 
+        svg{
+            width: 10%;
+        }
         h1{
+            width: 90%;
+        }
+    }
+}
+
+.title_icon{
+    display: flex;
+    align-items: center;
+    h1{
             font-size: 1.5rem;
             font-weight: bold;
             padding-left: .5rem;
             
 
-            @media (min-width:320px) and (max-width:425px) {
-                font-size: 1.5rem;
+            @media (min-width:320px) and (max-width:768px) {
+                font-size: 1.3rem;
                 padding: 0rem;
-                text-align: center;
             }
         }
         @media (min-width:320px) and (max-width:425px) {
             display: grid;
             grid-template-columns: 100%;
-            place-items: center;
         }
         svg{
-            @media (min-width:320px) and (max-width:425px) {
+            @media (min-width:320px) and (max-width:768px) {
                 width: 0%;
                 visibility: hidden;
             }
         }
-    }
-
-    @media (min-width:320px) and (max-width:425px) {
-        flex-wrap: wrap;
-        gap: .5rem;
-    }
 }
 
 .titles{
@@ -63,9 +67,6 @@ $color-white: #e7e5e4;
     font-weight: bold;
 }
 
-.text{
-    //text-align: left;
-}
 
 .list{
     list-style-type: disc;
