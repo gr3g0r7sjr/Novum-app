@@ -46,19 +46,19 @@ export const Contact = () => {
       id: 2,
       titulo: "¿Cuánto tarda el proceso de captación?",
       texto:
-        "Para aplicar a una vacante debes ir al area de vacantes, seleccionar al puesto que deseas aplicar, rellenar el formulario con los datos solicitados y enviarlo! Te estaremos dando respuesta en breve...",
+        "El tiempo que tarda el proceso de captación puede variar dependiendo de la vacante específica y el volumen de postulaciones. Generalmente, nuestro equipo se esfuerza por revisar las solicitudes y contactar a los candidatos preseleccionados en un plazo de 1 a 2 semanas desde la fecha de postulación. Los procesos de entrevistas y evaluaciones subsiguientes se comunicarán a los candidatos a medida que avancen en el proceso.",
     },
     {
       id: 3,
       titulo: "¿Cómo es el proceso de captación?",
       texto:
-        "Para aplicar a una vacante debes ir al area de vacantes, seleccionar al puesto que deseas aplicar, rellenar el formulario con los datos solicitados y enviarlo! Te estaremos dando respuesta en breve...",
+        "Nuestra aplicación web facilita que los postulantes descubran y apliquen a oportunidades de forma ágil, permitiéndonos a nosotros gestionar eficientemente el proceso de captación a través de las interacciones directas con las vacantes publicadas.",
     },
     {
       id: 4,
-      titulo: "¿Como puedo aplicar a una vacante?",
+      titulo: "¿Cómo puedo saber el estado de mi postulación?",
       texto:
-        "Para aplicar a una vacante debes ir al area de vacantes, seleccionar al puesto que deseas aplicar, rellenar el formulario con los datos solicitados y enviarlo! Te estaremos dando respuesta en breve...",
+        "Actualmente, nuestro equipo se pondrá en contacto contigo directamente si tu perfil es preseleccionado para avanzar en el proceso. Te recomendamos estar atento a tu correo electrónico y número de teléfono proporcionados en la postulación. Estamos trabajando para implementar una funcionalidad que te permita consultar el estado de tu postulación directamente en la plataforma en el futuro.",
     },
   ];
 
