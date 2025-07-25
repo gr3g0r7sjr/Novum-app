@@ -2,7 +2,7 @@ export const CandidatosSeleccionados = () => {
   return (
     <div>
       <div>
-        <h1>Crear Usuarios</h1>
+        <h1>Candidatos Seleccionados</h1>
       </div>
     </div>
   );
