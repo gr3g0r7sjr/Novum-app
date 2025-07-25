@@ -42,7 +42,7 @@ export const authController = {
           rol: user.rol, // Incluimos el rol del usuario (asumiendo que se selecciona en la query)
         },
         JWT_SECRET, // Tu clave secreta para firmar el token
-        { expiresIn: "1h" } // El token expira en 1 hora (puedes ajustar esto)
+        { expiresIn: "1h" }, // El token expira en 1 hora (puedes ajustar esto)
       );
 
       // 6. Enviar el token y la información básica del usuario en la respuesta
@@ -126,7 +126,7 @@ export const authController = {
           rol: newUser.rol,
         },
         JWT_SECRET,
-        { expiresIn: "1h" }
+        { expiresIn: "1h" },
       );
 
       res.status(201).json({

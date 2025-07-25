@@ -110,20 +110,16 @@ export const vacantesController = {
       console.error("Error al crear la vacante:", error);
 
       if (error.code === "23503") {
-        res
-          .status(400)
-          .json({
-            message:
-              "Error: El ID de usuario creador o el ID de servicio de interés no existen.",
-            detail: error.detail,
-          });
+        res.status(400).json({
+          message:
+            "Error: El ID de usuario creador o el ID de servicio de interés no existen.",
+          detail: error.detail,
+        });
       } else if (error.code === "23502") {
-        res
-          .status(400)
-          .json({
-            message: "Error: Faltan campos obligatorios o son nulos.",
-            detail: error.detail,
-          });
+        res.status(400).json({
+          message: "Error: Faltan campos obligatorios o son nulos.",
+          detail: error.detail,
+        });
       } else {
         res
           .status(500)
@@ -140,11 +136,9 @@ export const vacantesController = {
       res.status(200).json(result.rows);
     } catch (error) {
       console.error("Error al obtener servicios de interés:", error);
-      res
-        .status(500)
-        .json({
-          message: "Error interno del servidor al cargar servicios de interés.",
-        });
+      res.status(500).json({
+        message: "Error interno del servidor al cargar servicios de interés.",
+      });
     }
   },
   obtenerVacanteId: async (req, res) => {
