@@ -1,11 +1,9 @@
-// frontend/src/pages/CrearUsuario/CrearUsuario.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Importa jwt-decode para decodificar el token JWT
-import { Trash2, Edit, PlusCircle } from 'lucide-react'; // Iconos
-import styles from './CrearUsuario.module.scss'; // Importa los módulos SCSS desde el nuevo nombre
+import { jwtDecode } from 'jwt-decode'; 
+import { Trash2, Edit, PlusCircle } from 'lucide-react'; 
 
-const CrearUsuario = () => { // Componente renombrado a CrearUsuario
+export const CrearUsuario = () => { // Componente renombrado a CrearUsuario
     const navigate = useNavigate();
     const isLocalhost = window.location.hostname === 'localhost';
     const API_BASE_URL = isLocalhost
