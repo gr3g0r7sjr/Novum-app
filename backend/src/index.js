@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { FRONTEND_URL, JWT_SECRET } from "./config/config.js";
+import { FRONTEND_URL} from "./config/config.js";
 import express from "express";
 import cors from "cors";
 
@@ -9,6 +9,7 @@ import vacantesRoutes from "./routes/vacantesRoutes.js";
 import postulacionesRoutes from "./routes/postulacionesRoutes.js";
 import { vacantesController } from "./controllers/vacantesController.js";
 import { postulacionesController } from "./controllers/postulacionesController.js";
+import userRoutes from "./routes/userRoutes.js"
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,21 +28,17 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", authRoutes);
 
-app.get(
-  "/api/vacantes/servicios-interes",
-  vacantesController.obtenerServiciosInteres,
-);
+app.get("/api/vacantes/servicios-interes", vacantesController.obtenerServiciosInteres,);
 
-app.post(
-  "/api/vacantes/:id/postulaciones",
-  postulacionesController.aplicarVacantes,
-);
+app.post("/api/vacantes/:id/postulaciones", postulacionesController.aplicarVacantes,);
 
 app.get("/api/vacantes", vacantesController.obtener);
 
 app.get("/api/vacantes/:id", vacantesController.obtenerVacanteId);
 
 app.use("/api/postulaciones", postulacionesRoutes);
+
+app.use("/api/users", userRoutes);
 
 app.use("/api/vacantes", authenticateToken, vacantesRoutes);
 

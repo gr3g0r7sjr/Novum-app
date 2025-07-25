@@ -9,11 +9,9 @@ const authenticateToken = (req, res, next) => {
   //console.log('DEBUG AUTH: Token recibido:', token ? 'Sí' : 'No'); // <-- DEBUG
 
   if (token == null) {
-    return res
-      .status(401)
-      .json({
-        message: "Acceso denegado. No se proporcionó token de autenticación.",
-      });
+    return res.status(401).json({
+      message: "Acceso denegado. No se proporcionó token de autenticación.",
+    });
   }
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
