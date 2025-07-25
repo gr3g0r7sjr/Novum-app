@@ -7,7 +7,7 @@ import { AdminDashboard } from "./pages/Admin.jsx";
 import { VacantesPage } from "./pages/VacantesPage.jsx";
 import { Layout } from "./layouts/Layout.jsx";
 import { CandidatosSeleccionados } from "./components/Candidatos/Candidatos.jsx";
-import {}
+import { CrearUsuario } from "./components/CrearUsuario/CrearUsuario.jsx";
 
 // Importa los nuevos componentes de página
 import { CrearVacantePage } from "./pages/CrearVacantePage.jsx";
@@ -109,7 +109,7 @@ function App() {
         />
         <Route path="/admin/crear-usuario" element={
           <Layout>
-
+            <CrearUsuario />
           </Layout>}>
           </Route>
         {/* Ruta 404 para cualquier otra ruta no definida */}
