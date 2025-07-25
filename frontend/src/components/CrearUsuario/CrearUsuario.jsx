@@ -165,7 +165,7 @@ export const CrearUsuario = () => { // Componente renombrado a CrearUsuario
     );
 
     return (
-        <div className="min-h-screen bg-gray-100 p-4 md:p-8">
+        <div className="w-full bg-gray-100 p-4 md:p-8">
             <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl p-6 md:p-8">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">Gestión de Usuarios</h1>
 
