@@ -1,14 +1,13 @@
 import "./styles/App.css";
-import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
-import { NavHeader } from "./components/NavHeader.jsx";
 import { About } from "./pages/About.jsx";
 import { Contact } from "./pages/Contact.jsx";
 import { LoginAdmin } from "./components/Auth/LoginAdmin.jsx";
 import { AdminDashboard } from "./pages/Admin.jsx";
-import { Footer } from "./components/Footer/Footer.jsx";
 import { VacantesPage } from "./pages/VacantesPage.jsx";
 import { Layout } from "./layouts/Layout.jsx";
+import { CandidatosSeleccionados } from "./components/Candidatos/Candidatos.jsx";
+import {}
 
 // Importa los nuevos componentes de página
 import { CrearVacantePage } from "./pages/CrearVacantePage.jsx";
@@ -96,18 +95,23 @@ function App() {
           path="/admin/candidatos"
           element={
             <Layout>
-              <AdminDashboard />
+              <CandidatosSeleccionados />
             </Layout>
           }
         />
         <Route
-          path="/vacantes/:idVacante/postulaciones"
+          path="/vacantes/:id/postulaciones"
           element={
             <Layout>
               <ApplyVacantes />
             </Layout>
           }
         />
+        <Route path="/admin/crear-usuario" element={
+          <Layout>
+
+          </Layout>}>
+          </Route>
         {/* Ruta 404 para cualquier otra ruta no definida */}
         <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
       </Routes>

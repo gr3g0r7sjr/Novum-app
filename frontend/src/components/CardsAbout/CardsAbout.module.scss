@@ -1,31 +1,30 @@
 $color-orange-primary: oklch(73.951% 0.18279 55.117);
-$color-blue-secundary: oklch(35.678% 0.16635 262.12); 
-$color-gray-400 : oklch(70.7% 0.022 261.325);
-$color-gray-500 :oklch(55.1% 0.027 264.364);
-$color-white: #e7e5e4; 
+$color-blue-secundary: oklch(35.678% 0.16635 262.12);
+$color-gray-400: oklch(70.7% 0.022 261.325);
+$color-gray-500: oklch(55.1% 0.027 264.364);
+$color-white: #e7e5e4;
 
-.cards{
-    border: 1px solid #bebebeb2;
-    border-radius: 7px;
-    border-left: 5px solid $color-blue-secundary;
-    padding: 1rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.cards {
+  border: 1px solid #bebebeb2;
+  border-radius: 7px;
+  border-left: 5px solid $color-blue-secundary;
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    @media (min-width: 320px) and (max-width:768px){
-        p{
-            text-align: center;
-        }
+  @media (min-width: 320px) and (max-width: 768px) {
+    p {
+      text-align: center;
     }
+  }
 
-    h3{
-        font-size: 2rem;
-        font-weight: bold;
-        color: $color-orange-primary;
-    }
-    p{
-        font-size: 0.875rem;
-    }
+  h3 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: $color-orange-primary;
+  }
+  p {
+    font-size: 0.875rem;
+  }
 }
-

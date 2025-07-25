@@ -113,14 +113,16 @@ const ApplyVacantes = () => {
     console.log("Datos del Candidato a enviar:", dataToSend);
 
     try {
-
-      const response = await fetch(`${API_BASE_URL}/vacantes/${idVacante}/postulaciones`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await fetch(
+        `${API_BASE_URL}/vacantes/${idVacante}/postulaciones`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataToSend),
         },
-        body: JSON.stringify(dataToSend),
-      });
+      );
 
       if (!response.ok) {
         const errorData = await response.json(); // Intenta leer el error del backend

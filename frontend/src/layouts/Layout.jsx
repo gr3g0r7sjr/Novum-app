@@ -9,15 +9,15 @@ export const Layout = ({ children }) => {
       { path: "/", name: "Vacantes" }, // La ruta principal ahora muestra las vacantes
       { path: "/nosotros", name: "Nosotros" },
       { path: "/contacto", name: "Contacto" },
-      { path: "/login", name: "Login" }, // Login para administradores
+      { path: "/login", name: "Login" },
     ],
     admin: [
       // Rutas para el panel de administración
       { path: "/admin/dashboard", name: "Dashboard" },
       { path: "/admin/vacantes", name: "Vacantes" },
-      { path: "/admin/crearVacante", name: "Crear Vacante" }, // Enlace al formulario de creación
+      { path: "/admin/crearVacante", name: "Crear Vacante" },
       { path: "/admin/candidatos", name: "Candidatos" },
-      {},
+      { path: "/admin/crear-usuario", name: "Crear Usuario" },
     ],
   };
 

@@ -1,74 +1,72 @@
 $color-orange-primary: oklch(73.951% 0.18279 55.117);
-$color-blue-secundary: oklch(35.678% 0.16635 262.12); 
-$color-gray-400 : oklch(70.7% 0.022 261.325);
-$color-gray-500 :oklch(55.1% 0.027 264.364);
-$color-white: #e7e5e4; 
+$color-blue-secundary: oklch(35.678% 0.16635 262.12);
+$color-gray-400: oklch(70.7% 0.022 261.325);
+$color-gray-500: oklch(55.1% 0.027 264.364);
+$color-white: #e7e5e4;
 
-.formContainer{
-    border: 1px solid #bebebeb2;
-    border-radius: 7px;
-    border-top: 5px solid $color-orange-primary;
-    padding: 1rem 1rem;
-    box-shadow: 4px 2px 16px 5px rgba(184,179,179,0.75);
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+.formContainer {
+  border: 1px solid #bebebeb2;
+  border-radius: 7px;
+  border-top: 5px solid $color-orange-primary;
+  padding: 1rem 1rem;
+  box-shadow: 4px 2px 16px 5px rgba(184, 179, 179, 0.75);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 
-    input{
+  input {
     outline: none;
     width: 100%;
-    padding: .3rem 0rem;
+    padding: 0.3rem 0rem;
     border: 1px solid $color-gray-400;
     border-radius: 7px;
     padding-left: 5px;
-    }
+  }
 
-    textarea{
-        width: 100%;
-        max-width: 100%;
-        height: 130px;
-        resize: none;
-        outline: none;
-        border: 1px solid $color-gray-400;
-        border-radius: 7px;
-        padding-left: 5px;
-    }
+  textarea {
+    width: 100%;
+    max-width: 100%;
+    height: 130px;
+    resize: none;
+    outline: none;
+    border: 1px solid $color-gray-400;
+    border-radius: 7px;
+    padding-left: 5px;
+  }
 
-    button{
+  button {
     margin-top: 1rem;
     background-color: $color-blue-secundary;
     color: white;
     width: 100%;
     text-align: center;
-    padding: .5rem 0rem;
+    padding: 0.5rem 0rem;
     border-radius: 7px;
     cursor: pointer;
-    gap: .5rem;
+    gap: 0.5rem;
+  }
+}
+
+.titleForm {
+  color: $color-orange-primary;
+  font-weight: bold;
+  font-size: large;
+}
+
+.input {
+  outline: none;
+  width: 100%;
+  padding: 0.3rem 0rem;
+}
+
+@media (min-width: 320px) and (max-width: 375px) {
+  .titleContainer {
+    text-align: center;
+
+    p {
+      text-align: justify;
     }
+  }
 }
-
-.titleForm{
-    color: $color-orange-primary;
-    font-weight: bold;
-    font-size: large;
-}
-
-.input{
-    outline: none;
-    width: 100%;
-    padding: .3rem 0rem;
-}
-
-
-@media (min-width:320px) and (max-width:375px){
-    .titleContainer{
-        text-align: center;
-
-        p{
-            text-align: justify;
-        }
-    }
-}
-
