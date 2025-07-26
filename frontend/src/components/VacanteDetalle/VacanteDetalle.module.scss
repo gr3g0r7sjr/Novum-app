@@ -1,5 +1,5 @@
 $color-orange-primary: oklch(73.951% 0.18279 55.117);
-$color-blue-secundary: oklch(35.678% 0.16635 262.12);
+$color-blue-secundary: oklch(62.3% 0.214 259.815);
 $color-gray-400: oklch(70.7% 0.022 261.325);
 $color-gray-500: oklch(55.1% 0.027 264.364);
 $color-white: #e7e5e4;
@@ -73,7 +73,7 @@ $color-white: #e7e5e4;
 }
 
 .button {
-  background-color: oklch(35.678% 0.16635 262.12deg);
+  background-color: $color-blue-secundary;
   color: white;
   text-align: center;
   height: auto;

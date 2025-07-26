@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import styles from "./ApplyVacantes.module.scss"; // Importa los módulos SCSS
+
 
 const ApplyVacantes = () => {
   const { idVacante } = useParams(); // idVacante es el ID de la vacante a la que se aplica
@@ -18,12 +18,22 @@ const ApplyVacantes = () => {
     correo_electronico: "",
     numero_telefono: "",
     direccion: "",
-    educacion: "", // Se convertirá a array
-    experiencia_laboral: "", // Se convertirá a array
-    cursos_certificaciones: "", // Se convertirá a array
-    habilidades: "", // Se convertirá a array
+    // Campos estructurados inicializados con un objeto vacío para que aparezcan por defecto
+    educacion: [{ institucion: "", titulo: "", fechaInicio: "", fechaFin: "" }],
+    experiencia_laboral: [
+      {
+        empresa: "",
+        puesto: "",
+        fechaInicio: "",
+        fechaFin: "",
+      },
+    ],
+    cursos_certificaciones: [
+      { nombre: "", institucion: "", fechaObtencion: "" },
+    ],
+    habilidades: [{ nombre: "" }],
     servicio_interes: "", // Este será el ID del interés, se convertirá a número
-    vehiculo: "", // 's¡' o 'no', se inicializa vacío
+    vehiculo: "", // 'si' o 'no', se inicializa vacío
     fecha_expiracion_datos: "",
   });
 
@@ -41,7 +51,7 @@ const ApplyVacantes = () => {
       try {
         // La ruta para obtener servicios de interés es /api/vacantes/servicios-interes
         const response = await fetch(
-          `${API_BASE_URL}/vacantes/servicios-interes`,
+          `${API_BASE_URL}/vacantes/servicios-interes`
         );
         if (!response.ok) {
           throw new Error("No se pudieron cargar los intereses de la empresa");
@@ -58,6 +68,7 @@ const ApplyVacantes = () => {
     fetchIntereses();
   }, [API_BASE_URL]); // Dependencia API_BASE_URL para evitar warnings
 
+  // Manejador de cambios para campos simples (texto, email, telefono, select, radio)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -66,48 +77,84 @@ const ApplyVacantes = () => {
     }));
   };
 
+
+  // Añadir un nuevo elemento a un array estructurado
+  const handleAddItem = (field) => {
+    setFormData((prevData) => {
+      let newItem = {};
+      switch (field) {
+        case "educacion":
+          newItem = {
+            institucion: "",
+            titulo: "",
+            fechaInicio: "",
+            fechaFin: "",
+          };
+          break;
+        case "experiencia_laboral":
+          newItem = {
+            empresa: "",
+            puesto: "",
+            fechaInicio: "",
+            fechaFin: "",
+          };
+          break;
+        case "cursos_certificaciones":
+          newItem = { nombre: "", institucion: "", fechaObtencion: "" };
+          break;
+        case "habilidades":
+          newItem = { nombre: "" };
+          break;
+        default:
+          break;
+      }
+      return {
+        ...prevData,
+        [field]: [...prevData[field], newItem],
+      };
+    });
+  };
+
+  // Eliminar un elemento de un array estructurado
+  const handleRemoveItem = (field, index) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: prevData[field].filter((_, i) => i !== index),
+    }));
+  };
+
+  // Manejar cambios en campos dentro de elementos estructurados
+  const handleStructuredChange = (field, index, e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => {
+      const updatedArray = [...prevData[field]];
+      updatedArray[index] = {
+        ...updatedArray[index],
+        [name]: value,
+      };
+      return {
+        ...prevData,
+        [field]: updatedArray,
+      };
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     setSubmissionError(null);
     setSuccessMessage(null);
 
-    // --- 1. Transformar campos de texto a arrays ---
-    // Usamos split('\n') si el usuario ingresa elementos en nuevas líneas
-    // O split(',') si los separa por comas (ajusta según tu UX deseada)
-    const processedFormData = {
+    // Preparar los datos para enviar
+    const dataToSend = {
+      id_vacante: parseInt(idVacante, 10), // Asegúrate de que idVacante sea un número
       ...formData,
-      educacion: formData.educacion
-        .split("\n")
-        .map((item) => item.trim())
-        .filter((item) => item !== ""),
-      experiencia_laboral: formData.experiencia_laboral
-        .split("\n")
-        .map((item) => item.trim())
-        .filter((item) => item !== ""),
-      cursos_certificaciones: formData.cursos_certificaciones
-        .split("\n")
-        .map((item) => item.trim())
-        .filter((item) => item !== ""),
-      habilidades: formData.habilidades
-        .split("\n")
-        .map((item) => item.trim())
-        .filter((item) => item !== ""),
-      // --- 2. Convertir servicio_interes a número ---
+      // Convertir servicio_interes a número si existe
       servicio_interes: formData.servicio_interes
         ? parseInt(formData.servicio_interes, 10)
         : null,
-      // Asegúrate que vehiculo sea 's¡' o 'no', o null si no se selecciona
+      // Asegúrate que vehiculo sea 'si' o 'no', o null si no se selecciona
       vehiculo: formData.vehiculo || null,
-      // Convertir fecha_expiracion_datos a formato de fecha si es necesario para el backend
-      fecha_expiracion_datos: formData.fecha_expiracion_datos || null,
-    };
-
-    // --- 3. Preparar el cuerpo de la petición ---
-    // El backend espera todos los campos del candidato y id_vacante en el mismo nivel
-    const dataToSend = {
-      id_vacante: parseInt(idVacante, 10), // Asegúrate de que idVacante sea un número
-      ...processedFormData, // Incluye todos los datos del formulario procesados
     };
 
     console.log("Datos del Candidato a enviar:", dataToSend);
@@ -121,7 +168,7 @@ const ApplyVacantes = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(dataToSend),
-        },
+        }
       );
 
       if (!response.ok) {
@@ -138,10 +185,22 @@ const ApplyVacantes = () => {
         correo_electronico: "",
         numero_telefono: "",
         direccion: "",
-        educacion: "",
-        experiencia_laboral: "",
-        cursos_certificaciones: "",
-        habilidades: "",
+        educacion: [
+          { institucion: "", titulo: "", fechaInicio: "", fechaFin: "" },
+        ],
+        experiencia_laboral: [
+          {
+            empresa: "",
+            puesto: "",
+            fechaInicio: "",
+            fechaFin: "",
+            descripcion: "",
+          },
+        ],
+        cursos_certificaciones: [
+          { nombre: "", institucion: "", fechaObtencion: "" },
+        ],
+        habilidades: [{ nombre: "" }],
         servicio_interes: "",
         vehiculo: "",
         fecha_expiracion_datos: "",
@@ -158,17 +217,24 @@ const ApplyVacantes = () => {
   };
 
   if (loading)
-    return <div className={styles.container}>Cargando intereses...</div>;
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        Cargando intereses...
+      </div>
+    );
   if (error)
     return (
-      <div className={styles.container}>Error al cargar intereses: {error}</div>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center text-red-600">
+        Error al cargar intereses: {error}
+      </div>
     );
 
   return (
     <div
-      className={`${styles.container} min-h-screen bg-gray-100 flex flex-col items-center justify-center`}
+      className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4"
+      style={{ fontFamily: "Inter, sans-serif" }}
     >
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-3xl">
+      <div className="bg-white p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-3xl border border-gray-200">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Postúlate a la Vacante {idVacante ? `(#${idVacante})` : ""}
         </h1>
@@ -176,7 +242,7 @@ const ApplyVacantes = () => {
         {/* Mensajes de estado */}
         {successMessage && (
           <div
-            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+            className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-md relative mb-4"
             role="alert"
           >
             {successMessage}
@@ -184,7 +250,7 @@ const ApplyVacantes = () => {
         )}
         {submissionError && (
           <div
-            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+            className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-md relative mb-4"
             role="alert"
           >
             {submissionError}
@@ -193,7 +259,7 @@ const ApplyVacantes = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Sección de Datos Personales */}
-          <fieldset className="border border-gray-300 p-6 rounded-md">
+          <fieldset className="border border-gray-300 p-4 sm:p-6 rounded-md">
             <legend className="text-xl font-semibold text-gray-700 mb-4 px-2">
               Datos Personales
             </legend>
@@ -254,10 +320,10 @@ const ApplyVacantes = () => {
                   htmlFor="numero_telefono"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Número de Teléfono(04129722981)
+                  Número de Teléfono (Ej: 04129722981)
                 </label>
                 <input
-                  type="text"
+                  type="tel"
                   id="numero_telefono"
                   name="numero_telefono"
                   value={formData.numero_telefono}
@@ -287,82 +353,346 @@ const ApplyVacantes = () => {
             </div>
           </fieldset>
 
-          {/* Sección de Educación y Experiencia */}
-          <fieldset className="border border-gray-300 p-6 rounded-md">
+          {/* Sección de Educación */}
+          <fieldset className="border border-gray-300 p-4 sm:p-6 rounded-md">
             <legend className="text-xl font-semibold text-gray-700 mb-4 px-2">
-              Educación y Experiencia
+              Educación
             </legend>
-            <div>
-              <label
-                htmlFor="educacion"
-                className="block text-sm font-medium text-gray-700"
+            {formData.educacion.map((edu, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 p-4 border border-gray-200 rounded-md bg-gray-50"
               >
-                Educación (cada entrada en una nueva línea)
-              </label>
-              <textarea
-                id="educacion"
-                name="educacion"
-                rows="4"
-                value={formData.educacion}
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              ></textarea>
-            </div>
-            <div className="mt-4">
-              <label
-                htmlFor="experiencia_laboral"
-                className="block text-sm font-medium text-gray-700"
+                <div>
+                  <label
+                    htmlFor={`institucion-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Institución
+                  </label>
+                  <input
+                    type="text"
+                    id={`institucion-${index}`}
+                    name="institucion"
+                    value={edu.institucion}
+                    onChange={(e) =>
+                      handleStructuredChange("educacion", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`titulo-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Título Obtenido
+                  </label>
+                  <input
+                    type="text"
+                    id={`titulo-${index}`}
+                    name="titulo"
+                    value={edu.titulo}
+                    onChange={(e) =>
+                      handleStructuredChange("educacion", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`fechaInicioEdu-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Fecha Inicio
+                  </label>
+                  <input
+                    type="month"
+                    id={`fechaInicioEdu-${index}`}
+                    name="fechaInicio"
+                    value={edu.fechaInicio}
+                    onChange={(e) =>
+                      handleStructuredChange("educacion", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`fechaFinEdu-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Fecha Fin
+                  </label>
+                  <input
+                    type="month"
+                    id={`fechaFinEdu-${index}`}
+                    name="fechaFin"
+                    value={edu.fechaFin}
+                    onChange={(e) =>
+                      handleStructuredChange("educacion", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div className="md:col-span-2 text-right">
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveItem("educacion", index)}
+                    className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  >
+                    Eliminar Educación
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddItem("educacion")}
+              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Añadir Educación
+            </button>
+          </fieldset>
+
+          {/* Sección de Experiencia Laboral */}
+          <fieldset className="border border-gray-300 p-4 sm:p-6 rounded-md">
+            <legend className="text-xl font-semibold text-gray-700 mb-4 px-2">
+              Experiencia Laboral
+            </legend>
+            {formData.experiencia_laboral.map((exp, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 p-4 border border-gray-200 rounded-md bg-gray-50"
               >
-                Experiencia Laboral (cada entrada en una nueva línea)
-              </label>
-              <textarea
-                id="experiencia_laboral"
-                name="experiencia_laboral"
-                rows="6"
-                value={formData.experiencia_laboral}
-                required
-                onChange={handleChange}
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              ></textarea>
-            </div>
-            <div className="mt-4">
-              <label
-                htmlFor="cursos_certificaciones"
-                className="block text-sm font-medium text-gray-700"
+                <div>
+                  <label
+                    htmlFor={`empresa-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Empresa
+                  </label>
+                  <input
+                    type="text"
+                    id={`empresa-${index}`}
+                    name="empresa"
+                    value={exp.empresa}
+                    onChange={(e) =>
+                      handleStructuredChange("experiencia_laboral", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`puesto-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Puesto
+                  </label>
+                  <input
+                    type="text"
+                    id={`puesto-${index}`}
+                    name="puesto"
+                    value={exp.puesto}
+                    onChange={(e) =>
+                      handleStructuredChange("experiencia_laboral", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`fechaInicioExp-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Fecha Inicio
+                  </label>
+                  <input
+                    type="month"
+                    id={`fechaInicioExp-${index}`}
+                    name="fechaInicio"
+                    value={exp.fechaInicio}
+                    onChange={(e) =>
+                      handleStructuredChange("experiencia_laboral", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`fechaFinExp-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Fecha Fin (o "Actual")
+                  </label>
+                  <input
+                    type="month"
+                    id={`fechaFinExp-${index}`}
+                    name="fechaFin"
+                    value={exp.fechaFin}
+                    onChange={(e) =>
+                      handleStructuredChange("experiencia_laboral", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div className="md:col-span-2 text-right">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleRemoveItem("experiencia_laboral", index)
+                    }
+                    className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  >
+                    Eliminar Experiencia
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddItem("experiencia_laboral")}
+              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Añadir Experiencia Laboral
+            </button>
+          </fieldset>
+
+          {/* Sección de Cursos y Certificaciones */}
+          <fieldset className="border border-gray-300 p-4 sm:p-6 rounded-md">
+            <legend className="text-xl font-semibold text-gray-700 mb-4 px-2">
+              Cursos y Certificaciones
+            </legend>
+            {formData.cursos_certificaciones.map((cert, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4 p-4 border border-gray-200 rounded-md bg-gray-50"
               >
-                Cursos y Certificaciones (cada entrada en una nueva línea)
-              </label>
-              <textarea
-                id="cursos_certificaciones"
-                name="cursos_certificaciones"
-                rows="4"
-                value={formData.cursos_certificaciones}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              ></textarea>
-            </div>
-            <div className="mt-4">
-              <label
-                htmlFor="habilidades"
-                className="block text-sm font-medium text-gray-700"
+                <div>
+                  <label
+                    htmlFor={`nombreCert-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Nombre del Curso/Certificación
+                  </label>
+                  <input
+                    type="text"
+                    id={`nombreCert-${index}`}
+                    name="nombre"
+                    value={cert.nombre}
+                    onChange={(e) =>
+                      handleStructuredChange("cursos_certificaciones", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor={`institucionCert-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Institución
+                  </label>
+                  <input
+                    type="text"
+                    id={`institucionCert-${index}`}
+                    name="institucion"
+                    value={cert.institucion}
+                    onChange={(e) =>
+                      handleStructuredChange("cursos_certificaciones", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor={`fechaObtencionCert-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Fecha de Obtención
+                  </label>
+                  <input
+                    type="month"
+                    id={`fechaObtencionCert-${index}`}
+                    name="fechaObtencion"
+                    value={cert.fechaObtencion}
+                    onChange={(e) =>
+                      handleStructuredChange("cursos_certificaciones", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <div className="md:col-span-2 text-right">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleRemoveItem("cursos_certificaciones", index)
+                    }
+                    className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                  >
+                    Eliminar Certificación
+                  </button>
+                </div>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddItem("cursos_certificaciones")}
+              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Añadir Curso/Certificación
+            </button>
+          </fieldset>
+
+          {/* Sección de Habilidades */}
+          <fieldset className="border border-gray-300 p-4 sm:p-6 rounded-md">
+            <legend className="text-xl font-semibold text-gray-700 mb-4 px-2">
+              Habilidades
+            </legend>
+            {formData.habilidades.map((habilidad, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-4 mb-4 p-4 border border-gray-200 rounded-md bg-gray-50"
               >
-                Habilidades (cada entrada en una nueva línea)
-              </label>
-              <textarea
-                id="habilidades"
-                name="habilidades"
-                rows="3"
-                value={formData.habilidades}
-                onChange={handleChange}
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              ></textarea>
-            </div>
+                <div className="flex-grow">
+                  <label
+                    htmlFor={`habilidad-${index}`}
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Habilidad
+                  </label>
+                  <input
+                    type="text"
+                    id={`habilidad-${index}`}
+                    name="nombre"
+                    value={habilidad.nombre}
+                    onChange={(e) =>
+                      handleStructuredChange("habilidades", index, e)
+                    }
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveItem("habilidades", index)}
+                  className="px-4 py-2 bg-red-500 text-white text-sm font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 self-end"
+                >
+                  Eliminar
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() => handleAddItem("habilidades")}
+              className="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              Añadir Habilidad
+            </button>
           </fieldset>
 
           {/* Sección de Preferencias y Otros Datos */}
-          <fieldset className="border border-gray-300 p-6 rounded-md">
+          <fieldset className="border border-gray-300 p-4 sm:p-6 rounded-md">
             <legend className="text-xl font-semibold text-gray-700 mb-4 px-2">
               Preferencias y Otros
             </legend>
@@ -418,6 +748,7 @@ const ApplyVacantes = () => {
                 </label>
               </div>
             </div>
+          
           </fieldset>
 
           <div className="flex justify-end">

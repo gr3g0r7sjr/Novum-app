@@ -45,7 +45,7 @@
 
   // Estilos para el botón de enviar
   button[type="submit"] {
-    background-color: #2563eb; // Azul oscuro de Tailwind
+    background-color: oklch(62.3% 0.214 259.815); // Azul oscuro de Tailwind
     color: white;
     padding: 0.75rem 1.5rem;
     border-radius: 0.375rem;

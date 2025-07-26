@@ -100,7 +100,7 @@ function App() {
           }
         />
         <Route
-          path="/vacantes/:id/postulaciones"
+          path="/vacantes/:idVacante/postulaciones"
           element={
             <Layout>
               <ApplyVacantes />
