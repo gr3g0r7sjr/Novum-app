@@ -16,7 +16,7 @@ router.put("/:id", vacantesController.actualizar);
 
 // DELETE: Elimina una vacante por su ID.
 // Usa ':id' para identificar la vacante a eliminar.
-router.delete("/:id", vacantesController.eliminar);
+router.delete("/", vacantesController.eliminar);
 
 router.get("/servicios-interes", vacantesController.obtenerServiciosInteres);
 

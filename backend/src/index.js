@@ -34,6 +34,8 @@ app.post("/api/vacantes/:id/postulaciones", postulacionesController.aplicarVacan
 
 app.get("/api/vacantes", vacantesController.obtener);
 
+app.delete("/api/vacantes/:id", vacantesController.eliminar)
+
 app.get("/api/vacantes/:id", vacantesController.obtenerVacanteId);
 
 app.use("/api/postulaciones", postulacionesRoutes);
