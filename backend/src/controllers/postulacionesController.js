@@ -1,12 +1,6 @@
-import pool from "../db.js"; // Asegúrate de que esta ruta sea correcta para tu pool de conexión
+import pool from "../db.js";
 
 export const postulacionesController = {
-  /**
-   * @description: Permite a un candidato aplicar a una vacante.
-   * Si el candidato no existe (no se proporciona id_candidato), se crea uno nuevo.
-   * @route POST /api/postulaciones/aplicar
-   * @access Public (o Privado si se requiere autenticación para aplicar)
-   */
   aplicarVacantes: async (req, res) => {
     const {
       id_candidato,
@@ -33,7 +27,7 @@ export const postulacionesController = {
       }
       const vacanteCheck = await pool.query(
         "SELECT 1 FROM vacantes WHERE id_vacante = $1",
-        [id_vacante],
+        [id_vacante]
       );
       if (vacanteCheck.rows.length === 0) {
         return res.status(404).json({ message: "Vacante no encontrada." });
@@ -55,13 +49,13 @@ export const postulacionesController = {
         // Opcional: Verificar si el correo ya existe en candidatos para evitar duplicados
         const existingCandidate = await pool.query(
           "SELECT id_candidato FROM public.candidatos WHERE correo_electronico = $1",
-          [correo_electronico],
+          [correo_electronico]
         );
         if (existingCandidate.rows.length > 0) {
           // Si el candidato ya existe, usamos su ID existente
           candidatoIdFinal = existingCandidate.rows[0].id_candidato;
           console.log(
-            `Candidato con correo ${correo_electronico} ya existe, usando ID: ${candidatoIdFinal}`,
+            `Candidato con correo ${correo_electronico} ya existe, usando ID: ${candidatoIdFinal}`
           );
         } else {
           // Insertar nuevo candidato
@@ -83,7 +77,7 @@ export const postulacionesController = {
               habilidades,
               servicio_interes,
               vehiculo,
-            ],
+            ]
           );
           candidatoIdFinal = newCandidatoResult.rows[0].id_candidato;
           console.log(`Nuevo candidato registrado con ID: ${candidatoIdFinal}`);
@@ -92,7 +86,7 @@ export const postulacionesController = {
         // Si se proporciona id_candidato, verificar que exista
         const candidatoCheck = await pool.query(
           "SELECT 1 FROM candidatos WHERE id_candidato = $1",
-          [id_candidato],
+          [id_candidato]
         );
         if (candidatoCheck.rows.length === 0) {
           return res.status(404).json({
@@ -105,7 +99,7 @@ export const postulacionesController = {
       // 3. Verificar si la postulación ya existe para evitar duplicados
       const existingPostulacion = await pool.query(
         "SELECT 1 FROM postulaciones WHERE id_candidato = $1 AND id_vacante = $2",
-        [candidatoIdFinal, id_vacante],
+        [candidatoIdFinal, id_vacante]
       );
 
       if (existingPostulacion.rows.length > 0) {
@@ -117,7 +111,7 @@ export const postulacionesController = {
       // 4. Insertar la nueva postulación
       const result = await pool.query(
         "INSERT INTO postulaciones (id_candidato, id_vacante) VALUES ($1, $2) RETURNING *",
-        [candidatoIdFinal, id_vacante],
+        [candidatoIdFinal, id_vacante]
       );
 
       res.status(201).json({
@@ -132,11 +126,6 @@ export const postulacionesController = {
     }
   },
 
-  /**
-   * @description: Obtiene todas las postulaciones.
-   * @route GET /api/postulaciones
-   * @access Public (Debería ser privada en producción)
-   */
   getPostulaciones: async (req, res) => {
     try {
       const result = await pool.query(`
@@ -163,6 +152,38 @@ export const postulacionesController = {
       console.error("🔥 Error al obtener postulaciones:", error.message);
       res.status(500).json({
         message: "❌ Error interno del servidor al obtener las postulaciones.",
+      });
+    }
+  },
+
+  // 👇 Nuevo método para contar postulaciones por vacante
+  getConteoPostulacionesPorVacante: async (req, res) => {
+    try {
+      const result = await pool.query(`
+                SELECT
+                    v.id_vacante,
+                    v.titulo_cargo,
+                    v.area,
+                    COUNT(p.id_postulacion) AS total_postulaciones
+                FROM
+                    vacantes v
+                LEFT JOIN
+                    postulaciones p ON v.id_vacante = p.id_vacante
+                GROUP BY
+                    v.id_vacante, v.titulo_cargo, v.area
+                ORDER BY
+                    total_postulaciones DESC;
+            `);
+
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error(
+        "🔥 Error al obtener el conteo de postulaciones:",
+        error.message
+      );
+      res.status(500).json({
+        message:
+          "❌ Error interno del servidor al obtener el conteo de postulaciones.",
       });
     }
   },

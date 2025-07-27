@@ -28,7 +28,7 @@ const pool = new Pool({
 async function testDbConnection() {
   let client;
   try {
-    client = await pool.connect(); // Adquiere un cliente del pool
+    client = await pool.connect(); 
     console.log("¡Conectado a PostgreSQL exitosamente y pool listo!");
   } catch (err) {
     console.error(
@@ -37,7 +37,7 @@ async function testDbConnection() {
     );
   } finally {
     if (client) {
-      client.release(); // IMPORTANTE: Libera el cliente de vuelta al pool
+      client.release(); 
       console.log("Cliente liberado al pool.");
     }
   }

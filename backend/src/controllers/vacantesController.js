@@ -61,7 +61,6 @@ export const vacantesController = {
 
     const errors = {};
 
-    // Validación de creado_por_usuario_id (se mantiene para capturar si es null o no numérico)
     if (
       !creado_por_usuario_id ||
       isNaN(parseInt(creado_por_usuario_id, 10)) ||
@@ -96,7 +95,7 @@ export const vacantesController = {
         salario === ""
           ? null
           : parseFloat(String(salario).replace(/[^0-9.-]+/g, "")),
-        parseInt(creado_por_usuario_id, 10), // Asegúrate de que este ID sea válido
+        parseInt(creado_por_usuario_id, 10),
         id_servicio_interes === "" ? null : parseInt(id_servicio_interes, 10),
       ];
 
@@ -127,6 +126,7 @@ export const vacantesController = {
       }
     }
   },
+
   obtenerServiciosInteres: async (req, res) => {
     try {
       const query =
@@ -141,12 +141,13 @@ export const vacantesController = {
       });
     }
   },
+
   obtenerVacanteId: async (req, res) => {
     const { id } = req.params;
     try {
       const result = await pool.query(
         "SELECT * FROM vacantes WHERE id_vacante = $1",
-        [id],
+        [id]
       );
       if (result.rows.length > 0) {
         res.json(result.rows[0]);
@@ -158,6 +159,99 @@ export const vacantesController = {
       res
         .status(500)
         .json({ message: "Error interno del servidor al obtener la vacante." });
+    }
+  },
+
+  // 👇 NUEVOS MÉTODOS AÑADIDOS
+
+  actualizar: async (req, res) => {
+    const { id } = req.params;
+    const {
+      titulo_cargo,
+      area,
+      descripcion_corta,
+      responsabilidades,
+      requisitos,
+      beneficios,
+      salario,
+      estado,
+      id_servicio_interes,
+    } = req.body;
+
+    try {
+      const query = `
+                UPDATE vacantes
+                SET 
+                    titulo_cargo = COALESCE($1, titulo_cargo),
+                    area = COALESCE($2, area),
+                    descripcion_corta = COALESCE($3, descripcion_corta),
+                    responsabilidades = COALESCE($4, responsabilidades),
+                    requisitos = COALESCE($5, requisitos),
+                    beneficios = COALESCE($6, beneficios),
+                    salario = COALESCE($7, salario),
+                    estado = COALESCE($8, estado),
+                    id_servicio_interes = COALESCE($9, id_servicio_interes)
+                WHERE id_vacante = $10
+                RETURNING *;
+            `;
+
+      const values = [
+        titulo_cargo,
+        area,
+        descripcion_corta,
+        responsabilidades,
+        requisitos,
+        beneficios,
+        salario,
+        estado,
+        id_servicio_interes,
+        id,
+      ];
+
+      const result = await pool.query(query, values);
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          message: "Vacante no encontrada para actualizar.",
+        });
+      }
+
+      res.status(200).json({
+        message: "Vacante actualizada exitosamente.",
+        vacante: result.rows[0],
+      });
+    } catch (error) {
+      console.error("Error al actualizar la vacante:", error);
+      res.status(500).json({
+        message: "Error interno del servidor al actualizar la vacante.",
+      });
+    }
+  },
+
+  eliminar: async (req, res) => {
+    const { id } = req.params;
+
+    try {
+      const result = await pool.query(
+        "DELETE FROM vacantes WHERE id_vacante = $1 RETURNING *",
+        [id]
+      );
+
+      if (result.rows.length === 0) {
+        return res.status(404).json({
+          message: "Vacante no encontrada para eliminar.",
+        });
+      }
+
+      res.status(200).json({
+        message: "Vacante eliminada exitosamente.",
+        vacante: result.rows[0],
+      });
+    } catch (error) {
+      console.error("Error al eliminar la vacante:", error);
+      res.status(500).json({
+        message: "Error interno del servidor al eliminar la vacante.",
+      });
     }
   },
 };

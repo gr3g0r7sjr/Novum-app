@@ -5,5 +5,6 @@ import { postulacionesController } from "../controllers/postulacionesController.
 // Rutas para la funcionalidad de postulación
 router.post("/", postulacionesController.aplicarVacantes);
 router.get("/", postulacionesController.getPostulaciones);
+router.get("/total_postulaciones", postulacionesController.getConteoPostulacionesPorVacante)
 
 export default router; // Exporta el router usando export default
