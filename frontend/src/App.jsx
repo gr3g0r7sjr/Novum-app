@@ -8,7 +8,7 @@ import { VacantesPage } from "./pages/VacantesPage.jsx";
 import { Layout } from "./layouts/Layout.jsx";
 import { CandidatosSeleccionados } from "./components/Candidatos/Candidatos.jsx";
 import { CrearUsuario } from "./components/CrearUsuario/CrearUsuario.jsx";
-import {VacantesList} from "./components/VacanteList/VacanteLista.jsx"
+import { EditarVacantePage } from "./components/EditarVacante/EditarVacante.jsx";
 
 // Importa los nuevos componentes de página
 import { CrearVacantePage } from "./pages/CrearVacantePage.jsx";
@@ -74,7 +74,7 @@ function App() {
           }
         />
 
-        {/* Rutas de administración */}
+        {/* Rutas de administración PRIVADAS */}
         <Route
           path="/admin/dashboard"
           element={
@@ -115,15 +115,13 @@ function App() {
               <CrearUsuario />
             </Layout>
           }
-        ></Route>
-        <Route
-          path="/admin/vacantes/:idPostulacion"
-          element={
-            <Layout>
-              <VacantesList />
-            </Layout>
-          }
-        ></Route>
+        />
+        <Route path="/admin/vacantes/editar/:id" element={
+          <Layout>
+            <EditarVacantePage />
+          </Layout>
+        } />
+
         {/* Ruta 404 para cualquier otra ruta no definida */}
         <Route path="*" element={<h1>404 - Página No Encontrada</h1>} />
       </Routes>
