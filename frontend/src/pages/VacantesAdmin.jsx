@@ -70,6 +70,7 @@ export const VacantesAdmin = () => {
         const deleteResponse = await fetch(`${API_URL}/${id_vacante}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
+          
         });
 
         if (!deleteResponse.ok) {
@@ -88,7 +89,7 @@ export const VacantesAdmin = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center font-inter">
+      <div className="min-h-screen flex justify-center items-center font-inter">
         <p className="text-xl text-gray-700">Cargando vacantes...</p>
       </div>
     );
@@ -96,7 +97,7 @@ export const VacantesAdmin = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center font-inter">
+      <div className="min-h-screen flex justify-center items-center font-inter">
         <p className="text-xl text-red-500">{error}</p>
       </div>
     );
@@ -104,7 +105,7 @@ export const VacantesAdmin = () => {
 
   if (vacantes.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center font-inter">
+      <div className="min-h-screen flex justify-center items-center font-inter">
         <p className="text-xl text-gray-700">
           No hay vacantes disponibles en este momento.
         </p>
@@ -114,7 +115,7 @@ export const VacantesAdmin = () => {
 
   return (
     <section
-      className="min-h-screen bg-gray-100 py-8 px-4"
+      className="min-h-screen py-8 px-4"
       style={{ fontFamily: "Inter, sans-serif" }}
     >
       <div className="container mx-auto p-4">

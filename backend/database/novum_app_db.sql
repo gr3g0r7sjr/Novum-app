@@ -5,7 +5,7 @@
 -- Dumped from database version 17.5
 -- Dumped by pg_dump version 17.5
 
--- Started on 2025-07-19 12:18:55
+-- Started on 2025-07-27 15:47:49
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -30,20 +30,19 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.candidatos (
     id_candidato integer NOT NULL,
-    nombre character varying(100) NOT NULL,
-    apellido character varying(100) NOT NULL,
-    correo_electronico character varying(255) NOT NULL,
-    numero_telefono character varying(50),
+    nombre character varying(50) NOT NULL,
+    apellido character varying(50) NOT NULL,
+    correo_electronico character varying(50) NOT NULL,
+    numero_telefono character varying(11),
     direccion text,
     educacion text,
     experiencia_laboral text,
     cursos_certificaciones text,
-    habilidades text,
+    habilidades text[],
     servicio_interes integer,
     vehiculo character varying(20),
-    fecha_expiracion_datos date,
     fecha_postulacion_inicial timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT chk_vehiculo_valido CHECK (vehiculo = ANY (ARRAY['si'::text, 'no'::text]))
+    CONSTRAINT chk_vehiculo_valido CHECK (((vehiculo)::text = ANY (ARRAY[('si'::character varying)::text, ('no'::character varying)::text])))
 );
 
 
@@ -204,9 +203,9 @@ CREATE TABLE public.vacantes (
     titulo_cargo character varying(255) NOT NULL,
     area character varying(100) NOT NULL,
     descripcion_corta text NOT NULL,
-    responsabilidades text,
-    requisitos text NOT NULL,
-    beneficios text,
+    responsabilidades text[],
+    requisitos text[] NOT NULL,
+    beneficios text[],
     salario character varying(100),
     fecha_publicacion timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     estado character varying(50) DEFAULT 'activa'::character varying NOT NULL,
@@ -282,33 +281,71 @@ ALTER TABLE ONLY public.usuarios ALTER COLUMN id_usuario SET DEFAULT nextval('pu
 
 ALTER TABLE ONLY public.vacantes ALTER COLUMN id_vacante SET DEFAULT nextval('public.vacantes_id_vacante_seq'::regclass);
 
---
--- Datos para Name: intereses_empresa; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-INSERT INTO public.intereses_empresa (id_interes, nombre_interes) VALUES
-(1, 'Tecnología'),
-(2, 'Marketing'),
-(3, 'Recursos Humanos'),
-(4, 'Administración');
 
 --
--- Datos para Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 4946 (class 0 OID 16738)
+-- Dependencies: 221
+-- Data for Name: candidatos; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.usuarios (id_usuario, email, password_hash, rol, fecha_creacion) VALUES
-(1, 'gsubero@gmail.com', '$2b$10$Nxiu6PpULX/a2JdvsafFq..O.IYobIj5FsxaZuWb2aNP0qDdpACLO', 'admin', '2025-07-13 11:40:02.945656-04');
+COPY public.candidatos (id_candidato, nombre, apellido, correo_electronico, numero_telefono, direccion, educacion, experiencia_laboral, cursos_certificaciones, habilidades, servicio_interes, vehiculo, fecha_postulacion_inicial) FROM stdin;
+1	Gregory	Subero	gsubero@gmail.com	04129722981	Carrizal calle el parque, ramal 1 casa san antonio	{"Tsu Informatica"}	{"1 año"}	{"Node js con Express","Apis","Javascript ES6"}	{Express,Apis,Postgresql}	1	si	2025-07-24 17:26:16.413712-04
+2	Richard	Sosa	rsosa@gmail.com	04128713857	San antonio de los altos loma magica edo. miranda 	{"{\\"institucion\\":\\"IUTA\\",\\"titulo\\":\\"Tsu Informática \\",\\"fechaInicio\\":\\"2023-09\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"empresa\\":\\"Softech\\",\\"puesto\\":\\"Backend Developer\\",\\"fechaInicio\\":\\"2025-01\\",\\"fechaFin\\":\\"2025-07\\"}"}	{"{\\"nombre\\":\\"NodeJs \\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2025-01\\"}"}	{"{\\"nombre\\":\\"ApiRestful\\"}","{\\"nombre\\":\\"NodeJs\\"}","{\\"nombre\\":\\"Express\\"}","{\\"nombre\\":\\"Git\\"}","{\\"nombre\\":\\"Postgresql\\"}"}	1	no	2025-07-26 10:52:26.144545-04
+3	Jesus 	Subero	jesussubero1007@gmail.com	04129722971	Los teques, el tambor urbanización quenda edificio mapurite	{"{\\"institucion\\":\\"IUTA \\",\\"titulo\\":\\"Tsu Informatica\\",\\"fechaInicio\\":\\"2023-10\\",\\"fechaFin\\":\\"2025-07\\"}"}	{"{\\"empresa\\":\\"Farmatodo \\",\\"puesto\\":\\"Backend Developer\\",\\"fechaInicio\\":\\"2024-01\\",\\"fechaFin\\":\\"2025-07\\"}"}	{"{\\"nombre\\":\\"Backend Developer\\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2025-01\\"}"}	{"{\\"nombre\\":\\"NodeJs\\"}","{\\"nombre\\":\\"Express\\"}","{\\"nombre\\":\\"Postgresql\\"}","{\\"nombre\\":\\"Git\\"}","{\\"nombre\\":\\"Docker\\"}","{\\"nombre\\":\\"AWS\\"}","{\\"nombre\\":\\"Python\\"}"}	1	si	2025-07-27 15:12:32.889501-04
+\.
+
 
 --
--- Datos para Name: vacantes; Type: TABLE DATA; Schema: public; Owner: postgres
+-- TOC entry 4942 (class 0 OID 16726)
+-- Dependencies: 217
+-- Data for Name: intereses_empresa; Type: TABLE DATA; Schema: public; Owner: postgres
 --
--- NOTA: Los campos responsabilidades, requisitos y beneficios son TEXT.
--- Asegúrate de que el formato de array JSON sea lo que deseas almacenar como texto plano.
--- Si necesitas un tipo de dato ARRAY en PostgreSQL, las columnas deberían ser TEXT[].
+
+COPY public.intereses_empresa (id_interes, nombre_interes) FROM stdin;
+1	Tecnología 
+2	Marketing
+3	Recursos Humanos
+4	Administración
+\.
+
+
 --
-INSERT INTO public.vacantes (id_vacante, titulo_cargo, area, descripcion_corta, responsabilidades, requisitos, beneficios, salario, fecha_publicacion, estado, creado_por_usuario_id, id_servicio_interes, fecha_creacion) VALUES
-(9, 'Frontend Developer', 'Tecnologia', 'Frontend Developer con mas de 3 años', '["React","Tailwind"]', '["+3 años experiencia","React"]', '["20 vacaciones","remoto"]', '1.8', '2025-07-14 21:08:02.006456-04', 'activa', 1, 1, '2025-07-14 21:08:02.006456-04'),
-(10, 'Especialista en Marketing Digital', 'Marketing', 'Buscamos un experto en estrategias de marketing online y SEO.', '["Desarrollar campañas de marketing","Analizar métricas de rendimiento.","Optimizar contenido para motores de búsqueda."]', '["3+ años de experiencia en marketing digital.","Conocimiento en SEO"]', '["Plan de carrera.","Bono por rendimiento","Vacaciones 20 dias anuales"]', '1800', '2025-07-15 15:53:09.544346-04', 'activa', 1, 2, '2025-07-15 15:53:09.544346-04');
+-- TOC entry 4950 (class 0 OID 16755)
+-- Dependencies: 225
+-- Data for Name: postulaciones; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.postulaciones (id_postulacion, id_candidato, id_vacante, fecha_postulacion, estado_postulacion) FROM stdin;
+1	1	12	2025-07-24 17:26:16.468156-04	recibida
+2	2	12	2025-07-26 10:52:26.182559-04	recibida
+3	3	12	2025-07-27 15:12:32.921255-04	recibida
+\.
+
+
+--
+-- TOC entry 4944 (class 0 OID 16730)
+-- Dependencies: 219
+-- Data for Name: usuarios; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.usuarios (id_usuario, email, password_hash, rol, fecha_creacion) FROM stdin;
+1	gsubero@gmail.com	$2b$10$JyMGuT762bIcScn0Qcurye5MVSRKqZyxJ7kJfYV2jGwbAnEc7ACey	admin	2025-07-13 11:40:02.945656-04
+2	rsosa@gmail.com	$2b$10$ZYVJ/zJOpgQCa3tCimqOTewCPv1lr9zhr/VQVgG9Y063KsH6XI9PO	admin	2025-07-25 22:21:06.164608-04
+3	novumideasrrhh@gmail.com	$2b$10$9USm5D3FkGOYB4X.rzJtnudGcpCLe.lbi06JxZQshyxVIgKVWMv1e	usuario	2025-07-27 15:24:54.735329-04
+\.
+
+
+--
+-- TOC entry 4948 (class 0 OID 16746)
+-- Dependencies: 223
+-- Data for Name: vacantes; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.vacantes (id_vacante, titulo_cargo, area, descripcion_corta, responsabilidades, requisitos, beneficios, salario, fecha_publicacion, estado, creado_por_usuario_id, id_servicio_interes, fecha_creacion) FROM stdin;
+12	Backend Junior	Tecnología	Buscamos un Desarrollador Backend Junior apasionado por la lógica del servidor, la gestión de bases de datos y la construcción de APIs robustas y eficientes.	{"Colaborar en el diseño, desarrollo y mantenimiento de APIs RESTful utilizando Node.js y Express.js.","Implementar y gestionar bases de datos relacionales, principalmente PostgreSQL, incluyendo el diseño de esquemas, consultas eficientes y optimización.","Colaborar con el equipo de frontend para definir y consumir los endpoints de la API."}	{"Lenguaje de Programación: Sólidos fundamentos en JavaScript (ES6+).","Entorno de Ejecución: Experiencia con Node.js.","Framework Web: Familiaridad con Express.js para la construcción de APIs.","Base de Datos: Conocimientos en bases de datos relacionales, especialmente PostgreSQL, incluyendo SQL básico (SELECT, INSERT, UPDATE, DELETE)."}	{"Compensación competitiva acorde a la experiencia.","Mentoría por parte de desarrolladores senior.","Seguro médico y dental"}	1200	2025-07-23 20:43:48.10218-04	activa	1	1	2025-07-23 20:43:48.10218-04
+9	Frontend Developer	Tecnología	Buscamos un Desarrollador Frontend experto en React.Js con Next.js y Typescript	{"Construir componentes","Mantenimiento a la aplicación","Corregir bugs","Reunirse con los stakeholders"}	{"+3 años experiencia",React,Tailwind,TypeScript,Sass,Git,Vite}	{"20 vacaciones",remoto}	1200	2025-07-14 21:08:02.006456-04	activa	1	1	2025-07-14 21:08:02.006456-04
+10	Especialista en Marketing Digital	Marketing	Buscamos un experto en estrategias de marketing online y SEO.	{"Desarrollar campañas de marketing","Analizar métricas de rendimiento","Optimizar contenido para motores de búsqueda."}	{"3+ años de experiencia en marketing digital.","Conocimiento en SEO"}	{"Plan de carrera.","Bono por rendimiento","Vacaciones 20 dias anuales"}	1800	2025-07-15 15:53:09.544346-04	activa	1	2	2025-07-15 15:53:09.544346-04
+\.
 
 
 --
@@ -317,7 +354,7 @@ INSERT INTO public.vacantes (id_vacante, titulo_cargo, area, descripcion_corta, 
 -- Name: candidatos_id_candidato_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.candidatos_id_candidato_seq', 1, false);
+SELECT pg_catalog.setval('public.candidatos_id_candidato_seq', 3, true);
 
 
 --
@@ -335,7 +372,7 @@ SELECT pg_catalog.setval('public.intereses_empresa_id_interes_seq', 4, true);
 -- Name: postulaciones_id_postulacion_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.postulaciones_id_postulacion_seq', 1, false);
+SELECT pg_catalog.setval('public.postulaciones_id_postulacion_seq', 3, true);
 
 
 --
@@ -344,7 +381,7 @@ SELECT pg_catalog.setval('public.postulaciones_id_postulacion_seq', 1, false);
 -- Name: usuarios_id_usuario_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 1, true);
+SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 3, true);
 
 
 --
@@ -353,7 +390,7 @@ SELECT pg_catalog.setval('public.usuarios_id_usuario_seq', 1, true);
 -- Name: vacantes_id_vacante_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.vacantes_id_vacante_seq', 10, true);
+SELECT pg_catalog.setval('public.vacantes_id_vacante_seq', 12, true);
 
 
 --
@@ -473,8 +510,9 @@ ALTER TABLE ONLY public.vacantes
     ADD CONSTRAINT vacantes_id_servicio_interes_fkey FOREIGN KEY (id_servicio_interes) REFERENCES public.intereses_empresa(id_interes) ON DELETE SET NULL;
 
 
--- Completed on 2025-07-19 12:18:55
+-- Completed on 2025-07-27 15:47:50
 
 --
 -- PostgreSQL database dump complete
 --
+
