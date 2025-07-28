@@ -153,11 +153,11 @@ export const VacantesAdmin = () => {
               </div>
 
               {/* Contenedor para los nuevos botones */}
-              <div className="flex justify-end space-x-4">
+              <div className="flex justify-end space-x-4 xxs:flex-col xxs:justify-center xxs:items-center xxs:gap-2">
                 {/* Botón para Eliminar */}
                 <button
                   onClick={() => handleDelete(vacante.id_vacante)}
-                  className="inline-flex items-center px-4 py-2 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
+                  className="inline-flex items-center  px-4 py-2 xxs:w-3/4 xxs:m-0  xxs:justify-center bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
                 >
                   Eliminar
                 </button>
@@ -165,7 +165,7 @@ export const VacantesAdmin = () => {
                 {/* Botón para Editar (usando Link) */}
                 <Link
                   to={`/admin/vacantes/editar/${vacante.id_vacante}`}
-                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                  className="inline-flex items-center px-4 py-2 xxs:w-3/4 bg-blue-600  xxs:justify-center text-white font-semibold rounded-md shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
                 >
                   Editar Vacante
                 </Link>
