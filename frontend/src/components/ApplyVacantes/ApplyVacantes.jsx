@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-
+// No se necesita importar styles si se usa Tailwind directamente
+// import styles from "./ApplyVacantes.module.scss";
 
 const ApplyVacantes = () => {
   const { idVacante } = useParams(); // idVacante es el ID de la vacante a la que se aplica
@@ -18,6 +19,10 @@ const ApplyVacantes = () => {
     correo_electronico: "",
     numero_telefono: "",
     direccion: "",
+    // Nuevos campos
+    tipo_identificacion: "", // 'V', 'E', 'P' (Venezolano, Extranjero, Extranjero Residente)
+    cedula: "",
+    fecha_nacimiento: "", // Formato YYYY-MM-DD
     // Campos estructurados inicializados con un objeto vacío para que aparezcan por defecto
     educacion: [{ institucion: "", titulo: "", fechaInicio: "", fechaFin: "" }],
     experiencia_laboral: [
@@ -34,7 +39,6 @@ const ApplyVacantes = () => {
     habilidades: [{ nombre: "" }],
     servicio_interes: "", // Este será el ID del interés, se convertirá a número
     vehiculo: "", // 'si' o 'no', se inicializa vacío
-    fecha_expiracion_datos: "",
   });
 
   // Estado para la lista de intereses de la empresa (para el select)
@@ -68,7 +72,7 @@ const ApplyVacantes = () => {
     fetchIntereses();
   }, [API_BASE_URL]); // Dependencia API_BASE_URL para evitar warnings
 
-  // Manejador de cambios para campos simples (texto, email, telefono, select, radio)
+  // Manejador de cambios para campos simples (texto, email, telefono, select, radio, date)
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -77,6 +81,7 @@ const ApplyVacantes = () => {
     }));
   };
 
+  // --- Manejadores para campos estructurados (Educación, Experiencia, Cursos, Habilidades) ---
 
   // Añadir un nuevo elemento a un array estructurado
   const handleAddItem = (field) => {
@@ -155,6 +160,8 @@ const ApplyVacantes = () => {
         : null,
       // Asegúrate que vehiculo sea 'si' o 'no', o null si no se selecciona
       vehiculo: formData.vehiculo || null,
+      // Asegurar que fecha_nacimiento se envíe como string de fecha (YYYY-MM-DD)
+      fecha_nacimiento: formData.fecha_nacimiento || null,
     };
 
     console.log("Datos del Candidato a enviar:", dataToSend);
@@ -185,6 +192,9 @@ const ApplyVacantes = () => {
         correo_electronico: "",
         numero_telefono: "",
         direccion: "",
+        tipo_identificacion: "",
+        cedula: "",
+        fecha_nacimiento: "",
         educacion: [
           { institucion: "", titulo: "", fechaInicio: "", fechaFin: "" },
         ],
@@ -203,7 +213,6 @@ const ApplyVacantes = () => {
         habilidades: [{ nombre: "" }],
         servicio_interes: "",
         vehiculo: "",
-        fecha_expiracion_datos: "",
       });
 
       // Redirigir después de un breve retraso para que el usuario vea el mensaje de éxito
@@ -349,6 +358,64 @@ const ApplyVacantes = () => {
                   required
                   className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 ></textarea>
+              </div>
+
+              {/* Nuevos campos de identificación y fecha de nacimiento */}
+              <div>
+                <label
+                  htmlFor="tipo_identificacion"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Tipo de Identificación
+                </label>
+                <select
+                  id="tipo_identificacion"
+                  name="tipo_identificacion"
+                  value={formData.tipo_identificacion}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                >
+                  <option value="">Selecciona</option>
+                  <option value="V">Venezolano</option>
+                  <option value="E">Extranjero</option>
+                  <option value="P">Extranjero Residente</option>
+                </select>
+              </div>
+              <div>
+                <label
+                  htmlFor="cedula"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Número de Cédula/Identificación
+                </label>
+                <input
+                  type="text"
+                  id="cedula"
+                  name="cedula"
+                  value={formData.cedula}
+                  onChange={handleChange}
+                  maxLength={8}
+                  required
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
+              </div>
+              <div>
+                <label
+                  htmlFor="fecha_nacimiento"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Fecha de Nacimiento
+                </label>
+                <input
+                  type="date"
+                  id="fecha_nacimiento"
+                  name="fecha_nacimiento"
+                  value={formData.fecha_nacimiento}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                />
               </div>
             </div>
           </fieldset>
@@ -537,6 +604,7 @@ const ApplyVacantes = () => {
                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                   />
                 </div>
+                
                 <div className="md:col-span-2 text-right">
                   <button
                     type="button"
@@ -748,7 +816,6 @@ const ApplyVacantes = () => {
                 </label>
               </div>
             </div>
-          
           </fieldset>
 
           <div className="flex justify-end">

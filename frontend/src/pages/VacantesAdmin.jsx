@@ -11,7 +11,7 @@ export const VacantesAdmin = () => {
     ? "http://localhost:3000/api/vacantes"
     : "https://novum-app.onrender.com/api/vacantes";
   const POSTULACIONES_API_URL = isLocalhost
-    ? "http://localhost:3000/api/postulaciones/total_postulaciones"
+    ? "http://localhost:3000/api"
     : "https://novum-app.onrender.com/api/postulaciones/conteo-por-vacante";
 
   // Esta función refrescará los datos del estado
@@ -29,10 +29,13 @@ export const VacantesAdmin = () => {
 
       const vacantesData = await vacantesResponse.json();
 
-      const postulacionesResponse = await fetch(POSTULACIONES_API_URL, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
+      const postulacionesResponse = await fetch(
+        `${POSTULACIONES_API_URL}/postulaciones/total_postulaciones`,
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
       if (!postulacionesResponse.ok) {
         throw new Error("Error al obtener el conteo de postulaciones");

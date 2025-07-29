@@ -7,7 +7,6 @@ export const CrearVacantePage = () => {
 
   const [formData, setFormData] = useState({
     titulo_cargo: "",
-    area: "",
     descripcion_corta: "",
     responsabilidades: "",
     requisitos: "",
@@ -124,10 +123,6 @@ export const CrearVacantePage = () => {
     } else if (formData.titulo_cargo.trim().length < 3) {
       errors.titulo_cargo =
         "El título del cargo debe tener al menos 3 caracteres.";
-    }
-
-    if (!formData.area.trim()) {
-      errors.area = "El área es obligatoria.";
     }
 
     if (!formData.descripcion_corta.trim()) {
@@ -249,7 +244,6 @@ export const CrearVacantePage = () => {
 
       setFormData({
         titulo_cargo: "",
-        area: "",
         descripcion_corta: "",
         responsabilidades: "",
         requisitos: "",
@@ -331,28 +325,6 @@ export const CrearVacantePage = () => {
           )}
         </div>
 
-        <div>
-          <label
-            htmlFor="area"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Área:
-          </label>
-          <input
-            type="text"
-            id="area"
-            name="area"
-            value={formData.area}
-            onChange={handleChange}
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formErrors.area ? "border-red-500" : ""}`}
-            required
-          />
-          {formErrors.area && (
-            <p className="text-red-500 text-xs italic mt-1">
-              {formErrors.area}
-            </p>
-          )}
-        </div>
 
         <div>
           <label
