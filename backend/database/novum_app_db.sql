@@ -515,4 +515,3 @@ ALTER TABLE ONLY public.vacantes
 --
 -- PostgreSQL database dump complete
 --
-

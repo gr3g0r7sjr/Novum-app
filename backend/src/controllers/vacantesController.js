@@ -7,7 +7,6 @@ export const vacantesController = {
                 SELECT
                     v.id_vacante,
                     v.titulo_cargo,
-                    v.area,
                     v.descripcion_corta,
                     v.responsabilidades,
                     v.requisitos,
@@ -48,7 +47,6 @@ export const vacantesController = {
   crear: async (req, res) => {
     const {
       titulo_cargo,
-      area,
       descripcion_corta,
       responsabilidades,
       requisitos,
@@ -80,14 +78,13 @@ export const vacantesController = {
     try {
       const query = `
                 INSERT INTO vacantes (
-                    titulo_cargo, area, descripcion_corta, responsabilidades,
+                    titulo_cargo, descripcion_corta, responsabilidades,
                     requisitos, beneficios, salario, creado_por_usuario_id, id_servicio_interes
-                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
                 RETURNING *;`;
 
       const values = [
         titulo_cargo.trim(),
-        area.trim(),
         descripcion_corta.trim(),
         responsabilidades,
         requisitos,
