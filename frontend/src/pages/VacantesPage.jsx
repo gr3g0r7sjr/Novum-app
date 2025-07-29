@@ -74,11 +74,14 @@ export const VacantesPage = () => {
             key={vacante.id_vacante}
             className="bg-white rounded-lg shadow-md p-6"
           >
+            <p className="text-gray-700 mb-2">
+              Fecha de Publicacion: {vacante.fecha_publicacion.slice(0, 10).split('-').reverse().join('-')}
+            </p>
             <h2 className="text-xl font-semibold mb-2">
               {vacante.titulo_cargo}
             </h2>
             <p className="text-gray-700 mb-2">
-              <strong>Área:</strong> {vacante.area}
+              <strong>Área:</strong> {vacante.nombre_servicio_interes}
             </p>
             <p className="text-gray-600 text-sm mb-4">
               {vacante.descripcion_corta}

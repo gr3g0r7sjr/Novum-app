@@ -37,8 +37,8 @@ const ApplyVacantes = () => {
       { nombre: "", institucion: "", fechaObtencion: "" },
     ],
     habilidades: [{ nombre: "" }],
-    servicio_interes: "", // Este será el ID del interés, se convertirá a número
-    vehiculo: "", // 'si' o 'no', se inicializa vacío
+    servicio_interes: "", 
+    vehiculo: "", 
   });
 
   // Estado para la lista de intereses de la empresa (para el select)
@@ -49,11 +49,10 @@ const ApplyVacantes = () => {
   const [submissionError, setSubmissionError] = useState(null); // Para errores de envío
   const [successMessage, setSuccessMessage] = useState(null); // Para mensajes de éxito
 
-  // Cargar los servicios de interés al montar el componente
   useEffect(() => {
     const fetchIntereses = async () => {
       try {
-        // La ruta para obtener servicios de interés es /api/vacantes/servicios-interes
+        
         const response = await fetch(
           `${API_BASE_URL}/vacantes/servicios-interes`
         );
@@ -70,7 +69,7 @@ const ApplyVacantes = () => {
     };
 
     fetchIntereses();
-  }, [API_BASE_URL]); // Dependencia API_BASE_URL para evitar warnings
+  }, [API_BASE_URL]); 
 
   // Manejador de cambios para campos simples (texto, email, telefono, select, radio, date)
   const handleChange = (e) => {
