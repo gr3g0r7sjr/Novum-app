@@ -36,16 +36,12 @@ const calcularMatchScore = (candidato, vacante) => {
           // Aquí puedes decidir la estrictez de la coincidencia:
           // Para coincidencia parcial (ej. "React" en "React.js"):
           return habilidadNombre && habilidadNombre.toLowerCase().includes(req);
-          // Para coincidencia exacta (ej. "React.js" solo con "React.js"):
-          // return habilidadNombre && habilidadNombre.toLowerCase() === req;
         })
       ) {
         foundInCandidate = true;
       }
     }
 
-    // 2. Buscar el requisito en la educación del candidato (JSONB)
-    // Solo si no se encontró ya en habilidades para este requisito
     if (
       !foundInCandidate &&
       candidato.educacion &&
