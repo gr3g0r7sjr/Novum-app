@@ -6,15 +6,14 @@ import { LoginAdmin } from "./components/Auth/LoginAdmin.jsx";
 import { AdminDashboard } from "./pages/Admin.jsx";
 import { VacantesPage } from "./pages/VacantesPage.jsx";
 import { Layout } from "./layouts/Layout.jsx";
-import { CandidatosSeleccionados } from "./components/Candidatos/Candidatos.jsx";
 import { CrearUsuario } from "./components/CrearUsuario/CrearUsuario.jsx";
 import { EditarVacantePage } from "./components/EditarVacante/EditarVacante.jsx";
-
-// Importa los nuevos componentes de página
-import { CrearVacantePage } from "./pages/CrearVacantePage.jsx";
-import { VacantesAdmin } from "./pages/VacantesAdmin.jsx";
 import { VacanteDetalle } from "./components/VacanteDetalle/VacanteDetalle.jsx";
 import ApplyVacantes from "./components/ApplyVacantes/ApplyVacantes";
+import {CandidatosSeleccionados} from "./components/CandidatosSelec/CandidatosSeleccion.jsx"
+
+import { CrearVacantePage } from "./pages/CrearVacantePage.jsx";
+import { VacantesAdmin } from "./pages/VacantesAdmin.jsx";
 
 function App() {
   return (
