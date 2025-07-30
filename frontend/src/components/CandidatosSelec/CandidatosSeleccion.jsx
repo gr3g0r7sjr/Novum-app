@@ -178,7 +178,7 @@ export const CandidatosSeleccionados = () => {
                         <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
                           {candidato.educacion.map((eduString, idx) => {
                             try {
-                              const edu = JSON.parse(eduString); // Parsear la cadena JSON
+                              const edu = JSON.parse(eduString); 
                               return (
                                 <li key={idx}>
                                   {edu.titulo} en {edu.institucion} (
@@ -213,7 +213,7 @@ export const CandidatosSeleccionados = () => {
                             {candidato.experiencia_laboral.map(
                               (expString, idx) => {
                                 try {
-                                  const exp = JSON.parse(expString); // Parsear la cadena JSON
+                                  const exp = JSON.parse(expString);
                                   return (
                                     <li key={idx}>
                                       {exp.puesto} en {exp.empresa} (
@@ -251,7 +251,8 @@ export const CandidatosSeleccionados = () => {
                             {candidato.cursos_certificaciones.map(
                               (certString, idx) => {
                                 try {
-                                  const cert = JSON.parse(certString); // Parsear la cadena JSON
+                                  const cert = JSON.parse(certString);
+                                  
                                   return (
                                     <li key={idx}>
                                       {cert.nombre} de {cert.institucion}{" "}
