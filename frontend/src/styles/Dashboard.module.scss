@@ -1,0 +1,14 @@
+// frontend/src/styles/Dashboard.module.scss
+
+.dashboardContainer {
+  font-family: 'Inter', sans-serif; // Asegura que la fuente Inter se use
+  // Puedes añadir estilos SCSS más complejos aquí si es necesario
+  // Por ejemplo, para un fondo con gradiente o animaciones específicas
+}
+
+// Estilos para los títulos de sección dentro del dashboard
+.dashboardContainer h2 {
+  border-bottom: 2px solid #e2e8f0; // Un borde inferior sutil
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
