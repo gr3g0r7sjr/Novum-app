@@ -4,7 +4,6 @@ export const postulacionesController = {
   aplicarVacantes: async (req, res) => {
     // Log para ver los datos exactos que llegan del frontend
     console.log("Datos recibidos en aplicarVacantes (req.body):", req.body);
-
     const {
       id_candidato,
       id_vacante,
@@ -13,18 +12,18 @@ export const postulacionesController = {
       correo_electronico,
       numero_telefono,
       direccion,
-      educacion, // Array de objetos (se espera JSONB en DB)
+      educacion,
       experiencia_laboral,
       cursos_certificaciones,
-      habilidades, // Array de objetos (se espera TEXT[] en DB)
+      habilidades,
       servicio_interes,
       vehiculo,
-      tipo_identificacion, // Nuevo campo
-      cedula, // Nuevo campo
-      fecha_nacimiento, // Nuevo campo // Este campo se recibe del frontend pero no está en tu CREATE TABLE de candidatos
+      tipo_identificacion,
+      cedula,
+      fecha_nacimiento,
     } = req.body;
 
-    let client; // Declara client fuera del try para que sea accesible en finally
+    let client;
 
     try {
       client = await pool.connect(); // Obtiene un cliente del pool
@@ -78,19 +77,11 @@ export const postulacionesController = {
           console.log(
             `Candidato con correo ${correo_electronico} o cédula ${tipo_identificacion}-${cedula} ya existe, usando ID: ${candidatoIdFinal}`
           );
-          // NOTA: Si el candidato ya existe y quieres actualizar sus datos personales,
-          // la lógica de actualización debería ir aquí. Por simplicidad, este ejemplo
-          // solo usa el ID existente y no actualiza los datos del candidato.
         } else {
-          // --- Preparación de datos para la inserción ---
-          // educacion, experiencia_laboral, cursos_certificaciones son JSONB en DB, se pasan directamente.
-          // habilidades es TEXT[] en DB, se necesita transformar de [{nombre: "skill"}] a ["skill"].
-          const habilidadesArrayDeStrings = habilidades.map((h) => h.nombre);
+          const habilidadesArrayDeStrings = Array.isArray(habilidades)
+            ? habilidades.map((h) => h.nombre)
+            : [];
 
-          // Insertar nuevo candidato
-          // La lista de columnas y el orden de los valores coinciden con tu CREATE TABLE
-          // Ten en cuenta que 'fecha_expiracion_datos' no está en el CREATE TABLE que proporcionaste,
-          // por lo que no se incluye en el INSERT a 'candidatos'.
           const newCandidatoResult = await client.query(
             `INSERT INTO public.candidatos (
                 nombre, apellido, correo_electronico, numero_telefono, direccion,
@@ -189,15 +180,13 @@ export const postulacionesController = {
               TO_CHAR(c.fecha_nacimiento, 'YYYY-MM-DD') AS fecha_nacimiento,
               c.numero_telefono,
               c.direccion,
-              c.educacion,            -- JSONB (se recupera como objeto JS)
-              c.experiencia_laboral,  -- JSONB
-              c.cursos_certificaciones, -- JSONB
-              c.habilidades,          -- TEXT[] (se recupera como array de strings)
-              si.nombre_interes AS servicio_interes_nombre,
+              c.educacion,
+              c.experiencia_laboral,
+              c.cursos_certificaciones,
+              c.habilidades,
+              si.nombre_interes AS nombre_interes,
               c.vehiculo,
-              -- Si fecha_expiracion_datos existe en la tabla candidatos, descomentar:
-              -- TO_CHAR(c.fecha_expiracion_datos, 'YYYY-MM-DD') AS fecha_expiracion_datos,
-              v.titulo_cargo AS vacante_titulo,
+              v.titulo_cargo AS vacante_titulo
           FROM
               postulaciones p
           JOIN
@@ -205,14 +194,11 @@ export const postulacionesController = {
           JOIN
               vacantes v ON p.id_vacante = v.id_vacante
           LEFT JOIN
-              servicios_interes si ON c.servicio_interes = si.id_interes
+              intereses_empresa si ON c.servicio_interes = si.id_interes -- ¡CORREGIDO AQUÍ!
           ORDER BY
               p.fecha_postulacion DESC;
         `);
 
-      // No es necesario JSON.parse() para educacion, experiencia_laboral, cursos_certificaciones
-      // si son JSONB, el driver 'pg' las devolverá como objetos JavaScript directamente.
-      // Habilidades ya es un array de strings si se insertó correctamente en TEXT[].
       res.status(200).json(result.rows);
     } catch (error) {
       console.error("🔥 Error al obtener postulaciones:", error.message);

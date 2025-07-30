@@ -1,14 +1,8 @@
 // backend/controllers/usersController.js
 import pool from "../db.js"; // Asegúrate de que la ruta sea correcta para tu pool de conexión
 import bcrypt from "bcryptjs"; // Para hashear contraseñas
-import { JWT_SECRET } from "../config/config.js"; // Para cualquier lógica JWT si fuera necesaria aquí
 
 export const usersController = {
-  /**
-   * @description: Crea un nuevo usuario. Solo accesible por administradores.
-   * @route POST /api/users
-   * @access Private (Admin)
-   */
 createUser: async (req, res) => {
     const { email, password, rol } = req.body;
 
@@ -28,7 +22,7 @@ createUser: async (req, res) => {
     }
 
     // Validación de rol: solo permitir 'admin' o 'usuario' (ajusta según tus roles)
-    const allowedRoles = ["admin", "usuario"]; // Define los roles permitidos
+    const allowedRoles = ["admin", "usuario"]; 
     if (!allowedRoles.includes(rol)) {
     return res.status(400).json({
         message: `Rol inválido. Los roles permitidos son: ${allowedRoles.join(", ")}.`,
@@ -71,11 +65,7 @@ createUser: async (req, res) => {
     }
 },
 
-/**
-   * @description: Actualiza un usuario existente por ID. Solo accesible por administradores.
-   * @route PUT /api/users/:id
-   * @access Private (Admin)
-   */
+
 updateUser: async (req, res) => {
     const { id } = req.params;
     const { email, password, rol } = req.body;

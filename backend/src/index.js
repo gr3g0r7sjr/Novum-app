@@ -10,6 +10,7 @@ import postulacionesRoutes from "./routes/postulacionesRoutes.js";
 import { vacantesController } from "./controllers/vacantesController.js";
 import { postulacionesController } from "./controllers/postulacionesController.js";
 import userRoutes from "./routes/userRoutes.js"
+import candidatosRoutes from "./routes/candidatosRoutes.js"
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,7 +23,7 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   }),
 );
-//Hola
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -37,6 +38,8 @@ app.get("/api/vacantes", vacantesController.obtener);
 app.delete("/api/vacantes/:id", vacantesController.eliminar)
 
 app.get("/api/vacantes/:id", vacantesController.obtenerVacanteId);
+
+app.use("/api/candidatos", candidatosRoutes);
 
 app.use("/api/postulaciones", postulacionesRoutes);
 
