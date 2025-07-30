@@ -1,3 +1,4 @@
+// controllers/candidatosController.js
 import pool from "../db.js"; // Usa import para ES6
 
 // Función auxiliar para calcular el "match score" en porcentaje
@@ -19,13 +20,25 @@ const calcularMatchScore = (candidato, vacante) => {
   vacanteRequisitos.forEach((req) => {
     let foundInCandidate = false;
 
-    // 1. Buscar el requisito en las habilidades del candidato (TEXT[])
-    // Las habilidades son un array de strings, así que usamos includes en cada habilidad.
+    // 1. Buscar el requisito en las habilidades del candidato (TEXT[] o JSONB con 'nombre')
+    // Las habilidades son un array de strings o de objetos { nombre: "habilidad" }
     if (candidato.habilidades && Array.isArray(candidato.habilidades)) {
       if (
-        candidato.habilidades.some(
-          (habilidad) => habilidad && habilidad.toLowerCase().includes(req)
-        )
+        candidato.habilidades.some((habilidad) => {
+          // Si habilidades es un array de objetos (JSONB), accede a 'nombre'
+          const habilidadNombre =
+            typeof habilidad === "object" &&
+            habilidad !== null &&
+            "nombre" in habilidad
+              ? habilidad.nombre
+              : habilidad; // Si es un string directo
+
+          // Aquí puedes decidir la estrictez de la coincidencia:
+          // Para coincidencia parcial (ej. "React" en "React.js"):
+          return habilidadNombre && habilidadNombre.toLowerCase().includes(req);
+          // Para coincidencia exacta (ej. "React.js" solo con "React.js"):
+          // return habilidadNombre && habilidadNombre.toLowerCase() === req;
+        })
       ) {
         foundInCandidate = true;
       }
@@ -218,6 +231,7 @@ const candidatosController = {
       }
 
       // Preparación de habilidades para TEXT[]
+      // Asumiendo que habilidades es un array de objetos { nombre: "habilidad" }
       const habilidadesArrayDeStrings = Array.isArray(habilidades)
         ? habilidades.map((h) => h.nombre)
         : [];
@@ -302,6 +316,7 @@ const candidatosController = {
       }
 
       // Preparación de habilidades para TEXT[]
+      // Asumiendo que habilidades es un array de objetos { nombre: "habilidad" }
       const habilidadesArrayDeStrings = Array.isArray(habilidades)
         ? habilidades.map((h) => h.nombre)
         : [];
@@ -431,8 +446,8 @@ const candidatosController = {
               c.educacion,            -- JSONB
               c.experiencia_laboral,  -- JSONB
               c.cursos_certificaciones, -- JSONB
-              c.habilidades,          -- TEXT[]
-              si.nombre_interes AS servicio_interes_nombre, -- Corregido el alias para que coincida con el frontend
+              c.habilidades,          -- JSONB (asumiendo que ahora es JSONB de objetos {nombre: "habilidad"})
+              si.nombre_interes AS servicio_interes_nombre,
               c.vehiculo,
               v.id_vacante,
               v.titulo_cargo AS vacante_titulo,
@@ -448,7 +463,7 @@ const candidatosController = {
           JOIN
               vacantes v ON p.id_vacante = v.id_vacante
           LEFT JOIN
-              intereses_empresa si ON c.servicio_interes = si.id_interes -- ¡CORREGIDO AQUÍ: intereses_empresa!
+              intereses_empresa si ON c.servicio_interes = si.id_interes
       `;
       const queryParams = [];
 
@@ -470,14 +485,14 @@ const candidatosController = {
           educacion: row.educacion,
           experiencia_laboral: row.experiencia_laboral,
           cursos_certificaciones: row.cursos_certificaciones,
-          habilidades: row.habilidades,
+          habilidades: row.habilidades, // Ahora se espera que sea un array de objetos {nombre: "habilidad"}
         };
         const vacanteData = {
           titulo_cargo: row.vacante_titulo,
-          area: row.vacante_area,
+          area: row.vacante_area, // Asegúrate de que 'area' se selecciona en la consulta si la usas
           descripcion_corta: row.vacante_descripcion_corta,
-          responsabilidades: row.responsabilidades,
-          requisitos: row.requisitos,
+          responsabilidades: row.vacante_responsabilidades,
+          requisitos: row.vacante_requisitos,
         };
 
         const match_score = calcularMatchScore(candidatoData, vacanteData);
@@ -487,7 +502,10 @@ const candidatosController = {
       // Ordenar por match_score de forma descendente
       postulacionesConScore.sort((a, b) => b.match_score - a.match_score);
 
-      res.status(200).json(postulacionesConScore);
+      // Limitar a las 3 mejores postulaciones
+      const top3Postulaciones = postulacionesConScore.slice(0, 3);
+
+      res.status(200).json(top3Postulaciones);
     } catch (error) {
       console.error(
         "🔥 Error al obtener postulaciones con match score:",
