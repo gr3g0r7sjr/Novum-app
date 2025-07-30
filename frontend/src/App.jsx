@@ -14,6 +14,7 @@ import {CandidatosSeleccionados} from "./components/CandidatosSelec/CandidatosSe
 
 import { CrearVacantePage } from "./pages/CrearVacantePage.jsx";
 import { VacantesAdmin } from "./pages/VacantesAdmin.jsx";
+import Dashboard from "./pages/admin/Dashboard";
 
 function App() {
   return (
@@ -78,7 +79,7 @@ function App() {
           path="/admin/dashboard"
           element={
             <Layout>
-              <AdminDashboard />
+              <Dashboard />
             </Layout>
           }
         />
