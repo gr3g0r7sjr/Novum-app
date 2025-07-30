@@ -39,8 +39,8 @@ const Dashboard = () => {
         setError(null); // Limpia cualquier error previo
 
         // Obtener el token de autenticación desde el localStorage.
-        // Asegúrate de que tu lógica de inicio de sesión guarda el token aquí.
-        const token = localStorage.getItem('token'); 
+        // ¡CORRECCIÓN! Usar 'jwt_token' en lugar de 'token'
+        const token = localStorage.getItem('jwt_token'); 
 
         // Si no hay token, muestra un error y detiene la ejecución
         if (!token) {
@@ -70,7 +70,7 @@ const Dashboard = () => {
           // Si el error es 401 (Unauthorized), el token es inválido o expiró
           setError('Sesión expirada o no autorizada. Por favor, inicie sesión nuevamente.');
           // Opcional: Limpiar el token y redirigir a login
-          // localStorage.removeItem('token');
+          // localStorage.removeItem('jwt_token'); // Limpiar el token con la clave correcta
           // navigate('/admin/login');
         } else {
           // Otros tipos de errores de red o servidor
