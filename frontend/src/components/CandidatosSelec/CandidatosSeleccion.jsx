@@ -65,7 +65,7 @@ export const CandidatosSeleccionados = () => {
     <div className="min-h-screen bg-gray-100 p-4 font-inter">
       <div className="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Seleccion de Candidatos 
+          Dashboard de Candidatos y Postulaciones
         </h1>
 
         {/* Vacante Filter */}
@@ -87,7 +87,7 @@ export const CandidatosSeleccionados = () => {
             </option>
             {vacantes.map((vacante) => (
               <option key={vacante.id_vacante} value={vacante.id_vacante}>
-                {vacante.titulo_cargo} ({vacante.nombre_servicio_interes}){" "}
+                {vacante.titulo_cargo} ({vacante.area})
               </option>
             ))}
           </select>
@@ -108,7 +108,7 @@ export const CandidatosSeleccionados = () => {
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               {selectedVacanteId
-                ? `Candidatos para "${vacantes.find((v) => v.id_vacante == selectedVacanteId).titulo_cargo || "Vacante Desconocida"}"`
+                ? `Candidatos para "${vacantes.find((v) => v.id_vacante == selectedVacanteId)?.titulo_cargo || "Vacante Desconocida"}"`
                 : "Todos los Candidatos"}{" "}
               ({candidatos.length})
             </h2>
@@ -176,12 +176,28 @@ export const CandidatosSeleccionados = () => {
                           Educación:
                         </h4>
                         <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
-                          {candidato.educacion.map((edu, idx) => (
-                            <li key={idx}>
-                              {edu.titulo} en {edu.institucion} (
-                              {edu.fechaInicio} - {edu.fechaFin})
-                            </li>
-                          ))}
+                          {candidato.educacion.map((eduString, idx) => {
+                            try {
+                              const edu = JSON.parse(eduString); // Parsear la cadena JSON
+                              return (
+                                <li key={idx}>
+                                  {edu.titulo} en {edu.institucion} (
+                                  {edu.fechaInicio} - {edu.fechaFin})
+                                </li>
+                              );
+                            } catch (parseError) {
+                              console.error(
+                                "Error parsing education JSON string:",
+                                eduString,
+                                parseError
+                              );
+                              return (
+                                <li key={idx} className="text-red-500">
+                                  Error al cargar educación.
+                                </li>
+                              );
+                            }
+                          })}
                         </ul>
                       </div>
                     )}
@@ -194,14 +210,32 @@ export const CandidatosSeleccionados = () => {
                             Experiencia Laboral:
                           </h4>
                           <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
-                            {candidato.experiencia_laboral.map((exp, idx) => (
-                              <li key={idx}>
-                                {exp.puesto} en {exp.empresa} ({exp.fechaInicio}{" "}
-                                - {exp.fechaFin})
-                                {exp.descripcion &&
-                                  ` - ${exp.descripcion.substring(0, 70)}...`}
-                              </li>
-                            ))}
+                            {candidato.experiencia_laboral.map(
+                              (expString, idx) => {
+                                try {
+                                  const exp = JSON.parse(expString); // Parsear la cadena JSON
+                                  return (
+                                    <li key={idx}>
+                                      {exp.puesto} en {exp.empresa} (
+                                      {exp.fechaInicio} - {exp.fechaFin})
+                                      {exp.descripcion &&
+                                        ` - ${exp.descripcion.substring(0, 70)}...`}
+                                    </li>
+                                  );
+                                } catch (parseError) {
+                                  console.error(
+                                    "Error parsing experience JSON string:",
+                                    expString,
+                                    parseError
+                                  );
+                                  return (
+                                    <li key={idx} className="text-red-500">
+                                      Error al cargar experiencia.
+                                    </li>
+                                  );
+                                }
+                              }
+                            )}
                           </ul>
                         </div>
                       )}
@@ -215,12 +249,28 @@ export const CandidatosSeleccionados = () => {
                           </h4>
                           <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
                             {candidato.cursos_certificaciones.map(
-                              (cert, idx) => (
-                                <li key={idx}>
-                                  {cert.nombre} de {cert.institucion} (Obtenido:{" "}
-                                  {cert.fechaObtencion})
-                                </li>
-                              )
+                              (certString, idx) => {
+                                try {
+                                  const cert = JSON.parse(certString); // Parsear la cadena JSON
+                                  return (
+                                    <li key={idx}>
+                                      {cert.nombre} de {cert.institucion}{" "}
+                                      (Obtenido: {cert.fechaObtencion})
+                                    </li>
+                                  );
+                                } catch (parseError) {
+                                  console.error(
+                                    "Error parsing certification JSON string:",
+                                    certString,
+                                    parseError
+                                  );
+                                  return (
+                                    <li key={idx} className="text-red-500">
+                                      Error al cargar certificación.
+                                    </li>
+                                  );
+                                }
+                              }
                             )}
                           </ul>
                         </div>
