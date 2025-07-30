@@ -436,7 +436,6 @@ const candidatosController = {
               c.vehiculo,
               v.id_vacante,
               v.titulo_cargo AS vacante_titulo,
-              v.area AS vacante_area,
               v.descripcion_corta AS vacante_descripcion_corta,
               v.responsabilidades AS vacante_responsabilidades,
               v.requisitos AS vacante_requisitos,
