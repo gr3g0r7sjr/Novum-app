@@ -79,7 +79,7 @@ function App() {
           path="/admin/dashboard"
           element={
             <Layout>
-              <AdminDashboard />
+              <Dashboard />
             </Layout>
           }
         />
