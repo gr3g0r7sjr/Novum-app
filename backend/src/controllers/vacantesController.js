@@ -165,7 +165,6 @@ export const vacantesController = {
     const { id } = req.params;
     const {
       titulo_cargo,
-      area,
       descripcion_corta,
       responsabilidades,
       requisitos,
@@ -180,21 +179,19 @@ export const vacantesController = {
                 UPDATE vacantes
                 SET 
                     titulo_cargo = COALESCE($1, titulo_cargo),
-                    area = COALESCE($2, area),
-                    descripcion_corta = COALESCE($3, descripcion_corta),
-                    responsabilidades = COALESCE($4, responsabilidades),
-                    requisitos = COALESCE($5, requisitos),
-                    beneficios = COALESCE($6, beneficios),
-                    salario = COALESCE($7, salario),
-                    estado = COALESCE($8, estado),
-                    id_servicio_interes = COALESCE($9, id_servicio_interes)
-                WHERE id_vacante = $10
+                    descripcion_corta = COALESCE($2, descripcion_corta),
+                    responsabilidades = COALESCE($3, responsabilidades),
+                    requisitos = COALESCE($4, requisitos),
+                    beneficios = COALESCE($5, beneficios),
+                    salario = COALESCE($6, salario),
+                    estado = COALESCE($7, estado),
+                    id_servicio_interes = COALESCE($8, id_servicio_interes)
+                WHERE id_vacante = $9
                 RETURNING *;
             `;
 
       const values = [
         titulo_cargo,
-        area,
         descripcion_corta,
         responsabilidades,
         requisitos,
