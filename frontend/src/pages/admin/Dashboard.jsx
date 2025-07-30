@@ -1,8 +1,14 @@
 // frontend/src/pages/Admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import styles from '../../styles/Dashboard.module.scss'; // Ruta ajustada
-import MetricCard from '../../components/Dashboard/MetricCard'; // Ruta ajustada
-import PlaceholderChart from '../../components/Charts/PlaceholderChart'; // Ruta ajustada
+import axios from 'axios'; // Importa Axios para hacer peticiones HTTP
+import styles from '../../styles/Dashboard.module.scss'; // Importa los estilos SCSS
+import MetricCard from '../../components/Dashboard/MetricCard'; // Importa el componente de tarjeta de métrica
+import PlaceholderChart from '../../components/Charts/PlaceholderChart'; // Importa el componente de gráfico marcador de posición
+
+// Define la URL base de tu backend.
+// ¡IMPORTANTE! Asegúrate de que este puerto coincida con el puerto donde tu backend está corriendo.
+// Según tu index.js, tu backend probablemente está en el puerto 3000.
+const API_BASE_URL = 'http://localhost:3000/api'; 
 
 const Dashboard = () => {
   // Estado para almacenar los datos del dashboard
@@ -23,55 +29,62 @@ const Dashboard = () => {
     resumenUsuarios: [],
   });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado para controlar la carga de datos
+  const [error, setError] = useState(null); // Estado para controlar errores en la carga
 
   useEffect(() => {
-    // Aquí es donde haríamos las llamadas a la API para obtener los datos.
-    // Por ahora, simularemos una carga de datos.
     const fetchDashboardData = async () => {
       try {
-        setLoading(true);
-        // Simulación de una llamada a la API
-        await new Promise(resolve => setTimeout(resolve, 1000)); // Simula un retraso de red
+        setLoading(true); // Inicia el estado de carga
+        setError(null); // Limpia cualquier error previo
 
-        const mockData = {
-          totalVacantesActivas: 15,
-          totalVacantesInactivas: 5,
-          nuevasPostulacionesHoy: 7,
-          postulacionesEstaSemana: 45,
-          candidatosPorEtapa: {
-            recibida: 200,
-            enRevision: 80,
-            entrevista: 30,
-            contratado: 10,
-            rechazado: 50,
-          },
-          vacantesMasPostulaciones: [
-            { id: 1, titulo: 'Desarrollador Frontend', postulaciones: 60 },
-            { id: 2, titulo: 'Especialista en Marketing', postulaciones: 45 },
-          ],
-          vacantesMenosPostulaciones: [
-            { id: 3, titulo: 'Diseñador UI/UX', postulaciones: 5 },
-            { id: 4, titulo: 'Analista de Datos', postulaciones: 8 },
-          ],
-          resumenUsuarios: [
-            { id: 1, nombre: 'Admin Uno', rol: 'admin' },
-            { id: 2, nombre: 'RRHH Manager', rol: 'recursos_humanos' },
-          ],
-        };
-        setDashboardData(mockData);
+        // Obtener el token de autenticación desde el localStorage.
+        // Asegúrate de que tu lógica de inicio de sesión guarda el token aquí.
+        const token = localStorage.getItem('token'); 
+
+        // Si no hay token, muestra un error y detiene la ejecución
+        if (!token) {
+          setError('No hay token de autenticación. Por favor, inicie sesión.');
+          setLoading(false);
+          // Opcional: Podrías redirigir al usuario a la página de login si no hay token
+          // import { useNavigate } from 'react-router-dom';
+          // const navigate = useNavigate();
+          // navigate('/admin/login');
+          return;
+        }
+
+        // Realizar la llamada a la API del backend usando Axios
+        const response = await axios.get(`${API_BASE_URL}/dashboard/metrics`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Incluye el token JWT en el header de autorización
+          }
+        });
+
+        // Actualizar el estado del dashboard con los datos reales obtenidos de la API
+        setDashboardData(response.data);
+
       } catch (err) {
-        setError('Error al cargar los datos del dashboard.');
-        console.error(err);
+        // Manejo de errores en caso de que la petición falle
+        console.error('Error al cargar los datos del dashboard:', err);
+        if (err.response && err.response.status === 401) {
+          // Si el error es 401 (Unauthorized), el token es inválido o expiró
+          setError('Sesión expirada o no autorizada. Por favor, inicie sesión nuevamente.');
+          // Opcional: Limpiar el token y redirigir a login
+          // localStorage.removeItem('token');
+          // navigate('/admin/login');
+        } else {
+          // Otros tipos de errores de red o servidor
+          setError('Error al cargar los datos del dashboard. Intente de nuevo más tarde.');
+        }
       } finally {
-        setLoading(false);
+        setLoading(false); // Finaliza el estado de carga, independientemente del resultado
       }
     };
 
-    fetchDashboardData();
-  }, []);
+    fetchDashboardData(); // Llama a la función para obtener los datos cuando el componente se monta
+  }, []); // El array de dependencias vacío asegura que este efecto se ejecute solo una vez al montar
 
+  // Renderizado condicional basado en el estado de carga y error
   if (loading) {
     return (
       <div className={`${styles.dashboardContainer} flex items-center justify-center min-h-screen`}>
@@ -88,6 +101,7 @@ const Dashboard = () => {
     );
   }
 
+  // Renderizado del dashboard con los datos obtenidos
   return (
     <div className={`${styles.dashboardContainer} bg-gray-100 p-8 min-h-screen`}>
       <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Dashboard de RRHH</h1>
@@ -104,13 +118,13 @@ const Dashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Postulaciones por Vacante</h2>
+          {/* Aquí podrías pasar los datos reales a tu componente de gráfico */}
           <PlaceholderChart title="Gráfico de Barras: Postulaciones por Vacante" />
-          {/* Aquí iría un componente de gráfico real, por ejemplo, un BarChart */}
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Postulaciones por Período</h2>
+          {/* Aquí podrías pasar los datos reales a tu componente de gráfico */}
           <PlaceholderChart title="Gráfico de Líneas: Postulaciones por Período" />
-          {/* Aquí iría un componente de gráfico real, por ejemplo, un LineChart */}
         </div>
       </div>
 
@@ -118,6 +132,7 @@ const Dashboard = () => {
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Candidatos por Etapa</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {/* Asegúrate de que los nombres de las propiedades coincidan con lo que devuelve tu backend */}
           <MetricCard title="Recibidas" value={dashboardData.candidatosPorEtapa.recibida} small />
           <MetricCard title="En Revisión" value={dashboardData.candidatosPorEtapa.enRevision} small />
           <MetricCard title="Entrevista" value={dashboardData.candidatosPorEtapa.entrevista} small />
@@ -160,7 +175,8 @@ const Dashboard = () => {
         <ul className="list-disc pl-5 text-gray-600">
           {dashboardData.resumenUsuarios.length > 0 ? (
             dashboardData.resumenUsuarios.map(user => (
-              <li key={user.id}>{user.nombre} ({user.rol})</li>
+              // Usar 'rol' como key si es único o combinar con 'count' para una key única
+              <li key={user.rol}>{user.rol}: {user.count}</li> 
             ))
           ) : (
             <li>No hay usuarios registrados.</li>
