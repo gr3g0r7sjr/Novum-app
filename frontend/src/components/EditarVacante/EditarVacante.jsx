@@ -7,14 +7,13 @@ export const EditarVacantePage = () => {
 
   const [formData, setFormData] = useState({
     titulo_cargo: "",
-    area: "",
     descripcion_corta: "",
     responsabilidades: "",
     requisitos: "",
     beneficios: "",
     salario: "",
     id_servicio_interes: "",
-    estado: "activa", // Añadir estado para posible edición
+    estado: "activa", 
   });
 
   const [serviciosInteres, setServiciosInteres] = useState([]);
@@ -160,10 +159,6 @@ export const EditarVacantePage = () => {
         "El título del cargo debe tener al menos 3 caracteres.";
     }
 
-    if (!formData.area.trim()) {
-      errors.area = "El área es obligatoria.";
-    }
-
     if (!formData.descripcion_corta.trim()) {
       errors.descripcion_corta = "La descripción corta es obligatoria.";
     } else if (formData.descripcion_corta.trim().length < 10) {
@@ -241,14 +236,10 @@ export const EditarVacantePage = () => {
         salario: formData.salario === "" ? null : parseFloat(formData.salario),
       };
 
-      // Determinar si es una creación (POST) o una actualización (PUT)
-      const method = id ? "PUT" : "POST"; // Para este componente, siempre será PUT
-      const url = id
-        ? `${API_BASE_URL}/vacantes/${id}`
-        : `${API_BASE_URL}/vacantes`;
+      const url = `${API_BASE_URL}/vacantes/${id}`;
 
       const response = await fetch(url, {
-        method: method,
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -353,29 +344,6 @@ export const EditarVacantePage = () => {
           {formErrors.titulo_cargo && (
             <p className="text-red-500 text-xs italic mt-1">
               {formErrors.titulo_cargo}
-            </p>
-          )}
-        </div>
-
-        <div>
-          <label
-            htmlFor="area"
-            className="block text-gray-700 text-sm font-bold mb-2"
-          >
-            Área:
-          </label>
-          <input
-            type="text"
-            id="area"
-            name="area"
-            value={formData.area}
-            onChange={handleChange}
-            className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${formErrors.area ? "border-red-500" : ""}`}
-            required
-          />
-          {formErrors.area && (
-            <p className="text-red-500 text-xs italic mt-1">
-              {formErrors.area}
             </p>
           )}
         </div>

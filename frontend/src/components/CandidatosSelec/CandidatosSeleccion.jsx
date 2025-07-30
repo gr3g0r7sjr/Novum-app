@@ -65,7 +65,7 @@ export const CandidatosSeleccionados = () => {
     <div className="min-h-screen bg-gray-100 p-4 font-inter">
       <div className="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Dashboard de Candidatos y Postulaciones
+          Seleccion de Candidatos 
         </h1>
 
         {/* Vacante Filter */}
@@ -108,7 +108,7 @@ export const CandidatosSeleccionados = () => {
           <div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               {selectedVacanteId
-                ? `Candidatos para "${vacantes.find((v) => v.id_vacante == selectedVacanteId)?.titulo || "Vacante Desconocida"}"`
+                ? `Candidatos para "${vacantes.find((v) => v.id_vacante == selectedVacanteId).titulo_cargo || "Vacante Desconocida"}"`
                 : "Todos los Candidatos"}{" "}
               ({candidatos.length})
             </h2>
