@@ -2,7 +2,7 @@ import "dotenv/config";
 import { FRONTEND_URL} from "./config/config.js";
 import express from "express";
 import cors from "cors";
-
+import jwt from 'jsonwebtoken';
 import authenticateToken from "./middlewares/authMiddleware.js";
 import authRoutes from "./routes/authRoutes.js";
 import vacantesRoutes from "./routes/vacantesRoutes.js";
@@ -11,6 +11,7 @@ import { vacantesController } from "./controllers/vacantesController.js";
 import { postulacionesController } from "./controllers/postulacionesController.js";
 import userRoutes from "./routes/userRoutes.js"
 import candidatosRoutes from "./routes/candidatosRoutes.js"
+import dashboardRoutes from './routes/dashboardRoutes.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -46,6 +47,8 @@ app.use("/api/postulaciones", postulacionesRoutes);
 app.use("/api/users", userRoutes);
 
 app.use("/api/vacantes", authenticateToken, vacantesRoutes);
+
+app.use('/api/dashboard', authenticateToken, dashboardRoutes); // <-- NUEVA LÍNEA: Monta las rutas del dashboard
 
 app.get("/", (req, res) => {
   res.send("Hola, el servidor esta corriendo y funcionando en express.");

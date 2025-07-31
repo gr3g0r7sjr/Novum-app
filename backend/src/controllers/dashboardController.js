@@ -1,5 +1,6 @@
 // backend/src/controllers/dashboardController.js
-import pool from '../config/db.js'; // Importa el pool de conexiones
+import pool from '../db.js'; // Importa el pool de conexiones
+
 
 /**
  * @description: Obtiene todas las métricas y datos necesarios para el dashboard de RRHH.
