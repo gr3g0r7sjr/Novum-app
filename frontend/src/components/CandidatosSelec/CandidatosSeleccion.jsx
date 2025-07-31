@@ -62,7 +62,7 @@ export const CandidatosSeleccionados = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 font-inter">
+    <div className="w-full bg-gray-100 p-4 font-inter">
       <div className="max-w-6xl mx-auto bg-white p-6 rounded-lg shadow-md">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Dashboard de Candidatos y Postulaciones
@@ -80,14 +80,14 @@ export const CandidatosSeleccionados = () => {
             id="vacante-select"
             value={selectedVacanteId}
             onChange={handleVacanteChange}
-            className="block w-full md:w-1/2 lg:w-1/3 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"
+            className="block w-full md:w-1/2 lg:w-2/5 p-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-900"
           >
             <option value="">
               Todas las Vacantes (Mostrar todos los candidatos)
             </option>
             {vacantes.map((vacante) => (
               <option key={vacante.id_vacante} value={vacante.id_vacante}>
-                {vacante.titulo_cargo} ({vacante.area})
+                {vacante.titulo_cargo} ({vacante.nombre_servicio_interes})
               </option>
             ))}
           </select>
@@ -105,7 +105,7 @@ export const CandidatosSeleccionados = () => {
 
         {/* Candidates List */}
         {!loading && !error && (
-          <div>
+          <div className="">
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
               {selectedVacanteId
                 ? `Candidatos para "${vacantes.find((v) => v.id_vacante == selectedVacanteId)?.titulo_cargo || "Vacante Desconocida"}"`
@@ -120,11 +120,11 @@ export const CandidatosSeleccionados = () => {
                   : "No hay candidatos registrados."}
               </p>
             ) : (
-              <div className="space-y-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-2.5 space-y-6">
                 {candidatos.map((candidato) => (
                   <div
-                    key={candidato.id_candidato || candidato.id_postulacion} // Use id_candidato if available, else id_postulacion
-                    className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow"
+                    key={candidato.id_candidato || candidato.id_postulacion} 
+                    className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow m-0"
                   >
                     <div className="flex justify-between items-center mb-3">
                       <h3 className="text-xl font-semibold text-gray-800">
@@ -178,7 +178,7 @@ export const CandidatosSeleccionados = () => {
                         <ul className="list-disc list-inside text-gray-600 text-sm space-y-1">
                           {candidato.educacion.map((eduString, idx) => {
                             try {
-                              const edu = JSON.parse(eduString); 
+                              const edu = JSON.parse(eduString);
                               return (
                                 <li key={idx}>
                                   {edu.titulo} en {edu.institucion} (
@@ -252,7 +252,7 @@ export const CandidatosSeleccionados = () => {
                               (certString, idx) => {
                                 try {
                                   const cert = JSON.parse(certString);
-                                  
+
                                   return (
                                     <li key={idx}>
                                       {cert.nombre} de {cert.institucion}{" "}

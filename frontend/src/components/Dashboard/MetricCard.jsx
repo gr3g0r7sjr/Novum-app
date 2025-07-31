@@ -1,4 +1,4 @@
-// frontend/src/components/Dashboard/MetricCard.jsx
+
 import React from 'react';
 import styles from './MetricCard.module.scss'; // Ruta relativa dentro de la misma carpeta
 

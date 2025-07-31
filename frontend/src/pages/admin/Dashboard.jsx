@@ -1,4 +1,3 @@
-// frontend/src/pages/Admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Dashboard.module.scss'; // Ruta ajustada
 import MetricCard from '../../components/Dashboard/MetricCard'; // Ruta ajustada
