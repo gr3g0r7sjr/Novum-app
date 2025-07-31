@@ -1,4 +1,3 @@
-// frontend/src/pages/Admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'; // Importa Axios para hacer peticiones HTTP
 import styles from '../../styles/Dashboard.module.scss'; // Importa los estilos SCSS
