@@ -1,6 +1,5 @@
 // backend/src/controllers/dashboardController.js
-import pool from '../db.js'; // Importa el pool de conexiones
-
+import pool from '../db.js'; // Importa el pool de conexiones desde db.js (ahora en la raíz de src)
 
 /**
  * @description: Obtiene todas las métricas y datos necesarios para el dashboard de RRHH.
@@ -16,7 +15,8 @@ export const getDashboardMetrics = async (req, res) => {
       postulacionesEstaSemana,
       candidatosPorEtapa,
       vacantesPostulacionesCount,
-      resumenUsuarios
+      resumenUsuarios,
+      postulacionesPorDia // <-- NUEVA CONSULTA
     ] = await Promise.all([
       // 1. Total de vacantes activas/inactivas
       pool.query(`
@@ -80,6 +80,20 @@ export const getDashboardMetrics = async (req, res) => {
           usuarios
         GROUP BY
           rol;
+      `),
+      // 7. NUEVA CONSULTA: Postulaciones por día en los últimos 7 días
+      pool.query(`
+        SELECT
+          TO_CHAR(fecha_postulacion, 'YYYY-MM-DD') AS date,
+          COUNT(*) AS count
+        FROM
+          postulaciones
+        WHERE
+          fecha_postulacion >= CURRENT_DATE - INTERVAL '6 days' -- Desde hace 6 días hasta hoy
+        GROUP BY
+          date
+        ORDER BY
+          date ASC;
       `)
     ]);
 
@@ -104,6 +118,27 @@ export const getDashboardMetrics = async (req, res) => {
     const vacantesMasPostulaciones = vacantesConPostulaciones.slice(0, 5); // Top 5
     const vacantesMenosPostulaciones = vacantesConPostulaciones.slice(-5).reverse(); // Bottom 5
 
+    // Preparar datos para el gráfico de línea (Postulaciones por Período)
+    // Generar un array con los últimos 7 días, inicializando en 0
+    const last7Days = Array.from({ length: 7 }, (_, i) => {
+      const d = new Date();
+      d.setDate(d.getDate() - (6 - i)); // Obtiene el día actual - (6, 5, 4, 3, 2, 1, 0) días
+      return {
+        name: `${d.getDate()}/${d.getMonth() + 1}`, // Formato DD/MM para el nombre del día
+        date_key: TO_CHAR(d, 'YYYY-MM-DD'), // Clave para mapear con los datos de la DB
+        Postulaciones: 0
+      };
+    });
+
+    // Mapear los datos reales de la DB a la estructura de los últimos 7 días
+    postulacionesPorDia.rows.forEach(row => {
+      const dayIndex = last7Days.findIndex(d => d.date_key === row.date);
+      if (dayIndex !== -1) {
+        last7Days[dayIndex].Postulaciones = parseInt(row.count, 10);
+      }
+    });
+
+
     res.status(200).json({
       totalVacantesActivas: parseInt(vacantesActivas, 10),
       totalVacantesInactivas: parseInt(vacantesInactivas, 10) + parseInt(vacantesCerradas, 10), // Suma inactivas y cerradas
@@ -113,6 +148,7 @@ export const getDashboardMetrics = async (req, res) => {
       vacantesMasPostulaciones: vacantesMasPostulaciones.map(v => ({ id: v.id_vacante, titulo: v.titulo_cargo, postulaciones: parseInt(v.total_postulaciones, 10) })),
       vacantesMenosPostulaciones: vacantesMenosPostulaciones.map(v => ({ id: v.id_vacante, titulo: v.titulo_cargo, postulaciones: parseInt(v.total_postulaciones, 10) })),
       resumenUsuarios: resumenUsuarios.rows.map(u => ({ rol: u.rol, count: parseInt(u.count, 10) })),
+      postulacionesPorPeriodo: last7Days // <-- NUEVOS DATOS REALES PARA EL GRÁFICO DE LÍNEA
     });
 
   } catch (error) {
