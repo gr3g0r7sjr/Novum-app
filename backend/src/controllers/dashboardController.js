@@ -1,5 +1,5 @@
 // backend/src/controllers/dashboardController.js
-import pool from '../db.js'; // Importa el pool de conexiones desde db.js (ahora en la raíz de src)
+import pool from '../db.js'; // Importa el pool de conexiones desde db.js
 
 /**
  * @description: Obtiene todas las métricas y datos necesarios para el dashboard de RRHH.
@@ -16,7 +16,7 @@ export const getDashboardMetrics = async (req, res) => {
       candidatosPorEtapa,
       vacantesPostulacionesCount,
       resumenUsuarios,
-      postulacionesPorDia // <-- NUEVA CONSULTA
+      postulacionesPorDia // <-- Consulta para datos del gráfico de línea
     ] = await Promise.all([
       // 1. Total de vacantes activas/inactivas
       pool.query(`
@@ -81,7 +81,7 @@ export const getDashboardMetrics = async (req, res) => {
         GROUP BY
           rol;
       `),
-      // 7. NUEVA CONSULTA: Postulaciones por día en los últimos 7 días
+      // 7. CONSULTA CORREGIDA: Postulaciones por día en los últimos 7 días
       pool.query(`
         SELECT
           TO_CHAR(fecha_postulacion, 'YYYY-MM-DD') AS date,
@@ -91,7 +91,7 @@ export const getDashboardMetrics = async (req, res) => {
         WHERE
           fecha_postulacion >= CURRENT_DATE - INTERVAL '6 days' -- Desde hace 6 días hasta hoy
         GROUP BY
-          date
+          TO_CHAR(fecha_postulacion, 'YYYY-MM-DD') -- Agrupar por la fecha formateada
         ORDER BY
           date ASC;
       `)
@@ -100,7 +100,7 @@ export const getDashboardMetrics = async (req, res) => {
     // Procesar los resultados
     const vacantesActivas = vacantesStatus.rows.find(row => row.estado === 'activa')?.count || 0;
     const vacantesInactivas = vacantesStatus.rows.find(row => row.estado === 'inactiva')?.count || 0;
-    const vacantesCerradas = vacantesStatus.rows.find(row => row.estado === 'cerrada')?.count || 0; // Si tienes estado 'cerrada'
+    const vacantesCerradas = vacantesStatus.rows.find(row => row.estado === 'cerrada')?.count || 0;
 
     const postulacionesPorEtapa = candidatosPorEtapa.rows.reduce((acc, curr) => {
       acc[curr.estado_postulacion] = parseInt(curr.count, 10);
@@ -111,21 +111,24 @@ export const getDashboardMetrics = async (req, res) => {
       entrevista: 0,
       contratado: 0,
       rechazado: 0,
-      // Asegúrate de incluir todos los estados posibles de tu DB
     });
 
     const vacantesConPostulaciones = vacantesPostulacionesCount.rows;
-    const vacantesMasPostulaciones = vacantesConPostulaciones.slice(0, 5); // Top 5
-    const vacantesMenosPostulaciones = vacantesConPostulaciones.slice(-5).reverse(); // Bottom 5
+    const vacantesMasPostulaciones = vacantesConPostulaciones.slice(0, 5);
+    const vacantesMenosPostulaciones = vacantesConPostulaciones.slice(-5).reverse();
 
     // Preparar datos para el gráfico de línea (Postulaciones por Período)
     // Generar un array con los últimos 7 días, inicializando en 0
     const last7Days = Array.from({ length: 7 }, (_, i) => {
       const d = new Date();
-      d.setDate(d.getDate() - (6 - i)); // Obtiene el día actual - (6, 5, 4, 3, 2, 1, 0) días
+      d.setDate(d.getDate() - (6 - i));
+      // Formatear la fecha para la clave de búsqueda (YYYY-MM-DD)
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
       return {
-        name: `${d.getDate()}/${d.getMonth() + 1}`, // Formato DD/MM para el nombre del día
-        date_key: TO_CHAR(d, 'YYYY-MM-DD'), // Clave para mapear con los datos de la DB
+        name: `${day}/${month}`, // Formato DD/MM para el nombre del día en el gráfico
+        date_key: `${year}-${month}-${day}`, // Clave para mapear con los datos de la DB
         Postulaciones: 0
       };
     });
@@ -141,14 +144,14 @@ export const getDashboardMetrics = async (req, res) => {
 
     res.status(200).json({
       totalVacantesActivas: parseInt(vacantesActivas, 10),
-      totalVacantesInactivas: parseInt(vacantesInactivas, 10) + parseInt(vacantesCerradas, 10), // Suma inactivas y cerradas
+      totalVacantesInactivas: parseInt(vacantesInactivas, 10) + parseInt(vacantesCerradas, 10),
       nuevasPostulacionesHoy: parseInt(nuevasPostulacionesHoy.rows[0]?.count || 0, 10),
       postulacionesEstaSemana: parseInt(postulacionesEstaSemana.rows[0]?.count || 0, 10),
       candidatosPorEtapa: postulacionesPorEtapa,
       vacantesMasPostulaciones: vacantesMasPostulaciones.map(v => ({ id: v.id_vacante, titulo: v.titulo_cargo, postulaciones: parseInt(v.total_postulaciones, 10) })),
       vacantesMenosPostulaciones: vacantesMenosPostulaciones.map(v => ({ id: v.id_vacante, titulo: v.titulo_cargo, postulaciones: parseInt(v.total_postulaciones, 10) })),
       resumenUsuarios: resumenUsuarios.rows.map(u => ({ rol: u.rol, count: parseInt(u.count, 10) })),
-      postulacionesPorPeriodo: last7Days // <-- NUEVOS DATOS REALES PARA EL GRÁFICO DE LÍNEA
+      postulacionesPorPeriodo: last7Days // Datos reales para el gráfico de línea
     });
 
   } catch (error) {

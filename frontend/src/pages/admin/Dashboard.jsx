@@ -1,8 +1,8 @@
 // frontend/src/pages/Admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styles from '../../styles/Dashboard.module.scss';
-import MetricCard from '../../components/Dashboard/MetricCard';
+import axios from 'axios'; // Importa Axios para hacer peticiones HTTP
+import styles from '../../styles/Dashboard.module.scss'; // Importa los estilos SCSS
+import MetricCard from '../../components/Dashboard/MetricCard'; // Importa el componente de tarjeta de métrica
 
 // Importa los componentes de Recharts
 import {
@@ -11,9 +11,12 @@ import {
 } from 'recharts';
 
 // Define la URL base de tu backend.
+// ¡IMPORTANTE! Asegúrate de que este puerto coincida con el puerto donde tu backend está corriendo.
+// Según tu index.js, tu backend probablemente está en el puerto 3000.
 const API_BASE_URL = 'http://localhost:3000/api'; 
 
 const Dashboard = () => {
+  // Estado para almacenar los datos del dashboard
   const [dashboardData, setDashboardData] = useState({
     totalVacantesActivas: 0,
     totalVacantesInactivas: 0,
@@ -29,72 +32,65 @@ const Dashboard = () => {
     vacantesMasPostulaciones: [],
     vacantesMenosPostulaciones: [],
     resumenUsuarios: [],
+    postulacionesPorPeriodo: [] // <-- AÑADIDO: Nuevo estado para los datos del gráfico de línea
   });
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Estado para controlar la carga de datos
+  const [error, setError] = useState(null); // Estado para controlar errores en la carga
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        setLoading(true);
-        setError(null);
+        setLoading(true); // Inicia el estado de carga
+        setError(null); // Limpia cualquier error previo
 
-        const token = localStorage.getItem('jwt_token'); // Usar 'jwt_token' como clave
+        // Obtener el token de autenticación desde el localStorage.
+        // ¡CORRECCIÓN! Usar 'jwt_token' en lugar de 'token'
+        const token = localStorage.getItem('jwt_token'); 
 
+        // Si no hay token, muestra un error y detiene la ejecución
         if (!token) {
           setError('No hay token de autenticación. Por favor, inicie sesión.');
           setLoading(false);
+          // Opcional: Podrías redirigir al usuario a la página de login si no hay token
+          // import { useNavigate } from 'react-router-dom';
+          // const navigate = useNavigate();
+          // navigate('/admin/login');
           return;
         }
 
+        // Realizar la llamada a la API del backend usando Axios
         const response = await axios.get(`${API_BASE_URL}/dashboard/metrics`, {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${token}` // Incluye el token JWT en el header de autorización
           }
         });
 
-        // Asegúrate de que los datos de la API coincidan con la estructura esperada
-        // El backend ya debería devolver los datos en un formato cercano al necesario
+        // Actualizar el estado del dashboard con los datos reales obtenidos de la API
         setDashboardData(response.data);
 
       } catch (err) {
+        // Manejo de errores en caso de que la petición falle
         console.error('Error al cargar los datos del dashboard:', err);
         if (err.response && err.response.status === 401) {
+          // Si el error es 401 (Unauthorized), el token es inválido o expiró
           setError('Sesión expirada o no autorizada. Por favor, inicie sesión nuevamente.');
+          // Opcional: Limpiar el token y redirigir a login
+          // localStorage.removeItem('jwt_token'); // Limpiar el token con la clave correcta
+          // navigate('/admin/login');
         } else {
+          // Otros tipos de errores de red o servidor
           setError('Error al cargar los datos del dashboard. Intente de nuevo más tarde.');
         }
       } finally {
-        setLoading(false);
+        setLoading(false); // Finaliza el estado de carga, independientemente del resultado
       }
     };
 
-    fetchDashboardData();
-  }, []);
+    fetchDashboardData(); // Llama a la función para obtener los datos cuando el componente se monta
+  }, []); // El array de dependencias vacío asegura que este efecto se ejecute solo una vez al montar
 
-  // --- Preparación de datos para los gráficos ---
-  // Datos para el gráfico de barras (Postulaciones por Vacante)
-  // Usaremos las vacantes con más postulaciones
-  const postulacionesPorVacanteChartData = dashboardData.vacantesMasPostulaciones.map(item => ({
-    name: item.titulo, // Nombre de la vacante para el eje X
-    Postulaciones: item.postulaciones // Valor para la barra
-  }));
-
-  // Datos para el gráfico de líneas (Postulaciones por Período)
-  // Como el backend no devuelve datos diarios/semanales agregados, simularemos algunos para la demostración.
-  // En un escenario real, necesitarías una consulta SQL en el backend que agregue postulaciones por día/semana.
-  const postulacionesPorPeriodoChartData = [
-    { name: 'Día 1', Postulaciones: 5 },
-    { name: 'Día 2', Postulaciones: 12 },
-    { name: 'Día 3', Postulaciones: 8 },
-    { name: 'Día 4', Postulaciones: 15 },
-    { name: 'Día 5', Postulaciones: 10 },
-    { name: 'Día 6', Postulaciones: 20 },
-    { name: 'Día 7', Postulaciones: dashboardData.nuevasPostulacionesHoy }, // Usamos el dato real de hoy
-  ];
-
-
+  // Renderizado condicional basado en el estado de carga y error
   if (loading) {
     return (
       <div className={`${styles.dashboardContainer} flex items-center justify-center min-h-screen`}>
@@ -111,6 +107,7 @@ const Dashboard = () => {
     );
   }
 
+  // Renderizado del dashboard con los datos obtenidos
   return (
     <div className={`${styles.dashboardContainer} bg-gray-100 p-8 min-h-screen`}>
       <h1 className="text-4xl font-bold text-gray-800 mb-8 text-center">Dashboard de RRHH</h1>
@@ -129,15 +126,15 @@ const Dashboard = () => {
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Postulaciones por Vacante</h2>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart
-              data={postulacionesPorVacanteChartData}
+              data={dashboardData.vacantesMasPostulaciones} // Usa los datos reales del backend
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" angle={-15} textAnchor="end" height={50} />
+              <XAxis dataKey="titulo" angle={-15} textAnchor="end" height={50} /> {/* dataKey es 'titulo' */}
               <YAxis />
               <Tooltip />
               <Legend />
-              <Bar dataKey="Postulaciones" fill="#3b82f6" /> {/* Azul de Tailwind */}
+              <Bar dataKey="postulaciones" fill="#3b82f6" /> {/* dataKey es 'postulaciones' */}
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -145,7 +142,7 @@ const Dashboard = () => {
           <h2 className="text-2xl font-semibold text-gray-700 mb-4">Postulaciones por Período</h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart
-              data={postulacionesPorPeriodoChartData}
+              data={dashboardData.postulacionesPorPeriodo} // Usa los datos reales del backend
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -163,6 +160,7 @@ const Dashboard = () => {
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4">Candidatos por Etapa</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          {/* Asegúrate de que los nombres de las propiedades coincidan con lo que devuelve tu backend */}
           <MetricCard title="Recibidas" value={dashboardData.candidatosPorEtapa.recibida} small />
           <MetricCard title="En Revisión" value={dashboardData.candidatosPorEtapa.enRevision} small />
           <MetricCard title="Entrevista" value={dashboardData.candidatosPorEtapa.entrevista} small />
