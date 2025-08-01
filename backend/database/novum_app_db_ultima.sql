@@ -1,11 +1,9 @@
---
 -- PostgreSQL database dump
 --
-
 -- Dumped from database version 17.5
 -- Dumped by pg_dump version 17.5
-
--- Started on 2025-07-31 08:51:06
+--
+-- Empezado en 2025-07-31 08:51:06
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -25,7 +23,6 @@ SET row_security = off;
 --
 
 CREATE SCHEMA public;
-
 
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
@@ -310,9 +307,9 @@ ALTER TABLE ONLY public.vacantes ALTER COLUMN id_vacante SET DEFAULT nextval('pu
 --
 
 COPY public.candidatos (id_candidato, nombre, apellido, correo_electronico, numero_telefono, direccion, educacion, experiencia_laboral, cursos_certificaciones, habilidades, servicio_interes, vehiculo, fecha_postulacion_inicial, tipo_identificacion, cedula, fecha_nacimiento) FROM stdin;
-6	Gregory	Subero	gsubero@gmail.com	04129722981	Carrizal, calle el parque ramal 1, casa san antonio	{"{\\"institucion\\":\\"IUTA\\",\\"titulo\\":\\"Tsu Informatica\\",\\"fechaInicio\\":\\"2024-01\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"empresa\\":\\"AvilaTek\\",\\"puesto\\":\\"Frontend Developer\\",\\"fechaInicio\\":\\"2025-01\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"nombre\\":\\"React.js\\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2025-01\\"}"}	{React.js,Tailwind,Next.js,Git}	1	si	2025-07-30 00:25:09.762073-04	V	28307003	2002-03-07
-7	Richard 	Sosa	rsosa@gmail.com	04129722971	San antonio de los altos edif. loma alegre	{"{\\"institucion\\":\\"IUTA\\",\\"titulo\\":\\"Tsu Informatica\\",\\"fechaInicio\\":\\"2023-09\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"empresa\\":\\"Inter\\",\\"puesto\\":\\"Frontend Developer\\",\\"fechaInicio\\":\\"2025-01\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"nombre\\":\\"Frontend Developer\\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2025-05\\"}"}	{React.js,Git}	1	no	2025-07-30 00:39:08.711285-04	V	30111222	2004-11-01
-8	Fabricio 	Favrin	favrinps4@gmail.com	04149020248	Carrizal, colinas de carrizal, sector el golf, qta regimar	{"{\\"institucion\\":\\"Universidad Santa Maria\\",\\"titulo\\":\\"Ing. Sistemas\\",\\"fechaInicio\\":\\"2023-09\\",\\"fechaFin\\":\\"2025-04\\"}"}	{"{\\"empresa\\":\\"Movistar\\",\\"puesto\\":\\"Backend Developer\\",\\"fechaInicio\\":\\"2024-01\\",\\"fechaFin\\":\\"2025-01\\"}"}	{"{\\"nombre\\":\\"Express.js\\",\\"institucion\\":\\"Udemy\\",\\"fechaObtencion\\":\\"2025-01\\"}"}	{Express.js,Git,Postgresql}	1	si	2025-07-30 14:54:24.992004-04	V	29765859	2002-05-24
+6 	Gregory	Subero	gsubero@gmail.com	04129722981	Carrizal, calle el parque ramal 1, casa san antonio	{"{\\"institucion\\":\\"IUTA\\",\\"titulo\\":\\"Tsu Informatica\\",\\"fechaInicio\\":\\"2024-01\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"empresa\\":\\"AvilaTek\\",\\"puesto\\":\\"Frontend Developer\\",\\"fechaInicio\\":\\"2025-01\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"nombre\\":\\"React.js\\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2025-01\\"}"}	{React.js,Tailwind,Next.js,Git}	1	si	2025-07-30 00:25:09.762073-04	V	28307003	2002-03-07
+7 	Richard	Sosa	rsosa@gmail.com	04129722971	San antonio de los altos edif. loma alegre	{"{\\"institucion\\":\\"IUTA\\",\\"titulo\\":\\"Tsu Informatica\\",\\"fechaInicio\\":\\"2023-09\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"empresa\\":\\"Inter\\",\\"puesto\\":\\"Frontend Developer\\",\\"fechaInicio\\":\\"2025-01\\",\\"fechaFin\\":\\"2025-08\\"}"}	{"{\\"nombre\\":\\"Frontend Developer\\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2025-05\\"}"}	{React.js,Git}	1	no	2025-07-30 00:39:08.711285-04	V	30111222	2004-11-01
+8 	Fabricio	Favrin	favrinps4@gmail.com	04149020248	Carrizal, colinas de carrizal, sector el golf, qta regimar	{"{\\"institucion\\":\\"Universidad Santa Maria\\",\\"titulo\\":\\"Ing. Sistemas\\",\\"fechaInicio\\":\\"2023-09\\",\\"fechaFin\\":\\"2025-04\\"}"}	{"{\\"empresa\\":\\"Movistar\\",\\"puesto\\":\\"Backend Developer\\",\\"fechaInicio\\":\\"2024-01\\",\\"fechaFin\\":\\"2025-01\\"}"}	{"{\\"nombre\\":\\"Express.js\\",\\"institucion\\":\\"Udemy\\",\\"fechaObtencion\\":\\"2025-01\\"}"}	{Express.js,Git,Postgresql}	1	si	2025-07-30 14:54:24.992004-04	V	29765859	2002-05-24
 \.
 
 
@@ -323,10 +320,10 @@ COPY public.candidatos (id_candidato, nombre, apellido, correo_electronico, nume
 --
 
 COPY public.intereses_empresa (id_interes, nombre_interes) FROM stdin;
-1	Tecnologia
-2	Marketing
-3	Recursos Humanos
-4	Administración
+1 	Tecnologia
+2 	Marketing
+3 	Recursos Humanos
+4 	Administración
 \.
 
 
@@ -337,9 +334,9 @@ COPY public.intereses_empresa (id_interes, nombre_interes) FROM stdin;
 --
 
 COPY public.postulaciones (id_postulacion, id_candidato, id_vacante, fecha_postulacion, estado_postulacion) FROM stdin;
-6	6	13	2025-07-30 00:25:09.762073-04	recibida
-7	7	13	2025-07-30 00:39:08.711285-04	recibida
-8	8	14	2025-07-30 14:54:24.992004-04	recibida
+6 	6	13	2025-07-30 00:25:09.762073-04	recibida
+7 	7	13	2025-07-30 00:39:08.711285-04	recibida
+8 	8	14	2025-07-30 14:54:24.992004-04	recibida
 \.
 
 
@@ -350,9 +347,9 @@ COPY public.postulaciones (id_postulacion, id_candidato, id_vacante, fecha_postu
 --
 
 COPY public.usuarios (id_usuario, email, password_hash, rol, fecha_creacion) FROM stdin;
-1	gsubero@gmail.com	$2b$10$JyMGuT762bIcScn0Qcurye5MVSRKqZyxJ7kJfYV2jGwbAnEc7ACey	admin	2025-07-13 11:40:02.945656-04
-2	rsosa@gmail.com	$2b$10$ZYVJ/zJOpgQCa3tCimqOTewCPv1lr9zhr/VQVgG9Y063KsH6XI9PO	admin	2025-07-25 22:21:06.164608-04
-3	novumideasrrhh@gmail.com	$2b$10$vy6iW4OnXmORBRV6X4B5n./kIj51INhnLeqi3.r5Vrg4M6EgCLTqi	usuario	2025-07-27 15:24:54.735329-04
+1 	gsubero@gmail.com 	$2b$10$JyMGuT762bIcScn0Qcurye5MVSRKqZyxJ7kJfYV2jGwbAnEc7ACey	admin	2025-07-13 11:40:02.945656-04
+2 	rsosa@gmail.com	$2b$10$ZYVJ/zJOpgQCa3tCimqOTewCPv1lr9zhr/VQVgG9Y063KsH6XI9PO	admin	2025-07-25 22:21:06.164608-04
+3 	novumideasrrhh@gmail.com	$2b$10$vy6iW4OnXmORBRV6X4B5n./kIj51INhnLeqi3.r5Vrg4M6EgCLTqi	usuario	2025-07-27 15:24:54.735329-04
 \.
 
 
@@ -363,8 +360,8 @@ COPY public.usuarios (id_usuario, email, password_hash, rol, fecha_creacion) FRO
 --
 
 COPY public.vacantes (id_vacante, titulo_cargo, descripcion_corta, responsabilidades, requisitos, beneficios, salario, fecha_publicacion, estado, creado_por_usuario_id, id_servicio_interes, fecha_creacion) FROM stdin;
-13	Desarrollador Frontend Junior	Estamos buscando un Desarrollador Frontend Junior entusiasta y con ganas de aprender para unirse a nuestro equipo de desarrollo. Trabajarás bajo la guía de desarrolladores senior, contribuyendo a la construcción de interfaces de usuario y aprendiendo las mejores prácticas de la industria.	{"Asistir en el desarrollo y mantenimiento de componentes de interfaz de usuario utilizando React.js.","Colaborar con el equipo para implementar diseños y funcionalidades básicas.","Aprender y aplicar las mejores prácticas de codificación y optimización.","Participar en la depuración y resolución de problemas de software.","Contribuir a la documentación técnica del proyecto."}	{React.js,Tailwind,Git,Next.js}	{"Salario competitivo para un rol junior.","Oportunidades de capacitación y mentoría directa con desarrolladores senior.","Ambiente de trabajo colaborativo y de apoyo.","Flexibilidad horaria (a discutir)."}	800	2025-07-28 23:08:22.726111-04	activa	1	1	2025-07-28 23:08:22.726111-04
-14	Desarrollador Backend Senior	Estamos buscando un Desarrollador Backend Senior experimentado y apasionado por construir sistemas robustos y escalables.	{"Diseñar, desarrollar y mantener APIs RESTful y microservicios utilizando Node.js y Express.","Colaborar con equipos de frontend y otros equipos para integrar servicios y funcionalidades.","Optimizar aplicaciones para máxima velocidad y escalabilidad.","Implementar y gestionar bases de datos (PostgreSQL, MongoDB) y asegurar la integridad de los datos."}	{Node.js,Postgresql,Git,Docker,Express.js}	{"Seguro de salud.","Vacaciones pagadas.","Salario competitivo acorde a la experiencia."}	NaN	2025-07-30 14:44:58.028887-04	activa	1	1	2025-07-30 14:44:58.028887-04
+13	Desarrollador Frontend Junior	 Estamos buscando un Desarrollador Frontend Junior entusiasta y con ganas de aprender para unirse a nuestro equipo de desarrollo. Trabajarás bajo la guía de desarrolladores senior, contribuyendo a la construcción de interfaces de usuario y aprendiendo las mejores prácticas de la industria.	{"Asistir en el desarrollo y mantenimiento de componentes de interfaz de usuario utilizando React.js.","Colaborar con el equipo para implementar diseños y funcionalidades básicas.","Aprender y aplicar las mejores prácticas de codificación y optimización.","Participar en la depuración y resolución de problemas de software.","Contribuir a la documentación técnica del proyecto."}	{React.js,Tailwind,Git,Next.js}	{"Salario competitivo para un rol junior.","Oportunidades de capacitación y mentoría directa con desarrolladores senior.","Ambiente de trabajo colaborativo y de apoyo.","Flexibilidad horaria (a discutir)."}	800	2025-07-28 23:08:22.726111-04	activa	1	1	2025-07-28 23:08:22.726111-04
+14	Desarrollador Backend Senior	 Estamos buscando un Desarrollador Backend Senior experimentado y apasionado por construir sistemas robustos y escalables.	{"Diseñar, desarrollar y mantener APIs RESTful y microservicios utilizando Node.js y Express.","Colaborar con equipos de frontend y otros equipos para integrar servicios y funcionalidades.","Optimizar aplicaciones para máxima velocidad y escalabilidad.","Implementar y gestionar bases de datos (PostgreSQL, MongoDB) y asegurar la integridad de los datos."}	{Node.js,Postgresql,Git,Docker,Express.js}	{"Seguro de salud.","Vacaciones pagadas.","Salario competitivo acorde a la experiencia."}	NaN	2025-07-30 14:44:58.028887-04	activa	1	1	2025-07-30 14:44:58.028887-04
 \.
 
 
@@ -518,3 +515,56 @@ ALTER TABLE ONLY public.vacantes
 -- PostgreSQL database dump complete
 --
 
+-- *** INSERCIONES DE DATOS ***
+
+-- Los siguientes comandos se añadieron para insertar la nueva vacante y los candidatos solicitados.
+
+-- Actualización de la secuencia para `candidatos`
+-- Esto asegura que los nuevos IDs de candidatos no entren en conflicto con los existentes.
+SELECT setval('public.candidatos_id_candidato_seq', (SELECT MAX(id_candidato) FROM public.candidatos));
+
+-- Actualización de la secuencia para `postulaciones`
+-- Esto asegura que los nuevos IDs de postulaciones no entren en conflicto con los existentes.
+SELECT setval('public.postulaciones_id_postulacion_seq', (SELECT MAX(id_postulacion) FROM public.postulaciones));
+
+-- Actualización de la secuencia para `vacantes`
+-- Esto asegura que los nuevos IDs de vacantes no entren en conflicto con los existentes.
+SELECT setval('public.vacantes_id_vacante_seq', (SELECT MAX(id_vacante) FROM public.vacantes));
+
+
+-- Insertar la nueva vacante de 'Marketing' (id_vacante será 15, el siguiente después de 14)
+INSERT INTO public.vacantes (id_vacante, titulo_cargo, descripcion_corta, responsabilidades, requisitos, beneficios, salario, creado_por_usuario_id, id_servicio_interes) VALUES
+(15, 'Especialista en Marketing Digital', 'Buscamos un especialista en marketing digital para gestionar campañas y estrategias en línea.', '{"Desarrollar e implementar estrategias de marketing digital.", "Gestionar campañas de SEO, SEM y redes sociales.", "Analizar métricas de rendimiento y optimizar campañas.", "Crear contenido atractivo para audiencias digitales."}', '{"Experiencia en SEO/SEM.", "Dominio de herramientas de análisis web.", "Creatividad y habilidades de comunicación."}', '{"Horario flexible.", "Bono por rendimiento.", "Oportunidades de crecimiento profesional."}', '1200', 1, 2);
+
+
+-- Insertar 2 candidatos para la vacante 'Desarrollador Frontend Junior' (id_vacante = 13)
+INSERT INTO public.candidatos (nombre, apellido, correo_electronico, numero_telefono, direccion, educacion, experiencia_laboral, cursos_certificaciones, habilidades, servicio_interes, vehiculo, tipo_identificacion, cedula, fecha_nacimiento) VALUES
+('Juan', 'Perez', 'juan.perez@example.com', '04141234567', 'Caracas, Venezuela', '{"{\\"institucion\\":\\"Universidad X\\",\\"titulo\\":\\"Lic. en Informática\\",\\"fechaInicio\\":\\"2020-09\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"empresa\\":\\"Tech Solutions\\",\\"puesto\\":\\"Pasante Frontend\\",\\"fechaInicio\\":\\"2024-01\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"nombre\\":\\"Desarrollo Web con React\\",\\"institucion\\":\\"Coursera\\",\\"fechaObtencion\\":\\"2024-06\\"}"}', '{"React.js", "CSS3", "HTML5", "Git"}', 1, 'no', 'V', '12345678', '2000-05-15'),
+('Maria', 'Gomez', 'maria.gomez@example.com', '04267654321', 'Maracay, Venezuela', '{"{\\"institucion\\":\\"Instituto Y\\",\\"titulo\\":\\"T.S.U. en Programación\\",\\"fechaInicio\\":\\"2022-01\\",\\"fechaFin\\":\\"2024-01\\"}"}', '{"{\\"empresa\\":\\"Web Builders\\",\\"puesto\\":\\"Desarrollador Junior\\",\\"fechaInicio\\":\\"2024-02\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"nombre\\":\\"Next.js para principiantes\\",\\"institucion\\":\\"Udemy\\",\\"fechaObtencion\\":\\"2024-03\\"}"}', '{"React.js", "Next.js", "JavaScript", "Git"}', 1, 'si', 'V', '87654321', '2001-11-20');
+
+-- Insertar las postulaciones para la vacante de Frontend Junior.
+INSERT INTO public.postulaciones (id_candidato, id_vacante) VALUES
+((SELECT id_candidato FROM public.candidatos WHERE correo_electronico = 'juan.perez@example.com'), 13),
+((SELECT id_candidato FROM public.candidatos WHERE correo_electronico = 'maria.gomez@example.com'), 13);
+
+
+-- Insertar 2 candidatos para la vacante 'Desarrollador Backend Senior' (id_vacante = 14)
+INSERT INTO public.candidatos (nombre, apellido, correo_electronico, numero_telefono, direccion, educacion, experiencia_laboral, cursos_certificaciones, habilidades, servicio_interes, vehiculo, tipo_identificacion, cedula, fecha_nacimiento) VALUES
+('Carlos', 'Garcia', 'carlos.garcia@example.com', '04169876543', 'Valencia, Venezuela', '{"{\\"institucion\\":\\"Universidad Z\\",\\"titulo\\":\\"Ing. de Sistemas\\",\\"fechaInicio\\":\\"2015-09\\",\\"fechaFin\\":\\"2020-07\\"}"}', '{"{\\"empresa\\":\\"Global Tech\\",\\"puesto\\":\\"Desarrollador Backend Senior\\",\\"fechaInicio\\":\\"2020-08\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"nombre\\":\\"Arquitectura de Microservicios\\",\\"institucion\\":\\"Platzi\\",\\"fechaObtencion\\":\\"2023-01\\"}"}', '{"Node.js", "Express.js", "PostgreSQL", "Docker", "AWS"}', 1, 'si', 'E', '10987654', '1995-02-28'),
+('Ana', 'Rodriguez', 'ana.rodriguez@example.com', '04123456789', 'Barquisimeto, Venezuela', '{"{\\"institucion\\":\\"Universidad A\\",\\"titulo\\":\\"Lic. en Computación\\",\\"fechaInicio\\":\\"2014-09\\",\\"fechaFin\\":\\"2019-07\\"}"}', '{"{\\"empresa\\":\\"Innovate Corp\\",\\"puesto\\":\\"Desarrollador Backend Pleno\\",\\"fechaInicio\\":\\"2019-08\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"nombre\\":\\"Bases de Datos con MongoDB\\",\\"institucion\\":\\"Udemy\\",\\"fechaObtencion\\":\\"2022-05\\"}"}', '{"Node.js", "MongoDB", "PostgreSQL", "Git", "Kubernetes"}', 1, 'no', 'V', '21098765', '1994-07-10');
+
+-- Insertar las postulaciones para la vacante de Backend Senior.
+INSERT INTO public.postulaciones (id_candidato, id_vacante) VALUES
+((SELECT id_candidato FROM public.candidatos WHERE correo_electronico = 'carlos.garcia@example.com'), 14),
+((SELECT id_candidato FROM public.candidatos WHERE correo_electronico = 'ana.rodriguez@example.com'), 14);
+
+
+-- Insertar 2 candidatos para la vacante 'Especialista en Marketing Digital' (id_vacante = 15)
+INSERT INTO public.candidatos (nombre, apellido, correo_electronico, numero_telefono, direccion, educacion, experiencia_laboral, cursos_certificaciones, habilidades, servicio_interes, vehiculo, tipo_identificacion, cedula, fecha_nacimiento) VALUES
+('Pedro', 'Martinez', 'pedro.martinez@example.com', '04245556677', 'La Guaira, Venezuela', '{"{\\"institucion\\":\\"Universidad B\\",\\"titulo\\":\\"Lic. en Comunicación Social\\",\\"fechaInicio\\":\\"2016-09\\",\\"fechaFin\\":\\"2021-07\\"}"}', '{"{\\"empresa\\":\\"Digital Agency\\",\\"puesto\\":\\"Especialista SEO/SEM\\",\\"fechaInicio\\":\\"2021-08\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"nombre\\":\\"Certificación en Google Analytics\\",\\"institucion\\":\\"Google\\",\\"fechaObtencion\\":\\"2023-03\\"}"}', '{"SEO", "SEM", "Social Media", "Google Analytics"}', 2, 'no', 'V', '15678912', '1993-09-05'),
+('Sofia', 'Torres', 'sofia.torres@example.com', '04141112233', 'Merida, Venezuela', '{"{\\"institucion\\":\\"Instituto C\\",\\"titulo\\":\\"T.S.U. en Marketing\\",\\"fechaInicio\\":\\"2020-01\\",\\"fechaFin\\":\\"2023-01\\"}"}', '{"{\\"empresa\\":\\"Brand Experts\\",\\"puesto\\":\\"Community Manager\\",\\"fechaInicio\\":\\"2023-02\\",\\"fechaFin\\":\\"2024-07\\"}"}', '{"{\\"nombre\\":\\"Marketing de Contenidos\\",\\"institucion\\":\\"HubSpot Academy\\",\\"fechaObtencion\\":\\"2024-01\\"}"}', '{"Content Marketing", "Email Marketing", "Facebook Ads"}', 2, 'si', 'V', '20123456', '1998-04-25');
+
+-- Insertar las postulaciones para la vacante de Marketing.
+INSERT INTO public.postulaciones (id_candidato, id_vacante) VALUES
+((SELECT id_candidato FROM public.candidatos WHERE correo_electronico = 'pedro.martinez@example.com'), 15),
+((SELECT id_candidato FROM public.candidatos WHERE correo_electronico = 'sofia.torres@example.com'), 15);

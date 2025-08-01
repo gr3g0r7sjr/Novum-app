@@ -1,4 +1,3 @@
-// backend/src/controllers/dashboardController.js
 import pool from '../db.js'; // Importa el pool de conexiones desde db.js
 
 /**
