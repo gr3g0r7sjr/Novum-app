@@ -1,7 +1,8 @@
+// frontend/src/pages/Admin/Dashboard.jsx
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import styles from '../../styles/Dashboard.module.scss';
-import MetricCard from '../../components/Dashboard/MetricCard';
+// import axios from 'axios'; // <-- Eliminamos la importación de Axios
+import styles from '../../styles/Dashboard.module.scss'; // Importa los estilos SCSS
+import MetricCard from '../../components/Dashboard/MetricCard'; // Importa el componente de tarjeta de métrica
 
 // Importa los componentes de Recharts
 import {
@@ -28,6 +29,7 @@ const Dashboard = () => {
     vacantesMasPostulaciones: [],
     vacantesMenosPostulaciones: [],
     resumenUsuarios: [],
+    postulacionesPorPeriodo: [] // Nuevo estado para los datos del gráfico de línea
   });
 
   const [loading, setLoading] = useState(true);
@@ -39,7 +41,8 @@ const Dashboard = () => {
         setLoading(true);
         setError(null);
 
-        const token = localStorage.getItem('jwt_token'); // Usar 'jwt_token' como clave
+        // Obtener el token de autenticación desde el localStorage.
+        const token = localStorage.getItem('jwt_token'); 
 
         if (!token) {
           setError('No hay token de autenticación. Por favor, inicie sesión.');
@@ -47,23 +50,40 @@ const Dashboard = () => {
           return;
         }
 
-        const response = await axios.get(`${API_BASE_URL}/dashboard/metrics`, {
+        // Realizar la llamada a la API del backend usando Fetch
+        const response = await fetch(`${API_BASE_URL}/dashboard/metrics`, {
+          method: 'GET', // Método HTTP
           headers: {
-            Authorization: `Bearer ${token}`
+            'Content-Type': 'application/json', // Tipo de contenido que se envía (aunque para GET no es tan crítico)
+            Authorization: `Bearer ${token}` // Incluye el token JWT en el header de autorización
           }
         });
 
-        // Asegúrate de que los datos de la API coincidan con la estructura esperada
-        // El backend ya debería devolver los datos en un formato cercano al necesario
-        setDashboardData(response.data);
+        // Verificar si la respuesta fue exitosa
+        if (!response.ok) {
+          // Si la respuesta no es OK (ej. 401, 500), lanzar un error
+          const errorData = await response.json(); // Intentar parsear el cuerpo del error
+          if (response.status === 401) {
+            throw new Error('Sesión expirada o no autorizada. Por favor, inicie sesión nuevamente.');
+          } else {
+            throw new Error(errorData.message || 'Error al cargar los datos del dashboard.');
+          }
+        }
+
+        // Parsear la respuesta JSON
+        const data = await response.json();
+
+        // Actualizar el estado del dashboard con los datos reales obtenidos de la API
+        setDashboardData(data);
 
       } catch (err) {
         console.error('Error al cargar los datos del dashboard:', err);
-        if (err.response && err.response.status === 401) {
-          setError('Sesión expirada o no autorizada. Por favor, inicie sesión nuevamente.');
-        } else {
-          setError('Error al cargar los datos del dashboard. Intente de nuevo más tarde.');
-        }
+        setError(err.message || 'Error al cargar los datos del dashboard. Intente de nuevo más tarde.');
+        // Opcional: Limpiar el token y redirigir a login si es un 401
+        // if (err.message.includes('no autorizada')) {
+        //   localStorage.removeItem('jwt_token');
+        //   navigate('/admin/login');
+        // }
       } finally {
         setLoading(false);
       }
