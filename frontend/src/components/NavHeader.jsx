@@ -48,12 +48,12 @@ export const NavHeader = memo(({ routesGroups }) => {
     >
       <div className="flex w-full items-center justify-between">
         <figure className="w-32">
-          <a href="../">
+          <NavLink to={"/"}>
             <img
               src={novumLogo || "/placeholder.svg"}
               alt="Logo de Novumideas"
             />
-          </a>
+          </NavLink>
         </figure>
 
         {/* Botón hamburguesa solo en móviles */}
