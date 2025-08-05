@@ -143,7 +143,7 @@ export const CandidatosSeleccionados = () => {
                                 : "bg-red-100 text-red-800"
                           }`}
                           >
-                            Match: {candidato.match_score}%
+                            Mejor Talento: {candidato.match_score}%
                           </span>
                         )}
                     </div>
