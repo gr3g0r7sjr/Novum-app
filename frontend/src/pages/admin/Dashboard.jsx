@@ -179,16 +179,7 @@ const Dashboard = () => {
       </div>
 
       {/* Sección de Estado de Candidatos */}
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4">Candidatos por Etapa</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-          <MetricCard title="Recibidas" value={dashboardData.candidatosPorEtapa.recibida} small />
-          <MetricCard title="En Revisión" value={dashboardData.candidatosPorEtapa.enRevision} small />
-          <MetricCard title="Entrevista" value={dashboardData.candidatosPorEtapa.entrevista} small />
-          <MetricCard title="Contratados" value={dashboardData.candidatosPorEtapa.contratado} small />
-          <MetricCard title="Rechazados" value={dashboardData.candidatosPorEtapa.rechazado} small />
-        </div>
-      </div>
+      
 
       {/* Sección de Vacantes con Más/Menos Postulaciones */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
